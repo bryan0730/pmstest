@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title templates</title>
+</head>
+<body>
+Templates
+<form th:action="@{/process-login}" method="post">
+    id : <input type="text" name="userid" id="userid">
+    pw : <input type="password" name="userpw" id="userpw">
+    <button type="submit">loginsss</button>
+</form>
+<button onclick="location.href='/go-sign'">go sign</button>
+<span th:text="${session.errmsg}" style="color: red"></span>
+</body>
+</html>

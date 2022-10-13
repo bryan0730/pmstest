@@ -9,14 +9,14 @@ import reactor.core.publisher.Mono;
 public class WebClientController {
 
     @GetMapping("/test")
-    public Mono<MyUser> doTest(){
+    public Mono<TestUser> doTest(){
         WebClient client = WebClient.create();
-        MyUser myUser = new MyUser();
-        myUser.setId("my Id");
-        myUser.setName("my Name");
+        TestUser testUser = new TestUser();
+        testUser.setId("my Id");
+        testUser.setName("my Name");
         return client.get()
                 .uri("http://localhost:8090/webclient/ok")
                 .retrieve()
-                .bodyToMono(MyUser.class);
+                .bodyToMono(TestUser.class);
     }
 }

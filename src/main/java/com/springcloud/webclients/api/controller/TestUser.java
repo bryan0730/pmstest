@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.controller;
 
-public class MyUser {
+public class TestUser {
 
     private String name;
     private String id;
