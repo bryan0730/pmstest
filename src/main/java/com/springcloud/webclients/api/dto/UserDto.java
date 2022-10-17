@@ -21,21 +21,19 @@ public class UserDto {
     private String userName;
     private String auth;
 
-//    private String _csrf;
 
 //  Dto -> Entity
     public MyUser toEntity(){
 
-        MyUser user = MyUser.builder()
+        return MyUser.builder()
                 //.id(id)
                 .userId(userId)
                 .userPw(userPw)
+
                 .userGroup(userGroup)
                 .userName(userName)
                 .auth(auth)
                 .build();
-
-        return user;
     }
 
 //  Entity -> Dto

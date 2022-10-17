@@ -28,9 +28,8 @@ public class UserServcie {
 
 
         myUser = repository.save(myUser);
-        UserDto dt = new UserDto(myUser);
 
-        return dt;
+        return new UserDto(myUser);
     }
 
 }

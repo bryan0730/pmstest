@@ -14,9 +14,9 @@ public enum ErrorCode {
     FAIL("L007", "IdontKnow", "알 수 없는 예외입니다.")
     ;
 
-    private String code;
-    private String className;
-    private String errMsg;
+    private final String code;
+    private final String className;
+    private final String errMsg;
 
     ErrorCode(final String code, final String className, final String errMsg){
         this.code = code;
