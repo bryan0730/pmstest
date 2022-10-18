@@ -1,14 +1,13 @@
 package com.springcloud.webclients.api.controller;
 
-public enum Level {
+public enum Role {
     ADMIN(1),
-    FORWIZ(2),
-    KERIS(3)
+    USER(2),
     ;
 
     private final int value;
 
-    Level(int value) {
+    Role(int value) {
         this.value = value;
     }
 
@@ -16,14 +15,12 @@ public enum Level {
         return value;
     }
 
-    public static Level getEnumLevel(int val){
+    public static Role getEnumLevel(int val){
         switch (val){
             case 1 :
                 return ADMIN;
             case 2 :
-                return FORWIZ;
-            case 3 :
-                return KERIS;
+                return USER;
             default:
                 throw new IllegalArgumentException("not found level : " + val);
         }

@@ -1,16 +1,21 @@
 package com.springcloud.webclients.api.controller;
 
+import com.springcloud.webclients.api.dto.AllOrganizationDto;
 import com.springcloud.webclients.api.dto.UserDto;
+import com.springcloud.webclients.api.service.OrganizationService;
 import com.springcloud.webclients.api.service.UserServcie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MyUserController {
 
     private final UserServcie userServcie;
+    private final OrganizationService organizationService;
 
     /*
     redierct:/admin/settings
@@ -33,7 +39,9 @@ public class MyUserController {
     }
 
     @GetMapping("/go-sign")
-    public String goSignUpPage(){
+    public String goSignUpPage(Model model){
+        List<AllOrganizationDto> organizations = organizationService.findAll();
+        model.addAttribute("organizations", organizations);
         return "sign-up";
     }
 
