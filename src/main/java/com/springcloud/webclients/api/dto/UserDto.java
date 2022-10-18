@@ -26,11 +26,10 @@ public class UserDto {
     public MyUser toEntity(){
 
         return MyUser.builder()
-                //.id(id)
                 .userId(userId)
                 .userPw(userPw)
 
-                .userGroup(userGroup)
+                //.userGroup(userGroup)
                 .userName(userName)
                 .auth(auth)
                 .build();
@@ -46,7 +45,7 @@ public class UserDto {
         this.id = myUser.getId();
         this.userId = myUser.getUserId();
         this.userPw = myUser.getUserPw();
-        this.userGroup = myUser.getUserGroup();
+        this.userGroup = myUser.getOrganization().getOrganizationName();
         this.userName = myUser.getUserName();
         this.auth = myUser.getAuth();
     }

@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Entity
 public class MyUser {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,12 +27,12 @@ public class MyUser {
     @Column(length = 50, nullable = false)
     private String userName;
 
-    @Column(length = 50, nullable = false)
-    private String userGroup;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
 
     @Column(length = 50, nullable = false)
     private String auth;
-
 
 
 }

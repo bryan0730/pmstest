@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -20,4 +22,7 @@ public class Organization {
 
     @Column(length = 50, nullable = false)
     private String organizationName;
+
+    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+    private List<MyUser> myUsers = new ArrayList<>();
 }

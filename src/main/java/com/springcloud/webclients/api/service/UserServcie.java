@@ -2,6 +2,7 @@ package com.springcloud.webclients.api.service;
 
 import com.springcloud.webclients.api.dto.UserDto;
 import com.springcloud.webclients.api.entity.MyUser;
+import com.springcloud.webclients.api.entity.Organization;
 import com.springcloud.webclients.api.repository.MyUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +19,21 @@ public class UserServcie {
     *  수정하는 서비스의 로직이 끝나면(트랜잭션 끝나면) 자동으로 update된다.
     * */
     private final MyUserRepository repository;
+    private final OragnizationService oragnizationService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
     public UserDto signUp(UserDto userDto){
 
-        userDto.setUserPw(passwordEncoder.encode(userDto.getUserPw()));
-        MyUser myUser = userDto.toEntity();
-
+        Organization organization = oragnizationService.findById(userDto.getUserGroup());
+        MyUser myUser = MyUser.builder()
+                .userId(userDto.getUserId())
+                .userPw(passwordEncoder.encode(userDto.getUserPw()))
+                .userName(userDto.getUserName())
+                .auth(userDto.getAuth())
+                .organization(organization)
+                .build()
+                ;
 
         myUser = repository.save(myUser);
 

@@ -29,7 +29,11 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         MyUserDetails principal = (MyUserDetails) authentication.getPrincipal();
         String username = principal.getUsername();
         log.info("Custom SuccessHandler - username: {}", username);
-        String groupname = principal.getMyUser().getUserGroup();
+
+        //해당 코드에서 "LazyInitializationException: could not initialize proxy no Session" 발생
+        //LAZY, EAGER, 영속성 컨텍스트에 대한 이해 필요
+        //일단은 MyUser의 organization의 FetchType를 LAZY -> EAGER로 바꾸어서 해결
+        String groupname = principal.getMyUser().getOrganization().getOrganizationName();
 
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
