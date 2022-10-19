@@ -25,8 +25,6 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 
         Optional<MyUser> user = myUserRepository.findByUserId(userId);
-//        if(user.isPresent()) return new MyUserDetails(user.get());
-//        else throw new UsernameNotFoundException("Not found id");
 
         return user.map(MyUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("Not found id"));

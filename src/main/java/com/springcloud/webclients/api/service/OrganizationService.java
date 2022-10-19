@@ -1,8 +1,10 @@
 package com.springcloud.webclients.api.service;
 
-import com.springcloud.webclients.api.dto.AllOrganizationDto;
+import com.springcloud.webclients.api.dto.AllOrganizationResponse;
+import com.springcloud.webclients.api.dto.SaveOrganizationRequest;
 import com.springcloud.webclients.api.entity.Organization;
 import com.springcloud.webclients.api.repository.OragnizationRepository;
+import com.springcloud.webclients.api.util.OrgCodeCreater;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,28 +18,43 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrganizationService {
 
-    private final OragnizationRepository oragnizationRepository;
+    private final OragnizationRepository organizationRepository;
 
     @Transactional(readOnly = true)
     public Organization findById(String name){
-        return oragnizationRepository.findByOrganizationName(name)
+        return organizationRepository.findByOrganizationName(name)
                 .orElseThrow(() -> new EntityNotFoundException("not found entity"));
     }
 
     @Transactional
-    public List<AllOrganizationDto> findAll(){
-        List<Organization> organizations = oragnizationRepository.findAll();
+    public List<AllOrganizationResponse> findAll(){
+        List<Organization> organizations = organizationRepository.findAll();
 
         return organizations.stream()
-                .map(AllOrganizationDto::new)
+                .map(AllOrganizationResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Long saveOrganization(SaveOrganizationRequest saveOrganizationRequest) {
+
+        String code = OrgCodeCreater.make(saveOrganizationRequest.getOrganizationName());
+        saveOrganizationRequest.setOrganizationCode(code);
+
+        Organization savedOrg = organizationRepository.save(saveOrganizationRequest.toEntity());
+        Long savedId = savedOrg.getOrganizationId();
+
+        return savedId;
     }
 
     @PostConstruct
     public void init(){
         Organization organization = Organization.builder()
                 .organizationName("DEFAULT")
+                .organizationCode("A0001")
+                .organizationDelete(false)
                 .build();
-        oragnizationRepository.save(organization);
+        organizationRepository.save(organization);
     }
+
 }

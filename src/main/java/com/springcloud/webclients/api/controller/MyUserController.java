@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.controller;
 
-import com.springcloud.webclients.api.dto.AllOrganizationDto;
+import com.springcloud.webclients.api.dto.AllOrganizationResponse;
 import com.springcloud.webclients.api.dto.UserDto;
 import com.springcloud.webclients.api.service.OrganizationService;
 import com.springcloud.webclients.api.service.UserServcie;
@@ -40,7 +40,7 @@ public class MyUserController {
 
     @GetMapping("/go-sign")
     public String goSignUpPage(Model model){
-        List<AllOrganizationDto> organizations = organizationService.findAll();
+        List<AllOrganizationResponse> organizations = organizationService.findAll();
         model.addAttribute("organizations", organizations);
         return "sign-up";
     }

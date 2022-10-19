@@ -12,10 +12,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
+@SequenceGenerator(name="USER_SEQ_GENERATOR", sequenceName = "USER_SEQ", initialValue = 1, allocationSize = 1)
 public class MyUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")
     private Long id;
 
     @Column(length = 50, nullable = false)

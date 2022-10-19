@@ -1,10 +1,75 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script async src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
+    <form th:action="@{/admin/organization/save}" method="post">
+        <div style="border: 1px solid black">
+            조직명 :
+            <input type="text" name="organizationName">
+            <button type="submit">등록</button>
+        </div>
+    </form>
+
+<!--    <form th:action="@{/admin/organization/del}" method="post">-->
+<!--    <form>-->
+        <table id="orgTable">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>코드</th>
+                    <th>이름</th>
+                    <th>체크</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="org, stat : ${orgList}">
+                    <input type="hidden" name="orgId" th:value="${org.organizationId}">
+                    <td th:text="|${stat.count}|" th:value="${org.organizationId}"></td>
+                    <td th:text="${org.organizationCode}"></td>
+                    <td th:text="${org.organizationName}"></td>
+                    <td>
+                        <input type="checkbox" name="isChecked" th:value="${org.organizationDelete}">
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <button name="delBtn" id="delBtn">del</button>
+<!--    </form>-->
 </body>
 </html>
+<style>
+    table {
+        width: 100%;
+        border: 1px solid #444444;
+    }
+    th, td {
+        border: 1px solid #444444;
+    }
+</style>
+<script>
+    $("#delBtn").click(function(){
+
+        var tdArr = new Array();
+        var checkbox = $("input[name=isChecked]:checked");
+
+        checkbox.each(function(i) {
+            var tr = checkbox.parent().parent().eq(i);
+            var td = tr.children();
+
+            var orgId = td.eq(0);
+            // var orgId = $("#orgId").val();
+
+            tdArr.push(orgId);
+        });
+
+        const JsonArr = JSON.stringify(tdArr);
+        console.log(JsonArr);
+    });
+</script>

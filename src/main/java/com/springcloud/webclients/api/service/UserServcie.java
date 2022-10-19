@@ -1,6 +1,5 @@
 package com.springcloud.webclients.api.service;
 
-import com.springcloud.webclients.api.controller.Role;
 import com.springcloud.webclients.api.dto.UserDto;
 import com.springcloud.webclients.api.entity.MyUser;
 import com.springcloud.webclients.api.entity.Organization;

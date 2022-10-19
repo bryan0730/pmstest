@@ -6,13 +6,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AllOrganizationDto {
+public class AllOrganizationResponse {
 
     private Long organizationId;
     private String organizationName;
+    private String organizationCode;
+    private Boolean organizationDelete;
 
-    public AllOrganizationDto(Organization organization){
+    public AllOrganizationResponse(Organization organization){
         this.organizationId = organization.getOrganizationId();
         this.organizationName = organization.getOrganizationName();
+        this.organizationCode = organization.getOrganizationCode();
+        this.organizationDelete = organization.getOrganizationDelete();
     }
 }

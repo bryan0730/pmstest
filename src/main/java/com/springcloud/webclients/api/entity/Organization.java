@@ -14,14 +14,21 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@SequenceGenerator(name="ORGANIZATION_SEQ_GENERATOR", sequenceName = "ORGANIZATION_SEQ", initialValue = 1, allocationSize = 1)
 public class Organization {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORGANIZATION_SEQ_GENERATOR")
     private Long organizationId;
 
     @Column(length = 50, nullable = false)
     private String organizationName;
+
+    @Column(length = 50, nullable = false)
+    private String organizationCode;
+
+    @Column
+    private Boolean organizationDelete;
 
     @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
     private List<MyUser> myUsers = new ArrayList<>();
