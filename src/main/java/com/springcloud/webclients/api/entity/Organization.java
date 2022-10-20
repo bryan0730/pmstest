@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@SequenceGenerator(name="ORGANIZATION_SEQ_GENERATOR", sequenceName = "ORGANIZATION_SEQ", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name="ORGANIZATION_SEQ_GENERATOR", sequenceName = "ORGANIZATION_SEQ", allocationSize = 1)
 public class Organization {
 
     @Id

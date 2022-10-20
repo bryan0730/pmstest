@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@SequenceGenerator(name="USER_SEQ_GENERATOR", sequenceName = "USER_SEQ", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name="USER_SEQ_GENERATOR", sequenceName = "USER_SEQ", allocationSize = 1)
 public class MyUser {
 
     @Id

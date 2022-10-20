@@ -3,7 +3,6 @@ package com.springcloud.webclients.api.controller;
 import com.springcloud.webclients.api.dto.AllOrganizationResponse;
 import com.springcloud.webclients.api.dto.SaveOrganizationRequest;
 import com.springcloud.webclients.api.service.OrganizationService;
-import com.springcloud.webclients.api.util.OrgCodeCreater;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

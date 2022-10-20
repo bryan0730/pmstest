@@ -13,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,9 +43,8 @@ public class OrganizationService {
         saveOrganizationRequest.setOrganizationCode(code);
 
         Organization savedOrg = organizationRepository.save(saveOrganizationRequest.toEntity());
-        Long savedId = savedOrg.getOrganizationId();
 
-        return savedId;
+        return savedOrg.getOrganizationId();
     }
 
     @Transactional

@@ -9,7 +9,5 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
 
     Optional<MyUser> findByUserId(String userId);
     Optional<MyUser> findById(Long id);
-    MyUser findByAuth(String auth);
-
 
 }
