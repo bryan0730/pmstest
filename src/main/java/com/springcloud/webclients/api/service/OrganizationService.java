@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +30,7 @@ public class OrganizationService {
 
     @Transactional
     public List<AllOrganizationResponse> findAll(){
-        List<Organization> organizations = organizationRepository.findAll();
+        List<Organization> organizations = organizationRepository.findByOrganizationDelete(false);
 
         return organizations.stream()
                 .map(AllOrganizationResponse::new)
@@ -46,6 +48,21 @@ public class OrganizationService {
 
         return savedId;
     }
+
+    @Transactional
+    public int delOrganization(List<Map<String, Long>> mapList){
+
+        for(Map<String, Long> obj : mapList){
+            Long orgId = obj.get("id");
+            Organization organization = organizationRepository.findById(orgId)
+                    .orElseThrow(()->new EntityNotFoundException("not found entity"));
+
+            organization.updateDelYN(true);
+        }
+
+        return mapList.size();
+    }
+
 
     @PostConstruct
     public void init(){
