@@ -20,7 +20,7 @@ public class MyUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(myUser.getAuth()));
+        authorities.add(new SimpleGrantedAuthority(myUser.getAuth().toString()));
         return authorities;
     }
 

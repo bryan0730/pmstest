@@ -8,7 +8,7 @@
 
   <h2>Hello User : <span th:text="${session.username}"></span></h2>
   <span th:text="${session.groupname}"></span>
-
+  <span th:text="${session.role}"></span>
     <form th:action="@{/logout}" method="post">
         <button type="submit">logout</button>
     </form>

@@ -32,6 +32,8 @@ public class UserServcie {
                 .userName(userDto.getUserName())
                 .auth(userDto.getAuth())
                 .organization(organization)
+                .userPhoneNumber(userDto.getUserPhoneNumber())
+                .userRank(userDto.getUserRank())
                 .build()
                 ;
 

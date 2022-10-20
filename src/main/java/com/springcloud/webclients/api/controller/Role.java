@@ -1,28 +1,13 @@
 package com.springcloud.webclients.api.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+@Getter
+@AllArgsConstructor
 public enum Role {
-    ADMIN(1),
-    USER(2),
+    ROLE_ADMIN("관리자"),
+    ROLE_USER("사용자")
     ;
 
-    private final int value;
-
-    Role(int value) {
-        this.value = value;
-    }
-
-    public int getValue(){
-        return value;
-    }
-
-    public static Role getEnumLevel(int val){
-        switch (val){
-            case 1 :
-                return ADMIN;
-            case 2 :
-                return USER;
-            default:
-                throw new IllegalArgumentException("not found level : " + val);
-        }
-    }
+    private final String description;
 }

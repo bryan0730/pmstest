@@ -27,7 +27,7 @@ public class Organization {
     @Column(length = 50, nullable = false)
     private String organizationCode;
 
-    @Column
+    @Column(nullable = false)
     private Boolean organizationDelete;
 
     @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)

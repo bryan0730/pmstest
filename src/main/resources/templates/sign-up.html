@@ -13,7 +13,9 @@
         <select name="userGroup">
             <option th:each="val : ${organizations}" th:value="${val?.organizationName}" th:utext="${val?.organizationName}"></option>
         </select>
+        직급 : <input type="text" name="userRank">
         이름 : <input type="text" name="userName">
+        휴대폰 : <input type="tel" name="userPhoneNumber" placeholder="000-0000-0000" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}">
         권한 : <input type="radio" name="auth" value="ROLE_ADMIN">ADMIN
         <input type="radio" name="auth" value="ROLE_USER" checked="checked">USER
 

@@ -1,5 +1,6 @@
 package com.springcloud.webclients.api.dto;
 
+import com.springcloud.webclients.api.controller.Role;
 import com.springcloud.webclients.api.entity.MyUser;
 import lombok.*;
 
@@ -19,7 +20,11 @@ public class UserDto {
     private String userGroup;
 
     private String userName;
-    private String auth;
+    private Role auth;
+
+    private String userPhoneNumber;
+
+    private String userRank;
 
 
 //  Dto -> Entity
@@ -48,6 +53,8 @@ public class UserDto {
         this.userGroup = myUser.getOrganization().getOrganizationName();
         this.userName = myUser.getUserName();
         this.auth = myUser.getAuth();
+        this.userPhoneNumber = myUser.getUserPhoneNumber();
+        this.userRank = myUser.getUserRank();
     }
 
 }

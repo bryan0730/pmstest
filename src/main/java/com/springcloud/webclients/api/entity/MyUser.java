@@ -1,5 +1,6 @@
 package com.springcloud.webclients.api.entity;
 
+import com.springcloud.webclients.api.controller.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,8 +33,13 @@ public class MyUser {
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
-    private String auth;
+    private Role auth;
 
+    @Column(nullable = false)
+    private String userPhoneNumber;
 
+    @Column(nullable = false)
+    private String userRank;
 }
