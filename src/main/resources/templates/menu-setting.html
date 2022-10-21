@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <table>
+    <thead>
+    <tr>
+      <th>번호</th>
+      <th>메뉴명</th>
+      <th>코드</th>
+      <th>URL</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="url, stat : ${url}">
+      <td th:text="|${stat.count}|"></td>
+      <td th:text="${url.menuName}"></td>
+      <td th:text="${url.menuCode}"></td>
+      <td th:text="${url.menuUrl}"></td>
+    </tr>
+    </tbody>
+  </table>
+</body>
+</html>
+<style>
+  table {
+    width: 100%;
+    border: 1px solid #444444;
+  }
+  th, td {
+    border: 1px solid #444444;
+  }
+</style>

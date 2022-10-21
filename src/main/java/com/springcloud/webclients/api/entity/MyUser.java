@@ -1,15 +1,12 @@
 package com.springcloud.webclients.api.entity;
 
-import com.springcloud.webclients.api.controller.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.springcloud.webclients.api.util.Role;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Entity
@@ -42,4 +39,11 @@ public class MyUser {
 
     @Column(nullable = false)
     private String userRank;
+
+    @Column(nullable = false)
+    private Boolean userDeleteYN;
+    
+    public void updateDeleteYN(boolean delYN){
+        this.userDeleteYN = delYN;
+    }
 }

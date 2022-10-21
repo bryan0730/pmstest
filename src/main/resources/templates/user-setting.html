@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <table>
+    <thead>
+    <tr>
+      <th>번호</th>
+      <th>아이디</th>
+      <th>이름</th>
+      <th>휴대폰</th>
+      <th>조직</th>
+      <th>직급</th>
+      <th>체크</th>
+    </tr>
+    </thead>
+    <form th:object="${userList}" th:action method="post">
+      <tbody>
+      <tr th:each="user, stat : ${userList}">
+        <input type="hidden" name="userId" th:value="${user.id}">
+        <td th:text="|${stat.count}|"></td>
+        <td th:text="${user.userId}"></td>
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user.userPhoneNumber}"></td>
+        <td th:text="${user.organization.organizationName}"></td>
+        <td th:text="${user.userRank}"></td>
+        <td>
+          <input type="checkbox" th:value="${user.userDeleteYN}">
+        </td>
+      </tr>
+      </tbody>
+      <button>del</button>
+    </form>
+
+  </table>
+  <button onclick="location.href='/admin/user/join'">save popup</button>
+</body>
+</html>
+<style>
+  table {
+    width: 100%;
+    border: 1px solid #444444;
+  }
+  th, td {
+    border: 1px solid #444444;
+  }
+</style>

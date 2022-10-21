@@ -3,13 +3,12 @@ package com.springcloud.webclients.api.service;
 import com.springcloud.webclients.api.dto.AllOrganizationResponse;
 import com.springcloud.webclients.api.dto.SaveOrganizationRequest;
 import com.springcloud.webclients.api.entity.Organization;
-import com.springcloud.webclients.api.repository.OragnizationRepository;
+import com.springcloud.webclients.api.repository.OrganizationRepository;
 import com.springcloud.webclients.api.util.OrgCodeCreater;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrganizationService {
 
-    private final OragnizationRepository organizationRepository;
+    private final OrganizationRepository organizationRepository;
 
     @Transactional(readOnly = true)
     public Organization findById(String name){
@@ -61,15 +60,8 @@ public class OrganizationService {
         return mapList.size();
     }
 
-
-    @PostConstruct
-    public void init(){
-        Organization organization = Organization.builder()
-                .organizationName("DEFAULT")
-                .organizationCode("A0001")
-                .organizationDelete(false)
-                .build();
+    @Transactional
+    public void save(Organization organization){
         organizationRepository.save(organization);
     }
-
 }

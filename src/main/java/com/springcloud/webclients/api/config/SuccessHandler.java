@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.config;
 
-import com.springcloud.webclients.api.controller.Role;
+import com.springcloud.webclients.api.util.Role;
 import com.springcloud.webclients.api.dto.MyUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

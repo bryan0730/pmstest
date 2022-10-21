@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.dto;
 
-import com.springcloud.webclients.api.controller.Role;
+import com.springcloud.webclients.api.util.Role;
 import com.springcloud.webclients.api.entity.MyUser;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.springcloud.webclients.api.controller;
+package com.springcloud.webclients.api.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
