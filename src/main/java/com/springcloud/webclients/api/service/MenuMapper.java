@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class MenuMapper {
 
-    private Map<String, List<MenuMapperValue>> factory = new LinkedHashMap<>();
+    private final Map<String, List<MenuMapperValue>> factory = new LinkedHashMap<>();
 
     public void put(String key, Class<? extends MenuMapperType> e){
         factory.put(key, toMenuValues(e));

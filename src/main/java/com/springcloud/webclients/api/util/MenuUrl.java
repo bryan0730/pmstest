@@ -10,7 +10,7 @@ public enum MenuUrl implements MenuMapperType{
     MESSAGE("메시지","/pms/message"),
     USER_SETTING("사용자 관리","/admin/user"),
     ORG_SETTING("조직 관리","/admin/organization"),
-    URL_SETTING("메뉴 관리","/admin/url")
+    MENU_SETTING("메뉴 관리","/admin/menu")
     ;
 
     private final String menuName;
