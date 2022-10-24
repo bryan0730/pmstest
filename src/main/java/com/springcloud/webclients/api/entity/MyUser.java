@@ -46,4 +46,8 @@ public class MyUser {
     public void updateDeleteYN(boolean delYN){
         this.userDeleteYN = delYN;
     }
+
+    public void updateDelYN(boolean delYN) {
+        this.userDeleteYN = delYN;
+    }
 }

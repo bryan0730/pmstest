@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -80,5 +82,19 @@ public class UserService {
                 .build()
                 ;
         userRepository.save(myUser);
+    }
+
+    @Transactional
+    public int delUser(List<Map<String, Long>> mapList) {
+
+        for(Map<String, Long> obj : mapList){
+            Long userId = obj.get("id");
+            MyUser myUser = userRepository.findById(userId)
+                    .orElseThrow(()->new EntityNotFoundException("not found Entity"));
+
+            myUser.updateDelYN(true);
+        }
+
+        return mapList.size();
     }
 }

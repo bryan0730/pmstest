@@ -11,12 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -34,6 +32,16 @@ public class UserSettingController {
         model.addAttribute("userList", userList);
 
         return "user-setting";
+    }
+
+    @ResponseBody
+    @PostMapping("/del")
+    public String delUser(@RequestBody List<Map<String, Long>> mapList){
+
+        int delCount = userService.delUser(mapList);
+        String msg = delCount + "개 삭제완료 하였습니다.";
+
+        return msg;
     }
     /*
     redierct:/admin/settings
