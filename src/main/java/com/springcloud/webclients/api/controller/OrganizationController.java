@@ -48,5 +48,4 @@ public class OrganizationController {
 
         return msg;
     }
-
 }

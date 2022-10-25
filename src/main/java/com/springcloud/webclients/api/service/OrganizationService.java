@@ -6,6 +6,9 @@ import com.springcloud.webclients.api.entity.Organization;
 import com.springcloud.webclients.api.repository.OrganizationRepository;
 import com.springcloud.webclients.api.util.OrgCodeCreater;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
@@ -27,15 +31,17 @@ public class OrganizationService {
     }
 
     @Transactional
+    @Cacheable(value = "org")
     public List<AllOrganizationResponse> findAll(){
         List<Organization> organizations = organizationRepository.findByOrganizationDelete(false);
-
+        log.info("OrganizationService.findAll method!!!!!!");
         return organizations.stream()
                 .map(AllOrganizationResponse::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional
+    @CacheEvict(value = "org", allEntries = true)
     public Long saveOrganization(SaveOrganizationRequest saveOrganizationRequest) {
 
         String code = OrgCodeCreater.make(saveOrganizationRequest.getOrganizationName());
@@ -47,6 +53,7 @@ public class OrganizationService {
     }
 
     @Transactional
+    @CacheEvict(value = "org", allEntries = true)
     public int delOrganization(List<Map<String, Long>> mapList){
 
         for(Map<String, Long> obj : mapList){

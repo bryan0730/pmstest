@@ -8,6 +8,7 @@ import com.springcloud.webclients.api.entity.Organization;
 import com.springcloud.webclients.api.repository.MyUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
+    @CacheEvict(value = "org", allEntries = true)
     public UserDto signUp(UserDto userDto){
 
         Organization organization = organizationService.findById(userDto.getUserGroup());
@@ -85,6 +87,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = "org", allEntries = true)
     public int delUser(List<Map<String, Long>> mapList) {
 
         for(Map<String, Long> obj : mapList){
