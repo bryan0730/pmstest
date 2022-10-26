@@ -23,7 +23,7 @@ public class AllOrganizationResponse {
         this.organizationName = organization.getOrganizationName();
         this.organizationCode = organization.getOrganizationCode();
         this.organizationDelete = organization.getOrganizationDelete();
-        this.userList = organization.getMyUsers().stream()
+        this.userList = organization.getPmsUsers().stream()
                 .map(UserInfoResponse::new)
                 .collect(Collectors.toList());
     }

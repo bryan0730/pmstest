@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Slf4j
 @Controller
-public class MyUserController {
+public class PmsUserController {
 
     @GetMapping("/login-page")
     public String goLogin(){

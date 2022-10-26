@@ -1,7 +1,7 @@
 package com.springcloud.webclients.api.config;
 
 import com.springcloud.webclients.api.util.Role;
-import com.springcloud.webclients.api.dto.MyUserDetails;
+import com.springcloud.webclients.api.dto.PmsUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -27,10 +27,10 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
 
 //        log.info("Custom SuccessHandler RedirectUrl : {}", sr.getRedirectUrl());
 
-        MyUserDetails principal = (MyUserDetails) authentication.getPrincipal();
+        PmsUserDetails principal = (PmsUserDetails) authentication.getPrincipal();
         String username = principal.getUsername();
-        String groupname = principal.getMyUser().getOrganization().getOrganizationName();
-        Role role = principal.getMyUser().getAuth();
+        String groupname = principal.getPmsUser().getOrganization().getOrganizationName();
+        Role role = principal.getPmsUser().getAuth();
 
         log.info("Custom SuccessHandler - username: {}", username);
 

@@ -31,7 +31,7 @@ public class Organization {
     private Boolean organizationDelete;
 
     @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
-    private List<MyUser> myUsers = new ArrayList<>();
+    private List<PmsUser> pmsUsers = new ArrayList<>();
 
     public void updateDelYN(boolean delYN){
         this.organizationDelete = delYN;

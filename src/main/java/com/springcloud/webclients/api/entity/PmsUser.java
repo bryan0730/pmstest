@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @SequenceGenerator(name="USER_SEQ_GENERATOR", sequenceName = "USER_SEQ", allocationSize = 1)
-public class MyUser {
+public class PmsUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")
@@ -42,10 +42,6 @@ public class MyUser {
 
     @Column(nullable = false)
     private Boolean userDeleteYN;
-    
-    public void updateDeleteYN(boolean delYN){
-        this.userDeleteYN = delYN;
-    }
 
     public void updateDelYN(boolean delYN) {
         this.userDeleteYN = delYN;

@@ -1,8 +1,8 @@
 package com.springcloud.webclients.api.service;
 
-import com.springcloud.webclients.api.dto.MyUserDetails;
-import com.springcloud.webclients.api.entity.MyUser;
-import com.springcloud.webclients.api.repository.MyUserRepository;
+import com.springcloud.webclients.api.dto.PmsUserDetails;
+import com.springcloud.webclients.api.entity.PmsUser;
+import com.springcloud.webclients.api.repository.PmsUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,17 +16,17 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MyUserDetailsService implements UserDetailsService {
+public class PmsUserDetailsService implements UserDetailsService {
 
-    private final MyUserRepository myUserRepository;
+    private final PmsUserRepository pmsUserRepository;
 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 
-        Optional<MyUser> user = myUserRepository.findByUserIdAndUserDeleteYN(userId, false);
+        Optional<PmsUser> user = pmsUserRepository.findByUserIdAndUserDeleteYN(userId, false);
 
-        return user.map(MyUserDetails::new)
+        return user.map(PmsUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("Not found id"));
     }
 }

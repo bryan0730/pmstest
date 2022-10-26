@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.dto;
 
-import com.springcloud.webclients.api.entity.MyUser;
+import com.springcloud.webclients.api.entity.PmsUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,10 +13,10 @@ public class UserInfoResponse {
     private String userName;
     private String userPhoneNumber;
 
-    public UserInfoResponse(MyUser myUser){
-        this.id = myUser.getId();
-        this.userId = myUser.getUserId();
-        this.userName = myUser.getUserName();
-        this.userPhoneNumber = myUser.getUserPhoneNumber();
+    public UserInfoResponse(PmsUser pmsUser){
+        this.id = pmsUser.getId();
+        this.userId = pmsUser.getUserId();
+        this.userName = pmsUser.getUserName();
+        this.userPhoneNumber = pmsUser.getUserPhoneNumber();
     }
 }

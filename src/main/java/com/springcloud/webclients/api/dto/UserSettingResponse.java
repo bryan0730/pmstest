@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.dto;
 
-import com.springcloud.webclients.api.entity.MyUser;
+import com.springcloud.webclients.api.entity.PmsUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ public class UserSettingResponse {
     private String userRank;
     private Boolean userDeleteYN;
 
-    public UserSettingResponse(MyUser user){
+    public UserSettingResponse(PmsUser user){
         this.id = user.getId();
         this.userId = user.getUserId();
         this.userName = user.getUserName();
