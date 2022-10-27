@@ -14,4 +14,6 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     @Query("select o from Organization o left join fetch o.pmsUsers " +
             "where o.organizationDelete = ?1")
     List<Organization> findByOrganizationDelete(boolean delYN);
+
+    Long countByOrganizationName(String organizationName);
 }

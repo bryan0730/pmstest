@@ -5,6 +5,7 @@ import com.springcloud.webclients.api.dto.OrganizationUsersResponse;
 import com.springcloud.webclients.api.dto.SaveOrganizationRequest;
 import com.springcloud.webclients.api.entity.Organization;
 import com.springcloud.webclients.api.repository.OrganizationRepository;
+import com.springcloud.webclients.api.util.DuplicateConfirmation;
 import com.springcloud.webclients.api.util.OrgCodeCreater;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,14 +54,29 @@ public class OrganizationService {
 
     @Transactional
     @CacheEvict(value = "org", allEntries = true)
-    public Long saveOrganization(SaveOrganizationRequest saveOrganizationRequest) {
+    public DuplicateConfirmation saveOrganization(SaveOrganizationRequest saveOrganizationRequest) {
+
+        Long rowCount = organizationNameDuplicateCheck(saveOrganizationRequest.getOrganizationName());
+        DuplicateConfirmation confirm = DuplicateConfirmation.valueOf(rowCount);
+
+        if(confirm.name().equals("DUPLICATE")){
+            return confirm;
+        }
 
         String code = OrgCodeCreater.make(saveOrganizationRequest.getOrganizationName());
         saveOrganizationRequest.setOrganizationCode(code);
 
         Organization savedOrg = organizationRepository.save(saveOrganizationRequest.toEntity());
 
-        return savedOrg.getOrganizationId();
+        return confirm;
+    }
+
+
+    private Long organizationNameDuplicateCheck(String organizationName){
+        Long rowCount = organizationRepository.countByOrganizationName(organizationName);
+        log.info("orgName duplicated check method ::::: row count : {}", rowCount);
+
+        return rowCount;
     }
 
     @Transactional
