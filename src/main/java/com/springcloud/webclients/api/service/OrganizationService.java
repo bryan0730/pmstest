@@ -66,7 +66,7 @@ public class OrganizationService {
         String code = OrgCodeCreater.make(saveOrganizationRequest.getOrganizationName());
         saveOrganizationRequest.setOrganizationCode(code);
 
-        Organization savedOrg = organizationRepository.save(saveOrganizationRequest.toEntity());
+        organizationRepository.save(saveOrganizationRequest.toEntity());
 
         return confirm;
     }
