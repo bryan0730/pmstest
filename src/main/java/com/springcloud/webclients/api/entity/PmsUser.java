@@ -26,7 +26,7 @@ public class PmsUser {
     @Column(length = 50, nullable = false)
     private String userName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 

@@ -11,7 +11,7 @@ public class UserSettingResponse {
     private Long id;
     private String userId;
     private String userName;
-    private AllOrganizationResponse organization;
+    private String organizationName;
     private String userPhoneNumber;
     private String userRank;
     private Boolean userDeleteYN;
@@ -20,7 +20,7 @@ public class UserSettingResponse {
         this.id = user.getId();
         this.userId = user.getUserId();
         this.userName = user.getUserName();
-        this.organization = new AllOrganizationResponse(user.getOrganization());
+        this.organizationName = user.getOrganization().getOrganizationName();
         this.userPhoneNumber = user.getUserPhoneNumber();
         this.userRank = user.getUserRank();
         this.userDeleteYN = user.getUserDeleteYN();

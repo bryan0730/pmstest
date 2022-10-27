@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class AllOrganizationResponse {
+public class OrganizationUsersResponse {
 
     private Long organizationId;
     private String organizationName;
@@ -18,7 +18,13 @@ public class AllOrganizationResponse {
 
     private List<UserInfoResponse> userList;
 
-    public AllOrganizationResponse(Organization organization){
+    /*
+    조직이 추가되거나 삭제되거나 수정될때
+    Cache와 Interceptor로 인해 /admin/organization에서 pmsUser 테이블을
+    select하는 구문이 여러번(N+1) 발생하는 이유가 이 클래스 생성자에서
+    userList 때문인듯?
+     */
+    public OrganizationUsersResponse(Organization organization){
         this.organizationId = organization.getOrganizationId();
         this.organizationName = organization.getOrganizationName();
         this.organizationCode = organization.getOrganizationCode();

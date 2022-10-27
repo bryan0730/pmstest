@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.controller;
 
-import com.springcloud.webclients.api.dto.AllOrganizationResponse;
+import com.springcloud.webclients.api.dto.OrganizationListResponse;
 import com.springcloud.webclients.api.dto.UserDto;
 import com.springcloud.webclients.api.dto.UserSettingResponse;
 import com.springcloud.webclients.api.service.OrganizationService;
@@ -58,7 +58,7 @@ public class UserSettingController {
 
     @GetMapping("/join")
     public String goSignUpPage(Model model){
-        List<AllOrganizationResponse> organizations = organizationService.findAll();
+        List<OrganizationListResponse> organizations = organizationService.selectOrganizationList();
         model.addAttribute("organizations", organizations);
         return "sign-up";
     }

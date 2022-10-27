@@ -18,6 +18,7 @@ import java.util.List;
 public class Organization {
 
     @Id
+    @Column(name = "organization_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORGANIZATION_SEQ_GENERATOR")
     private Long organizationId;
 

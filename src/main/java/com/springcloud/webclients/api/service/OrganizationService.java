@@ -1,6 +1,7 @@
 package com.springcloud.webclients.api.service;
 
-import com.springcloud.webclients.api.dto.AllOrganizationResponse;
+import com.springcloud.webclients.api.dto.OrganizationListResponse;
+import com.springcloud.webclients.api.dto.OrganizationUsersResponse;
 import com.springcloud.webclients.api.dto.SaveOrganizationRequest;
 import com.springcloud.webclients.api.entity.Organization;
 import com.springcloud.webclients.api.repository.OrganizationRepository;
@@ -31,12 +32,22 @@ public class OrganizationService {
     }
 
     @Transactional
-    @Cacheable(value = "org")
-    public List<AllOrganizationResponse> findAll(){
+    public List<OrganizationListResponse> selectOrganizationList(){
         List<Organization> organizations = organizationRepository.findByOrganizationDelete(false);
-        log.info("OrganizationService.findAll method!!!!!!");
+
         return organizations.stream()
-                .map(AllOrganizationResponse::new)
+                .map(OrganizationListResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Cacheable(value = "org")
+    public List<OrganizationUsersResponse> selectSideBarUserList(){
+        List<Organization> organizations = organizationRepository.findByOrganizationDelete(false);
+        log.info("::::::OrganizationService.sideBar select method:::::::::::");
+
+        return organizations.stream()
+                .map(OrganizationUsersResponse::new)
                 .collect(Collectors.toList());
     }
 

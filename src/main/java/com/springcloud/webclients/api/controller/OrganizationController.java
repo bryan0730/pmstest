@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.controller;
 
-import com.springcloud.webclients.api.dto.AllOrganizationResponse;
+import com.springcloud.webclients.api.dto.OrganizationListResponse;
 import com.springcloud.webclients.api.dto.SaveOrganizationRequest;
 import com.springcloud.webclients.api.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class OrganizationController {
     @GetMapping
     public String goOrganizationForm(Model model){
 
-        List<AllOrganizationResponse> allOrganizations = organizationService.findAll();
+        List<OrganizationListResponse> allOrganizations = organizationService.selectOrganizationList();
 
         model.addAttribute("orgList", allOrganizations);
 

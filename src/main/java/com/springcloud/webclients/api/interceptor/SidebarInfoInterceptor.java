@@ -1,6 +1,6 @@
 package com.springcloud.webclients.api.interceptor;
 
-import com.springcloud.webclients.api.dto.AllOrganizationResponse;
+import com.springcloud.webclients.api.dto.OrganizationUsersResponse;
 import com.springcloud.webclients.api.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ public class SidebarInfoInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-        List<AllOrganizationResponse> infoList = organizationService.findAll();
+        List<OrganizationUsersResponse> infoList = organizationService.selectSideBarUserList();
         modelAndView.addObject("infoList", infoList);
     }
 }
