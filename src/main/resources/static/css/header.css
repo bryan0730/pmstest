@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
+
+.gnb {
+    margin: 0 auto;
+}
+
+.gnb>ul {
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.gnb>ul>li {
+    float: left;
+    margin: 0 10px;
+}
+
+.gnb>ul>li>a {
+    display: block;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);;
+    transition: all 0.2s;
+    text-decoration: none
+}
+
+.gnb>ul>li>a:hover {
+    color: #ffffff;
+}

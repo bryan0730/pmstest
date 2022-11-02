@@ -11,7 +11,7 @@ public class PmsUserController {
 
     @GetMapping("/login-page")
     public String goLogin(){
-        return "login2";
+        return "login";
     }
 
     @GetMapping("/pms")
@@ -24,10 +24,19 @@ public class PmsUserController {
         return "denied";
     }
 
-    @ResponseBody
-    @GetMapping("/no")
-    public String no(){
-        return "no page";
+    @GetMapping("/header")
+    public String goHeader(){
+        return "fragment/header";
+    }
+
+    @GetMapping("/pms/dashboard")
+    public String goSide(){
+        return "dashboard";
+    }
+
+    @GetMapping("/boot")
+    public String goBoot(){
+        return "fragment/layout-static";
     }
 
 }
