@@ -24,6 +24,7 @@
             </li>
 
             <div class="name-box">
+                <input type="hidden" id="pmsUserId" th:value="${session.id}">
                 <div>
                     <span th:text="${session.username}">사용자명</span>
                 </div>

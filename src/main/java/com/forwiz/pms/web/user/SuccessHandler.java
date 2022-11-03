@@ -39,10 +39,11 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         //일단은 MyUser의 organization의 FetchType를 LAZY -> EAGER로 바꾸어서 해결
 
         HttpSession session = request.getSession();
+        session.setAttribute("id", principal.getPmsUser().getId());
         session.setAttribute("username", username);
         session.setAttribute("groupname", groupname);
         session.setAttribute("role", role.getDescription());
 
-        response.sendRedirect("/pms");
+        response.sendRedirect("/pms/board");
     }
 }

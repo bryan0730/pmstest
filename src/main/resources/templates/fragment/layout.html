@@ -8,7 +8,11 @@
     <div id="layoutSidenav">
         <th:block th:replace="fragment/sidebar :: sidebarFragment(${infoList})"></th:block>
         <div id="layoutSidenav_content">
-            <th:block layout:fragment="content"></th:block>
+            <main>
+                <div class="container-fluid px-4">
+                    <th:block layout:fragment="content"></th:block>
+                </div>
+            </main>
         </div>
     </div>
 </body>

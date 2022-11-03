@@ -13,7 +13,7 @@ public class PmsUserController {
         return "login";
     }
 
-    @GetMapping("/pms")
+    @GetMapping("/pms/board")
     public String goPms(){
         return "pms";
     }

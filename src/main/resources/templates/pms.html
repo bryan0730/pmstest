@@ -5,6 +5,12 @@
       layout:decorate="~{fragment/layout.html}">
 
 <div layout:fragment="content">
+  <h1 class="mt-4">BOARD</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">Board</li>
+    <li class="breadcrumb-item active">Notice</li>
+  </ol>
+
   <h2>Hello User : <span th:text="${session.username}"></span></h2>
   <span th:text="${session.groupname}"></span>
   <span th:text="${session.role}"></span>
