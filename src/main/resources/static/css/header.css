@@ -37,11 +37,15 @@ ul {
 
 .name-box{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
-.name-box>span{
+.name-box>div>span{
     font-size: 0.875em;
     color : rgba(255, 255, 255, 0.5);
+}
+
+.name-box>div{
+    padding: 5px;
 }
