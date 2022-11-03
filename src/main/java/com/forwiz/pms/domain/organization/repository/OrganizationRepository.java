@@ -11,10 +11,11 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
 
     Optional<Organization> findByOrganizationName(String id);
 
-    //이 쿼리가 뭔가 문제가 있음 해결해야함
-    @Query("select o from Organization o left join fetch o.pmsUsers " +
-            "where o.organizationDelete = ?1")
     List<Organization> findByOrganizationDelete(boolean delYN);
+
+    @Query("select distinct o from Organization o left join fetch o.pmsUsers " +
+            "where o.organizationDelete = ?1 and o.organizationName<>'DEFAULT'")
+    List<Organization> findSidebarInfoList(boolean delYN);
 
     Long countByOrganizationName(String organizationName);
 }

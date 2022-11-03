@@ -44,7 +44,7 @@ public class OrganizationService {
     @Transactional
     @Cacheable(value = "org")
     public List<OrganizationUsersResponse> selectSideBarUserList(){
-        List<Organization> organizations = organizationRepository.findByOrganizationDelete(false);
+        List<Organization> organizations = organizationRepository.findSidebarInfoList(false);
         log.info("::::::OrganizationService.sideBar select method:::::::::::");
 
         return organizations.stream()
