@@ -1,23 +1,27 @@
 let stompClient = null;
 let notificationCount = 0;
-let userId = null;
+// let userId = null;
 let receiver = null;
 
 
 $(document).ready(function() {
-    userId = $("#pmsUserId").val();
-    console.log("userId : : : "+userId);
+    // userId = $("#pmsUserId").val();
+    // console.log("userId : : : "+userId);
     console.log("Index page is ready");
     connect();
 
-    $("#bsend").click(function (){
+    $("#send-msg").click(function (){
         sendMessage();
     });
 
     $(".nav-link").on("click", function (){
-        // alert(userId);
+        let userName = $(this).text().trim();
         receiver = $(this).find($('input:hidden')).val();
-        // alert("click user session : "+receiver);
+        $('#recipient-name').val(userName);
+
+        console.log("Message Receiver name = "+userName);
+        console.log("Login User id = "+$("#pmsUserId").val());
+        console.log("Message Receiver id = "+receiver);
     });
 });
 
@@ -29,7 +33,7 @@ function connect() {
         console.log('Connected: ' + frame);
         // updateNotificationDisplay();
 
-        stompClient.subscribe('/topic/pms-message/'+userId, function (message) {
+        stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
             showMessage(JSON.parse(message.body).content);
         });
     });
@@ -41,10 +45,8 @@ function showMessage(message) {
 
 function sendMessage(){
     console.log("send msg 2222222");
-    alert("receiver : "+receiver);
-    alert("sender : "+userId);
     stompClient.send("/ws/pms/"+receiver, {},
-        JSON.stringify({'messageContent': $("#msg2").val(), 'sender':userId}));
+        JSON.stringify({'messageContent': $("#msg2").val(), 'sender':$("#pmsUserId").val()}));
 }
 
 function updateNotificationDisplay() {
