@@ -11,6 +11,7 @@ $(document).ready(function() {
     connect();
 
     $("#send-msg").click(function (){
+        console.log("send msg btn click");
         sendMessage();
     });
 
@@ -34,9 +35,15 @@ function connect() {
         // updateNotificationDisplay();
 
         stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
-            showMessage(JSON.parse(message.body).content);
+            // showNotification(JSON.parse(message.body).content);
+            showNotification(message);
         });
     });
+}
+
+function showNotification(msg){
+    $('#notifications').show();
+    console.log(JSON.parse(msg.body));
 }
 
 function showMessage(message) {
@@ -46,7 +53,7 @@ function showMessage(message) {
 function sendMessage(){
     console.log("send msg 2222222");
     stompClient.send("/ws/pms/"+receiver, {},
-        JSON.stringify({'messageContent': $("#msg2").val(), 'sender':$("#pmsUserId").val()}));
+        JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val()}));
 }
 
 function updateNotificationDisplay() {

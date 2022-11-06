@@ -23,6 +23,11 @@ public class SidebarInfoInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
         List<OrganizationUsersResponse> infoList = organizationService.selectSideBarUserList();
-        modelAndView.addObject("infoList", infoList);
+
+        try{
+            modelAndView.addObject("infoList", infoList);
+        }catch (NullPointerException e){
+
+        }
     }
 }
