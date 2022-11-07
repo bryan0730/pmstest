@@ -6,7 +6,6 @@ ul {
     list-style: none
 }
 
-
 .gnb {
     margin: 0 auto;
 }
@@ -48,4 +47,149 @@ ul {
 
 .name-box>div{
     padding: 5px;
+}
+
+.red-circle {
+    margin: 0 auto;
+    border: 5px solid rgb(234, 24, 24);
+    border-radius: 50%;
+}
+.circle-wrapper {
+    position: absolute;
+    top: -5px;
+    margin: 0 auto;
+    padding: 15px;
+    max-width: 1170px;
+}
+
+.alarm-wrap{
+    position: relative;
+}
+
+
+.message_modal_cover {
+     display: none;
+    position: absolute;
+    width: 400px;
+    border-radius: 3px;
+    background-color: #fff;
+    top: 64px;
+    right: -8px;
+    z-index: 10;
+    border: 1px solid #e0e0e0;
+}
+.active{
+    display: block;
+}
+
+.message_modal_cover .message-modal {
+    display: flex;
+    flex-direction: column;
+    border-radius: 3px;
+}
+
+.message_modal_cover .message-modal .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 18px;
+    color: #212529;
+    border-bottom: 2px solid #f1f3f5;
+    width: 100%;
+    height: 55px;
+}
+
+.message_modal_cover .message-modal .header-content .num {
+    display: inline-block;
+    margin-left: 6px;
+    color: #36353585;
+}
+span {
+    font-weight: inherit;
+    font-style: inherit;
+}
+*, :after, :before {
+    box-sizing: inherit;
+}
+
+.message_modal_cover .message-modal .list-content .infd-message-cover.checked {
+    background-color: #fff;
+}
+
+.message_modal_cover .message-modal .list-content .infd-message-cover {
+    padding: 0 14px;
+    /* background-color: #f8f9fa; */
+}
+
+.message_modal_cover .message-modal .list-content .infd-message-cover .infd-message-el {
+    display: flex;
+    padding: 12px 12px 12px 22px;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    color: currentColor;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.message_modal_cover .message-modal .list-content .infd-message-cover.checked .infd-message-el:before {
+    background-color: #ced4da;
+    position: absolute;
+    display: inline-block;
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    top: 20px;
+    left: 4px;
+}
+
+.message_modal_cover .message-modal .list-content .infd-message-cover.checked .infd-message-el .title {
+    color: #495057;
+    font-weight: 400;
+}
+
+
+.message_modal_cover .message-modal .list-content .infd-message-cover .infd-message-el .title {
+    font-size: 15px;
+    margin-bottom: unset;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.message_modal_cover .message-modal .list-content .infd-message-cover .infd-message-el .date {
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 24px;
+    color: #495057;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+
+.message_modal_cover:after {
+    display: inline-block;
+    position: absolute;
+    content: "";
+    width: 24px;
+    height: 24px;
+    top: -12px;
+    right: 15px;
+    transform: rotate(45deg);
+    border: 1px solid #e0e0e0;
+    border-right: none;
+    border-bottom: none;
+}
+.message_modal_cover .message-modal .button-content a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    background-color: #36353585;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
 }

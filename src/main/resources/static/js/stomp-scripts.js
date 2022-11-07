@@ -8,7 +8,20 @@ $(document).ready(function() {
     // userId = $("#pmsUserId").val();
     // console.log("userId : : : "+userId);
     console.log("Index page is ready");
+
+    if($('#unreadCount').val()!=0){
+        $('.circle-wrapper').show();
+    }else{
+        $('.circle-wrapper').hide();
+    }
+
     connect();
+
+    $(".alarm-wrap").hover(function (){
+        $(".nav-modal-cover").addClass("active");
+    }, function (){
+        $(".nav-modal-cover").removeClass("active");
+    });
 
     $(".nav-link").on("click", function (){
         let userName = $(this).text().trim();
@@ -69,7 +82,7 @@ function connect() {
 }
 
 function showNotification(msg){
-    $('#notifications').show();
+    $('.circle-wrapper').show();
     console.log(JSON.parse(msg.body));
 }
 

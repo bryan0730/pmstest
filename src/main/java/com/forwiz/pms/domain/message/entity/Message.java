@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@SequenceGenerator(name="MESSAGE_SEQ_GENERATOR", sequenceName = "MESSAGE_SEQ", allocationSize = 1)
 public class Message {
 
     @Id
