@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
     private final SidebarInfoInterceptor sidebarInfoInterceptor;
+    private final NoticeInterceptor noticeInterceptor;
 
     @Bean
     public MenuMapper menuMapper(){
@@ -24,10 +25,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(sidebarInfoInterceptor)
+                .order(2)
                 .addPathPatterns("/pms/*", "/admin/*")
                 .excludePathPatterns(
                         "/css/**", "/js/**", "/assets/**"
-                )
-                ;
+                );
+
+        registry.addInterceptor(noticeInterceptor)
+                .order(1)
+                .addPathPatterns("/pms/*")
+                .excludePathPatterns(
+                        "/css/**", "/js/**", "/assets/**"
+                );
     }
 }

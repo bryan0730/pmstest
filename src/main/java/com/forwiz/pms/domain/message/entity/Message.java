@@ -1,5 +1,6 @@
 package com.forwiz.pms.domain.message.entity;
 
+import com.forwiz.pms.domain.message.dto.MessageState;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,9 +33,15 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     private Date sendDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date readDate;
-
     @Column
     private String comments;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private MessageState messageState;
+
+    public void updateMessageState(MessageState messageState){
+        this.messageState = messageState;
+    }
+
 }
