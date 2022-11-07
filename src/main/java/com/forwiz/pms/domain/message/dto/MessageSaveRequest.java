@@ -5,12 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageSaveRequest {
 
-    private String messageReceiver;
-    private String messageContent;
+    private Long messageReceiver;
+    private Long messageSender;
+    private String comment;
+    private Date sendDate;
+
 }

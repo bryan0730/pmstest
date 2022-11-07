@@ -10,8 +10,6 @@ import lombok.*;
 @Builder
 public class UserDto {
 
-    private Long id;
-
     private String userId;
 
     private String userPw;
@@ -46,7 +44,6 @@ public class UserDto {
     성능 이슈, 부수 효과 우려가 있다. -스프링 부트와 AWS로 혼자 구현하는 웹 서비스 中-
      */
     public UserDto(PmsUser pmsUser){
-        this.id = pmsUser.getId();
         this.userId = pmsUser.getUserId();
         this.userPw = pmsUser.getUserPw();
         this.userGroup = pmsUser.getOrganization().getOrganizationName();

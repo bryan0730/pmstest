@@ -10,11 +10,6 @@ $(document).ready(function() {
     console.log("Index page is ready");
     connect();
 
-    $("#send-msg").click(function (){
-        console.log("send msg btn click");
-        sendMessage();
-    });
-
     $(".nav-link").on("click", function (){
         let userName = $(this).text().trim();
         receiver = $(this).find($('input:hidden')).val();
@@ -23,6 +18,38 @@ $(document).ready(function() {
         console.log("Message Receiver name = "+userName);
         console.log("Login User id = "+$("#pmsUserId").val());
         console.log("Message Receiver id = "+receiver);
+    });
+
+    $("#send-msg").click(function (){
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        sendMessage();
+        let json = {
+            "messageReceiver" : receiver,
+            "messageSender" : $("#pmsUserId").val(),
+            "comment" : $("#message-text").val(),
+            "sendDate" : new Date()
+        };
+        const jsonString = JSON.stringify(json);
+        console.log(jsonString);
+        $.ajax({
+            url: "/pms/message/send",
+            type: "POST",
+            data: jsonString,
+            beforeSend : function(xhr)
+            {
+                xhr.setRequestHeader(header, token);
+            },
+            dataType: "text",
+            contentType:"application/json",
+            success: function(data){
+                alert(data);
+            },
+            error: function(xhr, status, error){
+                alert(xhr.responseText + error);
+            }
+        });
     });
 });
 

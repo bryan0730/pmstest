@@ -28,8 +28,8 @@
 
   <!-- Modal -->
   <div class="modal fade" id="msgModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <form th:action="@{/pms/message/send}" method="post">
+<!--    <form th:action="@{/pms/message/send}" method="post">-->
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">메시지 보내기</h5>
@@ -49,11 +49,11 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="send-msg" data-bs-dismiss="modal">Send</button>
+            <button type="button" class="btn btn-primary" id="send-msg" data-bs-dismiss="modal">Send</button>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+<!--    </form>-->
   </div>
 
 </th:block>

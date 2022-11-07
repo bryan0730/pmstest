@@ -1,10 +1,13 @@
 package com.forwiz.pms.domain.user.entity;
 
+import com.forwiz.pms.domain.message.entity.Message;
 import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.user.dto.Role;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,6 +46,9 @@ public class PmsUser {
 
     @Column(nullable = false)
     private Boolean userDeleteYN;
+
+    @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
+    private List<Message> messages = new ArrayList<>();
 
     public void updateDelYN(boolean delYN) {
         this.userDeleteYN = delYN;

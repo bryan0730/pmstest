@@ -25,7 +25,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(sidebarInfoInterceptor)
                 .addPathPatterns("/pms/*", "/admin/*")
-//                .excludePathPatterns()
+                .excludePathPatterns(
+                        "/css/**", "/js/**", "/assets/**"
+                )
                 ;
     }
 }
