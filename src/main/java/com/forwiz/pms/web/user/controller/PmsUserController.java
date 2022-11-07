@@ -23,9 +23,4 @@ public class PmsUserController {
         return "denied";
     }
 
-    @GetMapping("/boot")
-    public String goBoot(){
-        return "fragment/layout-static";
-    }
-
 }
