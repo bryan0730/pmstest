@@ -22,21 +22,22 @@ public class BoardResponseDto {
 	private LocalDateTime regDate;
 	private LocalDateTime uptDate;
 	private Long viewCount;
-	private String username;
+	private String userName;
 	private List<MultipartFile> multipartFile;
 
 	@Builder
-	public BoardResponseDto(Long id, String title, Category category, String content) {
+	public BoardResponseDto(Long id, String title, Category category, String content, String userName) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
 		this.content = content;
+		this.userName = userName;
 	}
 	
 	// querydsl Select 대상을 지정
 	@QueryProjection
 	public BoardResponseDto(Long id, String title, Category category, String content, LocalDateTime regDate, LocalDateTime uptDate, Long viewCount,
-			String username) {
+			String userName) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
@@ -44,10 +45,11 @@ public class BoardResponseDto {
 		this.regDate = regDate;
 		this.uptDate = uptDate;
 		this.viewCount = viewCount;
-		this.username = username;
+		this.userName = userName;
 	}
 
 	public BoardResponseDto() {
 		
 	}
+
 }

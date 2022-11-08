@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="fragment/layout">
+<div layout:fragment="content" class="content">
+    <form th:action th:object="${form}" method="get">
+        <nav class="container">
+            <br>
+            <div class="input-group">
+                <input type="text" name="searchVal" th:value="${searchVal}" class="form-control"
+                       placeholder="검색할 제목을 입력해주세요.">
+                <button type="submit" class="btn btn-secondary">검색</button>
+            </div>
+            <br>
+            <div>
+                <span th:if="${category.toString().equals('NOTICE')}">공 지 게 시 판</span>
+                <span th:if="${category.toString().equals('WORK')}">업 무 게 시 판</span>
+            </div>
+            <table class="table table-hover">
+                <colgroup>
+                    <col width="5%"/>
+                    <col width="20%"/>
+                    <col width="5%"/>
+                    <col width="5%"/>
+                    <col width="5%"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>날짜</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:if="${totalCount == 0}">
+                    <td colspan="6" style="text-align:center">조회된 리스트가 없습니다.</td>
+                </tr>
+
+                <tr th:each="list, index : ${list}">
+                    <td th:text="${totalCount - (size * number) - index.index}"></td>
+                    <td><a th:text="${list.title}" th:href="@{/detail/{boardId}(boardId=${list.id})}"></a></td>
+                    <td th:text="${list.userName}"></td>
+                    <td th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${list.viewCount}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+
+            <div class="d-flex justify-content-end">
+                <a href="/write" class="btn btn-primary">글쓰기</a>
+            </div>
+            <br>
+            <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
+                 th:with="start=${(list.number/maxPage)*maxPage + 1},
+                      end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                <ul class="pagination">
+
+                    <li th:if="${start > 1}" class="page-item">
+                        <a th:href="@{/work/?(page=0, searchVal=${searchVal})}" class="page-link" href="#"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+
+                    <li th:if="${start > 1}" class="page-item">
+                        <a th:href="@{/work/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <li th:each="page: ${#numbers.sequence(start, end)}" class="page-item"
+                        th:classappend="${list.number+1 == page} ? active">
+                        <a th:href="@{/work/?(page=${page-1}, searchVal=${searchVal})}" th:text="${page}" class="page-link"
+                           href="#">1</a>
+                    </li>
+
+                    <li th:if="${end < list.totalPages}" class="page-item">
+                        <a th:href="@{/work/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link"
+                           href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+
+                    <li th:if="${end < list.totalPages}" class="page-item">
+                        <a th:href="@{/work/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#"
+                           aria-label="Next">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </nav>
+    </form>
+</div>
+</html>

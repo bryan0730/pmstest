@@ -23,7 +23,6 @@ public class BoardRequestDto {
 	private Long id; // 시퀀스
 	@NotEmpty(message = "제목은 필수입니다.")
 	private String title; // 제목
-	@NotEmpty(message = "카테고리 선택은 필수입니다.")
 	private Category category; // 카테고리
 	private String content; // 내용
 	private LocalDateTime regDate; // 등록 날짜

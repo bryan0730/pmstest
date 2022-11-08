@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
+
+<div layout:fragment="content" class="content">
+	<table>
+		<thead>
+			<tr>
+				<th>제목</th>
+				<th th:text="${boardDto.title}"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>카테고리</td>
+				<td th:text="${boardDto.category}"></td>
+			</tr>
+			<tr>
+				<td>작성자</td>
+				<td th:text="${boardDto.userName}"></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td th:text="${boardDto.content}"></td>
+			</tr>
+			<tr>
+				<td>첨부파일</td>
+				<td>
+					<p th:each="boardFile, index : ${boardFile}">
+						<a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<a href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}" class="delete" th:text="삭제"></a> <a
+		th:href="@{/update/{boardId}(boardId=${boardDto.id})}">수정</a> <a href="javascript:history.back();">이전 페이지로 이동</a>
+</div>
+</html>
+
+
+
+<script type='text/javascript'>
+	//게시물 삭제
+	const delete_elements = document.getElementsByClassName("delete");
+	Array.from(delete_elements).forEach(function(element) {
+		element.addEventListener('click', function() {
+			if (confirm("정말로 삭제하시겠습니까?")) {
+				location.href = this.dataset.uri;
+			}
+			;
+		});
+	});
+</script>
