@@ -82,6 +82,10 @@ ul {
     display: block;
 }
 
+.unread{
+    background: gainsboro;
+}
+
 .message_modal_cover .message-modal {
     display: flex;
     flex-direction: column;
@@ -114,7 +118,7 @@ span {
 }
 
 .message_modal_cover .message-modal .list-content .infd-message-cover.checked {
-    background-color: #fff;
+    /*background-color: #fff;*/
 }
 
 .message_modal_cover .message-modal .list-content .infd-message-cover {

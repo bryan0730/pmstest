@@ -6,13 +6,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MessageListResponse {
+public class NoticePopupResponse {
 
     private String messageContent;
     private String messageSender;
     private String messageState;
 
-    public MessageListResponse(Message message){
+    public NoticePopupResponse(Message message){
         this.messageContent = message.getComments();
         this.messageSender = message.getSender().getUserName();
         this.messageState = message.getMessageState().getStatus();

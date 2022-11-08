@@ -1,18 +1,19 @@
 package com.forwiz.pms.domain.message.service;
 
-import com.forwiz.pms.domain.message.dto.MessageListResponse;
+import com.forwiz.pms.domain.message.dto.MessageReceiveListResponse;
+import com.forwiz.pms.domain.message.dto.NoticePopupResponse;
 import com.forwiz.pms.domain.message.dto.MessageSaveRequest;
 import com.forwiz.pms.domain.message.dto.MessageState;
 import com.forwiz.pms.domain.message.entity.Message;
 import com.forwiz.pms.domain.message.repository.MessageRepository;
 import com.forwiz.pms.domain.user.entity.PmsUser;
-import com.forwiz.pms.domain.user.repository.PmsUserRepository;
 import com.forwiz.pms.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,16 +42,24 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<MessageListResponse> findByReceiver(PmsUser receiver){
+    public List<NoticePopupResponse> findNoticePopupInfo(PmsUser receiver, Date referenceTime){
 
-        return messageRepository.findByReceiver(receiver)
+        return messageRepository.findByReceiverAndSendDateOrderByMessageId(receiver, referenceTime)
                 .stream()
-                .map(MessageListResponse::new)
+                .map(NoticePopupResponse::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public int countByMessageState(MessageState messageState, PmsUser receiverId){
         return messageRepository.countByMessageStateAndReceiver(messageState, receiverId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MessageReceiveListResponse> findByReceiver(Long id){
+
+
+
+        return null;
     }
 }

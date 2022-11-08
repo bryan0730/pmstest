@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum MessageState {
 
-    READ("읽음"),
-    UNREAD("읽지 않음")
+    READ("0"),
+    UNREAD("1")
     ;
 
     private final String status;

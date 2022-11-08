@@ -32,12 +32,14 @@
                     </a>
                     <div class="message_modal_cover has_bubble nav-modal-cover">
                         <div class="message-modal">
-                            <div class="header-content unchecked-cnt">읽지 않은 알림 <span class="num">0</span>개</div>
+                            <div class="header-content unchecked-cnt">읽지 않은 알림 <span class="num" th:text="${unreadMsgCount}">0</span>개</div>
                             <div class="list-content">
-                                <div class="infd-message-cover checked">
-                                    <a href="/messages/421937" class="infd-message-el">
-                                        <span class="title">[업데이트 소식] 10월 4주차 - 주간 학습 현황 카드 업데이트</span> <span class="date">13일 전</span>
-                                    </a>
+                                <div th:each="msg, stat : ${messageList}">
+                                    <div class="infd-message-cover checked" th:classappend="${msg.messageState == '1'} ? 'unread' : ''">
+                                        <a href="#" class="infd-message-el">
+                                            <span class="title" th:text="${msg.messageContent}">[업데이트 소식] 10월 4주차 - 주간 학습 현황 카드 업데이트</span> <span class="date" th:text="${msg.messageSender}">13일 전</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="button-content">
@@ -51,7 +53,7 @@
             <div class="name-box">
                 <input type="hidden" id="pmsUserId" th:value="${session.id}">
                 <div>
-                    <span th:text="${session.username}">사용자명</span>
+                    <span id="pmsUserInfoName" th:text="${session.username}">사용자명</span>
                 </div>
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="btn btn-secondary btn-sm">logout</button>

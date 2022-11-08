@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="settingMenuBtnFragment">
+
+  <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 100%">
+    <input th:checked="${#httpServletRequest.requestURI == '/admin/organization'}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+    <label class="btn btn-outline-secondary" for="btnradio1" th:onclick="|location.href='@{/admin/organization}'|">조직 설정</label>
+
+    <input th:checked="${#httpServletRequest.requestURI == '/admin/user'}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+    <label class="btn btn-outline-secondary" for="btnradio2" th:onclick="|location.href='@{/admin/user}'|">사용자 설정</label>
+
+    <input th:checked="${#httpServletRequest.requestURI == '/admin/menu'}" type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+    <label class="btn btn-outline-secondary" for="btnradio3" th:onclick="|location.href='@{/admin/menu}'|">메뉴 설정</label>
+  </div>
+
+</th:block>
+</html>

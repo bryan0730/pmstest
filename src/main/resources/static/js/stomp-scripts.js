@@ -3,10 +3,7 @@ let notificationCount = 0;
 // let userId = null;
 let receiver = null;
 
-
 $(document).ready(function() {
-    // userId = $("#pmsUserId").val();
-    // console.log("userId : : : "+userId);
     console.log("Index page is ready");
 
     if($('#unreadCount').val()!=0){
@@ -75,7 +72,7 @@ function connect() {
         // updateNotificationDisplay();
 
         stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
-            // showNotification(JSON.parse(message.body).content);
+            notificationCount = notificationCount+1;
             showNotification(message);
         });
     });
@@ -83,6 +80,18 @@ function connect() {
 
 function showNotification(msg){
     $('.circle-wrapper').show();
+    $('.num').text(notificationCount);
+    $('.list-content').prepend(
+        "<div>" +
+        "<div class='infd-message-cover checked unread'>" +
+        "<a href='#' class='infd-message-el'>" +
+        " <span class='title'>" +
+            JSON.parse(msg.body).messageContent +
+        "</span> <span class='date'>"+JSON.parse(msg.body).messageSenderName+"</span>" +
+        "</a>" +
+        "</div>" +
+        "</div>"
+    );
     console.log(JSON.parse(msg.body));
 }
 
@@ -93,7 +102,7 @@ function showMessage(message) {
 function sendMessage(){
     console.log("send msg 2222222");
     stompClient.send("/ws/pms/"+receiver, {},
-        JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val()}));
+        JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val(), 'senderName':$('#pmsUserInfoName').text()}));
 }
 
 function updateNotificationDisplay() {

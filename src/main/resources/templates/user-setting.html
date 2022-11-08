@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Title</title>
-    <script th:src="@{/webjars/jquery/3.6.1/jquery.js}"></script>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout.html}">
+
+<div layout:fragment="content">
+  <h1 class="mt-4">Setting</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">Setting</li>
+    <li class="breadcrumb-item active">User</li>
+  </ol>
+
+  <th:block th:replace="fragment/setting-menu-button :: settingMenuBtnFragment"></th:block>
+
   <table>
     <thead>
     <tr>
@@ -38,8 +43,9 @@
 
   </table>
   <button onclick="location.href='/admin/user/join'">save popup</button>
-</body>
+</div>
 </html>
+<script th:src="@{/js/user-scripts.js}"></script>
 <style>
   table {
     width: 100%;
@@ -49,44 +55,3 @@
     border: 1px solid #444444;
   }
 </style>
-<script>
-  $("#delBtn").click(function(){
-    if(!confirm("삭제하시겠습니까?")) return;
-
-    let tdArr = [];
-    const checkbox = $("input[name=delYN]:checked");
-
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-
-    checkbox.each(function(i) {
-      let tr = checkbox.parent().parent().eq(i);
-      let td = tr.children();
-
-      let val = td.eq(0).val();
-      let jsonObject = {"id": val};
-
-      tdArr.push(jsonObject);
-    });
-    const jsonString = JSON.stringify(tdArr);
-
-    $.ajax({
-      url: "/admin/user/del",
-      type: "POST",
-      data: jsonString,
-      beforeSend : function(xhr)
-      {
-        xhr.setRequestHeader(header, token);
-      },
-      dataType: "text",
-      contentType:"application/json",
-      success: function(data){
-        alert(data);
-        window.location.replace("/admin/user");
-      },
-      error: function(xhr, status, error){
-        alert(xhr.responseText + error);
-      }
-    });
-  });
-</script>
