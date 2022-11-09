@@ -1,15 +1,14 @@
 package com.forwiz.pms.domain.message.service;
 
-import com.forwiz.pms.domain.message.dto.MessageReceiveListResponse;
-import com.forwiz.pms.domain.message.dto.NoticePopupResponse;
-import com.forwiz.pms.domain.message.dto.MessageSaveRequest;
-import com.forwiz.pms.domain.message.dto.MessageState;
+import com.forwiz.pms.domain.message.dto.*;
 import com.forwiz.pms.domain.message.entity.Message;
 import com.forwiz.pms.domain.message.repository.MessageRepository;
+import com.forwiz.pms.domain.user.dto.PmsUserDetails;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 import com.forwiz.pms.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,10 +55,30 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<MessageReceiveListResponse> findByReceiver(Long id){
+    public List<MessageReceiveListResponse> findByReceiver(Authentication authentication){
 
+        PmsUser receiver = getUserInfo(authentication);
 
+        return messageRepository.findByReceiver(receiver)
+                .stream()
+                .map(MessageReceiveListResponse::new)
+                .collect(Collectors.toList());
+    }
 
-        return null;
+    @Transactional(readOnly = true)
+    public List<MessageSendListResponse> findBySender(Authentication authentication) {
+
+        PmsUser sender = getUserInfo(authentication);
+
+        return messageRepository.findBySender(sender)
+                .stream()
+                .map(MessageSendListResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    private PmsUser getUserInfo(Authentication authentication) {
+        PmsUserDetails principal = (PmsUserDetails) authentication.getPrincipal();
+        PmsUser user = principal.getPmsUser();
+        return user;
     }
 }

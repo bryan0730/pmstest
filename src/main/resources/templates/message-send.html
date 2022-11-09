@@ -6,39 +6,36 @@
 <head>
   <link th:href="@{/css/message.css}" rel="stylesheet" />
 </head>
-
 <div layout:fragment="content">
   <h1 class="mt-4">Message</h1>
   <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item">Message</li>
-    <li class="breadcrumb-item active">Receive Form</li>
+    <li class="breadcrumb-item active">Send Form</li>
   </ol>
 
   <th:block th:replace="fragment/message-menu-button :: messageMenuBtnFragment"></th:block>
-
   <div>
-
     <table class="table table-hover">
       <thead class="table-light">
       <tr>
         <th scope="col">#</th>
         <th scope="col">내용</th>
-        <th scope="col">보낸사람</th>
+        <th scope="col">받은사람</th>
         <th scope="col">날짜</th>
       </tr>
       </thead>
 
       <tbody>
-      <tr th:each="rv, stat : ${receiveList}" th:class="${rv.messageState=='1'} ? 'unread-row' : ''">
+      <tr th:each="sd, stat : ${sendList}" th:class="${sd.messageState=='1'} ? 'unread-row' : ''">
         <th class="msg tx-middle ssh" scope="row" th:text="|${stat.count}|"></th>
-        <td class="text-truncate msg tx-left lo" th:text="${rv.messageContents}"></td>
-        <td class="msg tx-middle sh" th:text="${rv.senderName}"></td>
-        <td class="msg tx-middle sh" th:text="${rv.sendDate}"></td>
+        <td class="text-truncate msg tx-left lo" th:text="${sd.messageContents}"></td>
+        <td class="msg tx-middle sh" th:text="${sd.receiverName}"></td>
+        <td class="msg tx-middle sh" th:text="${sd.receiveDate}"></td>
       </tr>
       </tbody>
     </table>
 
-    <div class="empty-box" th:if="${#lists.isEmpty(receiveList)}" th:text="#{empty.data}">
+    <div class="empty-box" th:if="${#lists.isEmpty(sendList)}" th:text="#{empty.data}">
     </div>
 
   </div>

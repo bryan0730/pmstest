@@ -1,6 +1,5 @@
 let stompClient = null;
 let notificationCount = 0;
-// let userId = null;
 let receiver = null;
 
 $(document).ready(function() {
@@ -69,10 +68,9 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        // updateNotificationDisplay();
 
         stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
-            notificationCount = notificationCount+1;
+            notificationCount = Number($('.num').text())+notificationCount+1;
             showNotification(message);
         });
     });
@@ -85,7 +83,7 @@ function showNotification(msg){
         "<div>" +
         "<div class='infd-message-cover checked unread'>" +
         "<a href='#' class='infd-message-el'>" +
-        " <span class='title'>" +
+        " <span class='title text-truncate'>" +
             JSON.parse(msg.body).messageContent +
         "</span> <span class='date'>"+JSON.parse(msg.body).messageSenderName+"</span>" +
         "</a>" +
@@ -95,26 +93,8 @@ function showNotification(msg){
     console.log(JSON.parse(msg.body));
 }
 
-function showMessage(message) {
-    $("#messages").append("<tr><td>" + message + "</td></tr>");
-}
-
 function sendMessage(){
     console.log("send msg 2222222");
     stompClient.send("/ws/pms/"+receiver, {},
         JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val(), 'senderName':$('#pmsUserInfoName').text()}));
-}
-
-function updateNotificationDisplay() {
-    if (notificationCount == 0) {
-        $('#notifications').hide();
-    } else {
-        $('#notifications').show();
-        $('#notifications').text(notificationCount);
-    }
-}
-
-function resetNotificationCount() {
-    notificationCount = 0;
-    updateNotificationDisplay();
 }

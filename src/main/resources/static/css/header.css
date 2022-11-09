@@ -152,6 +152,7 @@ span {
 .message_modal_cover .message-modal .list-content .infd-message-cover.checked .infd-message-el .title {
     color: #495057;
     font-weight: 400;
+    max-width: 280px;
 }
 
 

@@ -4,11 +4,11 @@
 <th:block th:fragment="messageMenuBtnFragment">
 
   <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="width: 100%">
-    <input th:checked="${#httpServletRequest.requestURI == '/message'}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-    <label class="btn btn-outline-secondary" for="btnradio1" th:onclick="|location.href='@{/message}'|">받은 메시지</label>
+    <input th:checked="${#httpServletRequest.requestURI == '/pms/message/receive'}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+    <label class="btn btn-outline-secondary" for="btnradio1" th:onclick="|location.href='@{/pms/message/receive}'|">받은 메시지</label>
 
-    <input th:checked="${#httpServletRequest.requestURI == '/message/receive'}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-    <label class="btn btn-outline-secondary" for="btnradio2" th:onclick="|location.href='@{/message}'|">보낸 메시지</label>
+    <input th:checked="${#httpServletRequest.requestURI == '/pms/message/send'}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+    <label class="btn btn-outline-secondary" for="btnradio2" th:onclick="|location.href='@{/pms/message/send}'|">보낸 메시지</label>
   </div>
 
 </th:block>

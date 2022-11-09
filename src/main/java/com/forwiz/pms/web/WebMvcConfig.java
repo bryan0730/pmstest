@@ -26,14 +26,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(sidebarInfoInterceptor)
                 .order(2)
-                .addPathPatterns("/pms/*", "/admin/*")
+                .addPathPatterns("/pms/*", "/admin/*", "/pms/message/*")
                 .excludePathPatterns(
                         "/css/**", "/js/**", "/assets/**"
                 );
 
         registry.addInterceptor(noticeInterceptor)
                 .order(1)
-                .addPathPatterns("/pms/*")
+                .addPathPatterns("/pms/*", "/pms/message/*")
                 .excludePathPatterns(
                         "/css/**", "/js/**", "/assets/**"
                 );

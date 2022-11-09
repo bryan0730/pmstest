@@ -12,7 +12,7 @@
             <ul>
                 <li><a href="#">공지게시판</a></li>
                 <li><a href="#">업무게시판</a></li>
-                <li><a th:href="@{/pms/message}">메시지</a></li>
+                <li><a th:href="@{/pms/message/receive}">메시지</a></li>
                 <th:block th:if="${session.role=='관리자'}">
                     <li><a th:href="@{/admin/organization}">환경설정</a></li>
                 </th:block>
@@ -37,7 +37,7 @@
                                 <div th:each="msg, stat : ${messageList}">
                                     <div class="infd-message-cover checked" th:classappend="${msg.messageState == '1'} ? 'unread' : ''">
                                         <a href="#" class="infd-message-el">
-                                            <span class="title" th:text="${msg.messageContent}">[업데이트 소식] 10월 4주차 - 주간 학습 현황 카드 업데이트</span> <span class="date" th:text="${msg.messageSender}">13일 전</span>
+                                            <span class="title text-truncate" th:text="${msg.messageContent}">[업데이트 소식] 10월 4주차 - 주간 학습 현황 카드 업데이트</span> <span class="date" th:text="${msg.messageSender}"></span>
                                         </a>
                                     </div>
                                 </div>

@@ -27,7 +27,8 @@ public class SidebarInfoInterceptor implements HandlerInterceptor {
         try{
             modelAndView.addObject("infoList", infoList);
         }catch (NullPointerException e){
-            modelAndView.addObject("infoList", "회원정보 없음");
+//            modelAndView.addObject("infoList", "회원정보 없음");
+            log.info("Sidebar Interceptor Null point catch");
         }
     }
 }
