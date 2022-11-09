@@ -33,7 +33,7 @@ $(document).ready(function() {
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
 
-        sendMessage();
+
         let json = {
             "messageReceiver" : receiver,
             "messageSender" : $("#pmsUserId").val(),
@@ -53,6 +53,7 @@ $(document).ready(function() {
             dataType: "text",
             contentType:"application/json",
             success: function(data){
+                sendMessage();
                 alert(data);
             },
             error: function(xhr, status, error){
