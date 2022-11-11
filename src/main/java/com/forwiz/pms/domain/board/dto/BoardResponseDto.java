@@ -24,14 +24,16 @@ public class BoardResponseDto {
 	private Long viewCount;
 	private String userName;
 	private List<MultipartFile> multipartFile;
-
+	
+	
 	@Builder
-	public BoardResponseDto(Long id, String title, Category category, String content, String userName) {
+	public BoardResponseDto(Long id, String title, Category category, String content, String userName, LocalDateTime regDate) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
 		this.content = content;
 		this.userName = userName;
+		this.regDate = regDate;
 	}
 	
 	// querydsl Select 대상을 지정
@@ -52,4 +54,13 @@ public class BoardResponseDto {
 		
 	}
 
+	//게시판 목록 조회 subselect
+	public BoardResponseDto(BoardSubSelect boardSubSelect) {
+		this.id = boardSubSelect.getBoardId();
+		this.title = boardSubSelect.getTitle();
+		this.category = boardSubSelect.getCategory();
+		this.regDate = boardSubSelect.getRegDate();
+		this.viewCount = boardSubSelect.getViewCount();
+		this.userName = boardSubSelect.getUserName();
+	}
 }

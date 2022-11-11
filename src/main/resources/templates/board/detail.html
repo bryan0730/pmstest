@@ -23,6 +23,10 @@
 				<td th:text="${boardDto.content}"></td>
 			</tr>
 			<tr>
+				<td>작성일자</td>
+				<td th:text="${#temporals.format(boardDto.regDate, 'yyyy-MM-dd  hh:mm:ss')}"></td>
+			</tr>
+			<tr>
 				<td>첨부파일</td>
 				<td>
 					<p th:each="boardFile, index : ${boardFile}">

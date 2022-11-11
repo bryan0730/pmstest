@@ -31,11 +31,8 @@ public class FileController {
 
 		// 파일 조회
 		FileInfo fileInfo = fileRepository.findById(fileIdx).get();
-		//System.err.println("===fileInfo" + fileInfo);
 		// 파일 경로
 		Path saveFilePath = Paths.get(fileInfo.getUploadDir() + java.io.File.separator + fileInfo.getSavedFileName());
-		//System.out.println("fileInfo.getUploadDir()" + fileInfo.getUploadDir());
-		//System.err.println("filePath :" + saveFilePath);
 		// 해당 경로에 파일이 없으면
 		if (!saveFilePath.toFile().exists()) {	//경로를 파일객체로 변환 존재여부
 			throw new RuntimeException("file not found");

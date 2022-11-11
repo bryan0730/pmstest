@@ -3,7 +3,10 @@ package com.forwiz.pms.domain.board.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.forwiz.pms.domain.board.dto.BoardFileResponseDto;
 import com.forwiz.pms.domain.board.dto.BoardRequestDto;
 import com.forwiz.pms.domain.board.dto.BoardResponseDto;
+import com.forwiz.pms.domain.board.dto.BoardSubSelect;
 import com.forwiz.pms.domain.board.entity.Board;
 import com.forwiz.pms.domain.board.entity.Category;
 import com.forwiz.pms.domain.board.repository.BoardRepository;
@@ -36,13 +40,9 @@ public class BoardService {
 	@Transactional
 	public Long saveBoard(BoardRequestDto boardRequestDto) throws Exception {
 		
-		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
 		PmsUser member = user.getPmsUser();
-		
-		//List<Member> memberList = memberRepository.findAll();
-		//Member member = memberList.get(0);	// 추후 로그인된 멤버로 받기
 		
 		Board board = null;
 		
@@ -80,7 +80,9 @@ public class BoardService {
 		.title(board.getTitle())
 		.userName(board.getPmsUser().getUserName())
 		.category(board.getCategory())
-		.content(board.getContent()).build();
+		.content(board.getContent())
+		.regDate(board.getRegDate())
+		.build();
 		
 		return boardResponseDto;
 	}
@@ -96,7 +98,10 @@ public class BoardService {
 		this.boardRepository.delete(board);
 	}
 
-	//게시판 목록 불러오기
+	/**
+	 * 게시판 목록 불러오기
+	 * @Method : selectBoardList
+	 */
 	public Page<BoardResponseDto> selectBoardList(String searchVal, Pageable pageable, Category category) {
 		return customBoardRepository.selectBoardList(searchVal, pageable, category);
 	}
@@ -112,5 +117,4 @@ public class BoardService {
 	    boardRepository.save(board);	//조회수 저장
 	}
 	
-
 }

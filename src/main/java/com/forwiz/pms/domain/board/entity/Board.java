@@ -15,9 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.forwiz.pms.domain.user.entity.PmsUser;
 
@@ -27,6 +29,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EntityListeners(AuditingEntityListener.class)
