@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,14 +22,12 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class NoticeInterceptor implements HandlerInterceptor {
-
     private final MessageService messageService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView){
         Calendar c = Calendar.getInstance();
-        c.add(c.DATE, -7);
+        c.add(Calendar.DATE, -7);
         Date stDate = c.getTime();
 
         PmsUserDetails principal = (PmsUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -40,7 +39,5 @@ public class NoticeInterceptor implements HandlerInterceptor {
         int unreadMessageCount = messageService.countByMessageState(MessageState.UNREAD, user);
         log.info("NoticeInterceptor unread message count :: {}", unreadMessageCount);
         request.setAttribute("unreadMsgCount", unreadMessageCount);
-
-        return true;
     }
 }

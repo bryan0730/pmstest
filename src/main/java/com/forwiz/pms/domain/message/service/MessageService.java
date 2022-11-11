@@ -2,6 +2,7 @@ package com.forwiz.pms.domain.message.service;
 
 import com.forwiz.pms.domain.message.dto.*;
 import com.forwiz.pms.domain.message.entity.Message;
+import com.forwiz.pms.domain.message.exception.NoSearchMessageException;
 import com.forwiz.pms.domain.message.repository.MessageRepository;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
 import com.forwiz.pms.domain.user.entity.PmsUser;
@@ -9,11 +10,13 @@ import com.forwiz.pms.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -76,9 +79,34 @@ public class MessageService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public MessageDetailResponse findByMessageId(Long messageId) {
+
+        Message messageInfo = messageRepository.findById(messageId)
+                .orElseThrow(NoSearchMessageException::new);
+
+        //검증 로직(해당 메시지 상세조회 접근 권한이 있는가 확인)
+        //해당 ID 메시지의 receiver id(sender id)가 context에 있는 id와 같은가를 확인
+        if(!isAuthMessage(messageInfo.getSender().getId(), messageInfo.getReceiver().getId())){
+            throw new NoSearchMessageException();
+        }
+
+        messageInfo.updateMessageState(MessageState.READ);
+
+        return new MessageDetailResponse(messageInfo);
+    }
+    private Predicate<Long> isSameId(Long id){
+        return (param) -> param.equals(id);
+    }
+    private boolean isAuthMessage(Long senderId, Long receiverId){
+        PmsUserDetails user = (PmsUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long loginUserId = user.getPmsUser().getId();
+
+        return isSameId(senderId).test(loginUserId) || isSameId(receiverId).test(loginUserId);
+    }
     private PmsUser getUserInfo(Authentication authentication) {
         PmsUserDetails principal = (PmsUserDetails) authentication.getPrincipal();
-        PmsUser user = principal.getPmsUser();
-        return user;
+        return principal.getPmsUser();
     }
+
 }

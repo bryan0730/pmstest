@@ -10,6 +10,7 @@ import java.util.Date;
 @Setter
 public class MessageSendListResponse {
 
+    private Long messageId;
     private Long receiverId;
     private String messageContents;
     private String receiverName;
@@ -17,6 +18,7 @@ public class MessageSendListResponse {
     private Date receiveDate;
 
     public MessageSendListResponse(Message message){
+        this.messageId = message.getMessageId();
         this.receiverId = message.getReceiver().getId();
         this.messageContents = message.getComments();
         this.receiverName = message.getReceiver().getUserName();

@@ -1,5 +1,6 @@
 package com.forwiz.pms.web.message.controller;
 
+import com.forwiz.pms.domain.message.dto.MessageDetailResponse;
 import com.forwiz.pms.domain.message.dto.MessageReceiveListResponse;
 import com.forwiz.pms.domain.message.dto.MessageSaveRequest;
 import com.forwiz.pms.domain.message.dto.MessageSendListResponse;
@@ -51,5 +52,13 @@ public class MessageController {
         messageService.saveMessage(messageSaveRequest);
 
         return "메시지 전송하였습니다.";
+    }
+    @GetMapping("/{messageId}")
+    public String messageDetailsForm(@PathVariable Long messageId, Model model){
+
+        MessageDetailResponse response = messageService.findByMessageId(messageId);
+        model.addAttribute("messageDetails", response);
+
+        return "message-details";
     }
 }

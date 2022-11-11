@@ -29,6 +29,17 @@ $(document).ready(function() {
         console.log("Message Receiver id = "+receiver);
     });
 
+    $("#btn-msg-reply").on("click", function (){
+        let userName = $("#exampleFormControlInput1").val();
+        receiver = $("#msgSenderId").val();
+        let comment = '-----Origin Message-----\n'
+            +$("#exampleFormControlTextarea1").text()+'\n'
+            +'---------------------------\n';
+        $('#recipient-name').val(userName);
+        $("#message-text").text(comment);
+    });
+
+
     $("#send-msg").click(function (){
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
@@ -57,7 +68,8 @@ $(document).ready(function() {
                 alert(data);
             },
             error: function(xhr, status, error){
-                alert(xhr.responseText + error);
+                let obj = JSON.parse(xhr.responseText);
+                alert(obj.errorMessage);
             }
         });
     });
@@ -71,8 +83,12 @@ function connect() {
         console.log('Connected: ' + frame);
 
         stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
-            notificationCount = Number($('.num').text())+notificationCount+1;
-            showNotification(message);
+            console.log("sender ::" + JSON.parse(message.body).messageSender);
+            console.log("session id :: " + $("#pmsUserId").val());
+            if(JSON.parse(message.body).messageSender!=$("#pmsUserId").val()){
+                notificationCount = Number($('.num').text())+notificationCount+1;
+                showNotification(message);
+            }
         });
     });
 }
