@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout.html}">
+<head>
+  <link th:href="@{/css/message.css}" rel="stylesheet" />
+</head>
+<div layout:fragment="content">
+  <h1 class="mt-4">Message</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">Message</li>
+    <li class="breadcrumb-item active">Send Form</li>
+  </ol>
+
+  <th:block th:replace="fragment/message-menu-button :: messageMenuBtnFragment"></th:block>
+  <div>
+    <table class="table table-hover">
+      <thead class="table-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">내용</th>
+        <th scope="col">받은사람</th>
+        <th scope="col">날짜</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:each="sd, stat : ${sendList}" th:class="${sd.messageState=='1'} ? 'unread-row' : ''">
+        <th class="msg tx-middle ssh" scope="row" th:text="|${stat.count}|"></th>
+        <td class="text-truncate msg tx-left lo" th:text="${sd.messageContents}" th:onclick="|location.href='@{/pms/message/{msgId}(msgId=${sd.messageId})}'|"></td>
+        <td class="msg tx-middle sh" th:text="${sd.receiverName}"></td>
+        <td class="msg tx-middle sh" th:text="${sd.receiveDate}"></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="empty-box" th:if="${#lists.isEmpty(sendList)}" th:text="#{empty.data}">
+    </div>
+
+  </div>
+</div>
+
+</html>

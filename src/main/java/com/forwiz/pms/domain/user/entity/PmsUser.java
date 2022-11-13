@@ -75,4 +75,8 @@ public class PmsUser {
     public void updateDelYN(boolean delYN) {
         this.userDeleteYN = delYN;
     }
+
+    public boolean hasSameId(Long id){
+        return this.id.equals(id);
+    }
 }

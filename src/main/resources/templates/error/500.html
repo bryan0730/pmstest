@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Forwiz-PMS</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="d-flex align-items-center justify-content-center vh-100">
+  <div class="text-center">
+    <h1 class="display-1 fw-bold">500</h1>
+    <p class="fs-3">서버 오류</p>
+    <p class="lead">
+      서버에서 오류가 발생하여 콘텐츠를 표시할 수 없습니다.
+    </p>
+    <a th:href="@{/pms/board}" class="btn btn-secondary">돌아가기</a>
+  </div>
+</div>
+</body>
+</html>

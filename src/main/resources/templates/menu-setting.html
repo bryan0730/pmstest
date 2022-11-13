@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-  <table>
-    <thead>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout.html}">
+<div layout:fragment="content">
+  <h1 class="mt-4">Setting</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">Setting</li>
+    <li class="breadcrumb-item active">Menu</li>
+  </ol>
+
+  <th:block th:replace="fragment/setting-menu-button :: settingMenuBtnFragment"></th:block>
+
+  <table class="table">
+    <thead class="table-light">
     <tr>
       <th>번호</th>
       <th>메뉴명</th>
@@ -23,14 +30,5 @@
     </tr>
     </tbody>
   </table>
-</body>
+</div>
 </html>
-<style>
-  table {
-    width: 100%;
-    border: 1px solid #444444;
-  }
-  th, td {
-    border: 1px solid #444444;
-  }
-</style>

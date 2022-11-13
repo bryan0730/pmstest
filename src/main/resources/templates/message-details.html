@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout.html}">
+<head>
+  <link th:href="@{/css/message.css}" rel="stylesheet" />
+</head>
+
+<div layout:fragment="content">
+  <h1 class="mt-4">Message</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">Message</li>
+    <li class="breadcrumb-item active">Message Detail</li>
+  </ol>
+
+  <div>
+    <div><span class="msg-detail-date" th:text="${messageDetails.sendDate}"></span></div>
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">보낸 사람</label>
+      <input type="hidden" id="msgSenderId" th:value="${messageDetails.senderId}">
+      <input type="email" class="form-control" id="exampleFormControlInput1" th:value="${messageDetails.senderName}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlInput2" class="form-label">받는 사람</label>
+      <input type="email" class="form-control" id="exampleFormControlInput2" th:value="${messageDetails.receiverName}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label">내용</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" th:text="${messageDetails.comments}" readonly></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlInput2" class="form-label">첨부 파일</label>
+    </div>
+
+    <button th:if="${session.id.equals(messageDetails.receiverId)}" id="btn-msg-reply" type="button" class="btn btn-outline-secondary msg-reply-btn" data-bs-toggle="modal" data-bs-target="#msgModal">답장</button>
+  </div>
+
+</div>
+
+</html>

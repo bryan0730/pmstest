@@ -1,14 +1,29 @@
 let stompClient = null;
 let notificationCount = 0;
-// let userId = null;
 let receiver = null;
 
-
 $(document).ready(function() {
-    // userId = $("#pmsUserId").val();
-    // console.log("userId : : : "+userId);
     console.log("Index page is ready");
+
+    if($('#unreadCount').val()!=0){
+        $('.circle-wrapper').show();
+    }else{
+        $('.circle-wrapper').hide();
+    }
+
     connect();
+
+    $(".alarm-wrap").hover(function (){
+        $(".nav-modal-cover").addClass("active");
+    }, function (){
+        $(".nav-modal-cover").removeClass("active");
+    });
+
+    $(".message_modal_cover").hover(function () {
+        $(".nav-modal-cover").addClass("active");
+    }, function (){
+        $(".nav-modal-cover").removeClass("active");
+    });
 
     $(".nav-link").on("click", function (){
         let userName = $(this).text().trim();
@@ -20,11 +35,22 @@ $(document).ready(function() {
         console.log("Message Receiver id = "+receiver);
     });
 
+    $("#btn-msg-reply").on("click", function (){
+        let userName = $("#exampleFormControlInput1").val();
+        receiver = $("#msgSenderId").val();
+        let comment = '-----Origin Message-----\n'
+            +$("#exampleFormControlTextarea1").text()+'\n'
+            +'---------------------------\n';
+        $('#recipient-name').val(userName);
+        $("#message-text").text(comment);
+    });
+
+
     $("#send-msg").click(function (){
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
 
-        sendMessage();
+
         let json = {
             "messageReceiver" : receiver,
             "messageSender" : $("#pmsUserId").val(),
@@ -44,10 +70,12 @@ $(document).ready(function() {
             dataType: "text",
             contentType:"application/json",
             success: function(data){
+                sendMessage();
                 alert(data);
             },
             error: function(xhr, status, error){
-                alert(xhr.responseText + error);
+                let obj = JSON.parse(xhr.responseText);
+                alert(obj.errorMessage);
             }
         });
     });
@@ -59,40 +87,37 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        // updateNotificationDisplay();
 
         stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
-            // showNotification(JSON.parse(message.body).content);
-            showNotification(message);
+            console.log("sender ::" + JSON.parse(message.body).messageSender);
+            console.log("session id :: " + $("#pmsUserId").val());
+            if(JSON.parse(message.body).messageSender!=$("#pmsUserId").val()){
+                notificationCount = Number($('.num').text())+notificationCount+1;
+                showNotification(message);
+            }
         });
     });
 }
 
 function showNotification(msg){
-    $('#notifications').show();
+    $('.circle-wrapper').show();
+    $('.num').text(notificationCount);
+    $('.list-content').prepend(
+        "<div>" +
+        "<div class='infd-message-cover checked unread'>" +
+        "<a href='#' class='infd-message-el'>" +
+        " <span class='title text-truncate' onclick='location.href=/pms/message/"+JSON.parse(msg.body).messageId+"'>" +
+            JSON.parse(msg.body).messageContent +
+        "</span> <span class='date'>"+JSON.parse(msg.body).messageSenderName+"</span>" +
+        "</a>" +
+        "</div>" +
+        "</div>"
+    );
     console.log(JSON.parse(msg.body));
-}
-
-function showMessage(message) {
-    $("#messages").append("<tr><td>" + message + "</td></tr>");
 }
 
 function sendMessage(){
     console.log("send msg 2222222");
     stompClient.send("/ws/pms/"+receiver, {},
-        JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val()}));
-}
-
-function updateNotificationDisplay() {
-    if (notificationCount == 0) {
-        $('#notifications').hide();
-    } else {
-        $('#notifications').show();
-        $('#notifications').text(notificationCount);
-    }
-}
-
-function resetNotificationCount() {
-    notificationCount = 0;
-    updateNotificationDisplay();
+        JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val(), 'senderName':$('#pmsUserInfoName').text()}));
 }

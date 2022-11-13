@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Title</title>
-    <script th:src="@{/webjars/jquery/3.6.1/jquery.js}"></script>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout.html}">
+<div layout:fragment="content">
+    <h1 class="mt-4">Setting</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item">Setting</li>
+        <li class="breadcrumb-item active">Organization</li>
+    </ol>
+
+    <th:block th:replace="fragment/setting-menu-button :: settingMenuBtnFragment"></th:block>
 
     <form th:action="@{/admin/organization/save}" method="post">
-        <div style="border: 1px solid black">
-            조직명 :
-            <input type="text" name="organizationName">
-            <button type="submit">등록</button>
+        <div class="org-write-container">
+            <label for="org-name-text" class="col-form-label">조직명:</label>
+            <input type="text" id="org-name-text" name="organizationName">
+            <button class="btn btn-outline-secondary btn-sm" type="submit">등록</button>
         </div>
     </form>
     <span th:text="${resultMsg}"></span>
-        <table id="orgTable">
-            <thead>
+        <table id="orgTable" class="table">
+            <thead class="table-light">
                 <tr>
                     <th>번호</th>
                     <th>코드</th>
@@ -39,56 +42,11 @@
             </tbody>
 
         </table>
-        <button name="delBtn" id="delBtn">del</button>
-</body>
+        <div class="button-container">
+            <button class="btn btn-secondary" name="delBtn" id="delBtn">삭제</button>
+        </div>
+</div>
+
+
 </html>
-<style>
-    table {
-        width: 100%;
-        border: 1px solid #444444;
-    }
-    th, td {
-        border: 1px solid #444444;
-    }
-</style>
-<script>
-    $("#delBtn").click(function(){
-        if(!confirm("삭제하시겠습니까?")) return;
-
-        let tdArr = [];
-        const checkbox = $("input[name=isChecked]:checked");
-
-        const token = $("meta[name='_csrf']").attr("content");
-        const header = $("meta[name='_csrf_header']").attr("content");
-
-        checkbox.each(function(i) {
-            let tr = checkbox.parent().parent().eq(i);
-            let td = tr.children();
-
-            let val = td.eq(0).val();
-            let jsonObject = {"id": val};
-
-            tdArr.push(jsonObject);
-        });
-        const jsonString = JSON.stringify(tdArr);
-
-        $.ajax({
-            url: "/admin/organization/del",
-            type: "POST",
-            data: jsonString,
-            beforeSend : function(xhr)
-            {
-                xhr.setRequestHeader(header, token);
-            },
-            dataType: "text",
-            contentType:"application/json",
-            success: function(data){
-                alert(data);
-                window.location.replace("/admin/organization");
-            },
-            error: function(xhr, status, error){
-                alert(xhr.responseText + error);
-            }
-        });
-    });
-</script>
+<script th:src="@{/js/organization-scripts.js}"></script>

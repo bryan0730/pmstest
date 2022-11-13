@@ -2,15 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title templates</title>
+    <title>Forwiz-PMS</title>
+    <link th:href="@{/css/signin.css}" rel="stylesheet" />
 </head>
 <body>
-Templates
-<form th:action="@{/process-login}" method="post">
-    id : <input type="text" name="userid" id="userid">
-    pw : <input type="password" name="userpw" id="userpw">
-    <button type="submit">loginsss</button>
-</form>
-<span th:text="${session.errmsg}" style="color: red"></span>
+<div class="center">
+    <h1>Login</h1>
+    <form th:action="@{/process-login}" method="post">
+        <div class="txt_field">
+            <input type="text" name="userid" required>
+            <span></span>
+            <label>Username</label>
+        </div>
+        <div class="txt_field">
+            <input type="password" name="userpw" required>
+            <span></span>
+            <label>Password</label>
+        </div>
+        <input type="submit" value="Login">
+    </form>
+    <span th:text="${session.errmsg}" style="color: red"></span>
+</div>
+
 </body>
 </html>

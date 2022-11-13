@@ -63,6 +63,12 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public PmsUser findById(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("no search member"));
+    }
+
     @PostConstruct
     @Transactional
     public void init(){
