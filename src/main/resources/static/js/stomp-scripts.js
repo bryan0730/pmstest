@@ -19,6 +19,12 @@ $(document).ready(function() {
         $(".nav-modal-cover").removeClass("active");
     });
 
+    $(".message_modal_cover").hover(function () {
+        $(".nav-modal-cover").addClass("active");
+    }, function (){
+        $(".nav-modal-cover").removeClass("active");
+    });
+
     $(".nav-link").on("click", function (){
         let userName = $(this).text().trim();
         receiver = $(this).find($('input:hidden')).val();
@@ -100,7 +106,7 @@ function showNotification(msg){
         "<div>" +
         "<div class='infd-message-cover checked unread'>" +
         "<a href='#' class='infd-message-el'>" +
-        " <span class='title text-truncate'>" +
+        " <span class='title text-truncate' onclick='location.href=/pms/message/"+JSON.parse(msg.body).messageId+"'>" +
             JSON.parse(msg.body).messageContent +
         "</span> <span class='date'>"+JSON.parse(msg.body).messageSenderName+"</span>" +
         "</a>" +

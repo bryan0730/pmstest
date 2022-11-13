@@ -37,13 +37,14 @@
                                 <div th:each="msg, stat : ${messageList}">
                                     <div class="infd-message-cover checked" th:classappend="${msg.messageState == '1'} ? 'unread' : ''">
                                         <a href="#" class="infd-message-el">
-                                            <span class="title text-truncate" th:text="${msg.messageContent}">[업데이트 소식] 10월 4주차 - 주간 학습 현황 카드 업데이트</span> <span class="date" th:text="${msg.messageSender}"></span>
+                                            <span class="title text-truncate" th:text="${msg.messageContent}" th:onclick="|location.href='@{/pms/message/{msgId}(msgId=${msg.messageId})}'|"></span>
+                                            <span class="date" th:text="${msg.messageSender}"></span>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="button-content">
-                                <a href="/messages">더 많은 알람 보기</a>
+                                <a th:href="@{/pms/message/receive}">더 많은 알람 보기</a>
                             </div>
                         </div>
                     </div>

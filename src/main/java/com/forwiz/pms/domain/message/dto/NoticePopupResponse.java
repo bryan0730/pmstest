@@ -8,11 +8,13 @@ import lombok.Setter;
 @Setter
 public class NoticePopupResponse {
 
+    private Long messageId;
     private String messageContent;
     private String messageSender;
     private String messageState;
 
     public NoticePopupResponse(Message message){
+        this.messageId = message.getMessageId();
         this.messageContent = message.getComments();
         this.messageSender = message.getSender().getUserName();
         this.messageState = message.getMessageState().getStatus();

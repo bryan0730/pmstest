@@ -73,7 +73,7 @@ ul {
     width: 400px;
     border-radius: 3px;
     background-color: #fff;
-    top: 64px;
+    top: 57px;
     right: -8px;
     z-index: 10;
     border: 1px solid #e0e0e0;
@@ -179,6 +179,7 @@ span {
     content: "";
     width: 24px;
     height: 24px;
+    background: #fff;
     top: -12px;
     right: 15px;
     transform: rotate(45deg);
@@ -197,4 +198,12 @@ span {
     font-weight: 700;
     font-size: 15px;
     text-decoration: none;
+}
+
+.button-container{
+    float: right;
+}
+
+.org-write-container{
+
 }
