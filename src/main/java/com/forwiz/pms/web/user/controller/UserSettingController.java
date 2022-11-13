@@ -7,8 +7,7 @@ import com.forwiz.pms.domain.organization.service.OrganizationService;
 import com.forwiz.pms.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,8 @@ public class UserSettingController {
 
         List<UserSettingResponse> userList = userService.findAllUser();
         model.addAttribute("userList", userList);
-
+        List<OrganizationListResponse> organizations = organizationService.selectOrganizationList();
+        model.addAttribute("organizations", organizations);
         return "user-setting";
     }
 
@@ -39,27 +39,19 @@ public class UserSettingController {
     public String delUser(@RequestBody List<Map<String, Long>> mapList){
 
         int delCount = userService.delUser(mapList);
-        String msg = delCount + "개 삭제완료 하였습니다.";
 
-        return msg;
+        return delCount + "개 삭제완료 하였습니다.";
     }
     /*
     redierct:/admin/settings
      */
-    @ResponseBody
+//    @ResponseBody
     @PostMapping("/join")
-    public ResponseEntity<UserDto> signUp(UserDto userDto){
+    public String signUp(UserDto userDto){
 
         UserDto resultDto = userService.signUp(userDto);
         log.info("result : {}", resultDto);
-        System.out.println("MyUserController.signUp");
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
-    }
 
-    @GetMapping("/join")
-    public String goSignUpPage(Model model){
-        List<OrganizationListResponse> organizations = organizationService.selectOrganizationList();
-        model.addAttribute("organizations", organizations);
-        return "sign-up";
+        return "redirect:/admin/user";
     }
 }
