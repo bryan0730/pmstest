@@ -1,13 +1,31 @@
 package com.forwiz.pms.domain.user.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import com.forwiz.pms.domain.board.entity.Board;
 import com.forwiz.pms.domain.message.entity.Message;
 import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.user.dto.Role;
-import lombok.*;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,6 +36,7 @@ import java.util.List;
 public class PmsUser {
 
     @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")
     private Long id;
 
@@ -50,6 +69,9 @@ public class PmsUser {
     @OneToMany(mappedBy = "sender", fetch = FetchType.LAZY)
     private List<Message> messages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "pmsUser", fetch = FetchType.LAZY)
+    private List<Board> boards = new ArrayList<>();
+    
     public void updateDelYN(boolean delYN) {
         this.userDeleteYN = delYN;
     }
