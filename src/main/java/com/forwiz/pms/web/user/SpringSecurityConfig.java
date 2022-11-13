@@ -29,6 +29,7 @@ public class SpringSecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/login-page","/sign-up", "/go-sign", "/no").anonymous()
+                .antMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/pms/**").hasAnyRole("ADMIN","USER")
                 .anyRequest().authenticated()
