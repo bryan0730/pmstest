@@ -13,15 +13,15 @@
     <th:block th:replace="fragment/setting-menu-button :: settingMenuBtnFragment"></th:block>
 
     <form th:action="@{/admin/organization/save}" method="post">
-        <div style="border: 1px solid black">
-            조직명 :
-            <input type="text" name="organizationName">
-            <button type="submit">등록</button>
+        <div class="org-write-container">
+            <label for="org-name-text" class="col-form-label">조직명:</label>
+            <input type="text" id="org-name-text" name="organizationName">
+            <button class="btn btn-outline-secondary btn-sm" type="submit">등록</button>
         </div>
     </form>
     <span th:text="${resultMsg}"></span>
-        <table id="orgTable">
-            <thead>
+        <table id="orgTable" class="table">
+            <thead class="table-light">
                 <tr>
                     <th>번호</th>
                     <th>코드</th>
@@ -42,18 +42,11 @@
             </tbody>
 
         </table>
-        <button name="delBtn" id="delBtn">del</button>
+        <div class="button-container">
+            <button class="btn btn-secondary" name="delBtn" id="delBtn">삭제</button>
+        </div>
 </div>
 
 
 </html>
 <script th:src="@{/js/organization-scripts.js}"></script>
-<style>
-    table {
-        width: 100%;
-        border: 1px solid #444444;
-    }
-    th, td {
-        border: 1px solid #444444;
-    }
-</style>
