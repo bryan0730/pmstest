@@ -27,7 +27,7 @@ public class NoticeInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView){
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, -7);
+        c.add(Calendar.DATE, -3);
         Date stDate = c.getTime();
 
         PmsUserDetails principal = (PmsUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
