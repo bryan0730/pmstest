@@ -58,7 +58,7 @@ dependencies {
 
 
 //(4)
-def querydslDir = 'src/main/generated'
+def querydslDir = "$buildDir/generated/querydsl"
 
 //(5)
 querydsl {
