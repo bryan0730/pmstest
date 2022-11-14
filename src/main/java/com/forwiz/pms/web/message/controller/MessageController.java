@@ -47,7 +47,9 @@ public class MessageController {
 
     @ResponseBody
     @PostMapping("/send")
-    public String saveMessage(@RequestBody MessageSaveRequest messageSaveRequest){
+    public String saveMessage(@ModelAttribute MessageSaveRequest messageSaveRequest){
+
+//        messageSaveRequest.getMessageFiles().forEach(a -> System.out.println(a.getOriginalFilename()));
 
         messageService.saveMessage(messageSaveRequest);
 

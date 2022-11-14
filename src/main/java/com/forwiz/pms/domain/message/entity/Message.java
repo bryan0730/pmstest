@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,8 +41,11 @@ public class Message {
     @Column
     private MessageState messageState;
 
+    @OneToMany(mappedBy = "message", fetch = FetchType.LAZY)
+    private List<MessageFile> messageFiles = new ArrayList<>();
+
     @Builder
-    public Message(Long messageId, PmsUser sender, PmsUser receiver, Date sendDate, String comments, MessageState messageState){
+    public Message(Long messageId, PmsUser sender, PmsUser receiver, Date sendDate, String comments, MessageState messageState, List<MessageFile> messageFiles){
         validatedAuthorityOfMessageCreation(sender, receiver);
         this.messageId = messageId;
         this.sender = sender;
@@ -48,6 +53,7 @@ public class Message {
         this.sendDate = sendDate;
         this.comments = comments;
         this.messageState = messageState;
+        this.messageFiles = messageFiles;
     }
 
     public void updateMessageState(MessageState messageState){

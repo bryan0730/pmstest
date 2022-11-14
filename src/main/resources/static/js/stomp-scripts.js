@@ -50,6 +50,16 @@ $(document).ready(function() {
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
 
+        let form = new FormData();
+        form.append("messageReceiver", receiver);
+        form.append("messageSender", $("#pmsUserId").val());
+        form.append("comment", $("#message-text").val());
+        form.append("sendDate", new Date());
+        let files = $("#msg-file")[0].files;
+        let fileArray = Array.from(files);
+        fileArray.forEach((file) => console.log(file.name));
+        fileArray.forEach((file) => form.append("messageFiles", file));
+
 
         let json = {
             "messageReceiver" : receiver,
@@ -57,18 +67,23 @@ $(document).ready(function() {
             "comment" : $("#message-text").val(),
             "sendDate" : new Date()
         };
+
         const jsonString = JSON.stringify(json);
         console.log(jsonString);
         $.ajax({
             url: "/pms/message/send",
             type: "POST",
-            data: jsonString,
+            data: form,
             beforeSend : function(xhr)
             {
                 xhr.setRequestHeader(header, token);
             },
             dataType: "text",
-            contentType:"application/json",
+            contentType:false,
+            processData:false,
+            cache:false,
+            enctype:'multipart/form-data',
+            // contentType:"application/json",
             success: function(data){
                 sendMessage();
                 alert(data);
