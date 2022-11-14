@@ -5,6 +5,7 @@
       layout:decorate="~{fragment/layout.html}">
 <head>
   <link th:href="@{/css/message.css}" rel="stylesheet" />
+  <link th:href="@{/css/message-detail.css}" rel="stylesheet" />
 </head>
 
 <div layout:fragment="content">
@@ -30,8 +31,11 @@
       <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" th:text="${messageDetails.comments}" readonly></textarea>
     </div>
     <div class="mb-3">
-      <label for="exampleFormControlInput2" class="form-label">첨부 파일 : </label>
-      <a th:each="msgFile : ${messageDetails.files}" th:href="|/attach/${msgFile.messageFileId}|" th:text="${msgFile.uploadFileName}"></a>
+      <label for="exampleFormControlInput2" class="form-label">첨부 파일 </label>
+      <div class="down_btn">
+        <a th:each="msgFile : ${messageDetails.files}" th:href="|/attach/${msgFile.messageFileId}|"><button th:text="${msgFile.uploadFileName}"></button></a>
+      </div>
+<!--      <a th:each="msgFile : ${messageDetails.files}"  th:text="${msgFile.uploadFileName}"></a>-->
     </div>
 
     <button th:if="${session.id.equals(messageDetails.receiverId)}" id="btn-msg-reply" type="button" class="btn btn-outline-secondary msg-reply-btn" data-bs-toggle="modal" data-bs-target="#msgModal">답장</button>
