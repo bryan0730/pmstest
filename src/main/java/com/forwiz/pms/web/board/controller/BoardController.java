@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,9 +23,12 @@ import com.forwiz.pms.domain.board.dto.BoardResponseDto;
 import com.forwiz.pms.domain.board.entity.Category;
 import com.forwiz.pms.domain.board.service.BoardService;
 import com.forwiz.pms.domain.file.service.FileService;
+import com.forwiz.pms.domain.user.dto.PmsUserDetails;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
@@ -137,6 +142,16 @@ public class BoardController {
 	public String update(@PathVariable Long boardId, Model model) {
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		List<BoardFileResponseDto> boardFileResponseDto = boardService.getFile(boardId);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
+		if (!(user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))){
+			try {
+				throw new Exception("작성자만 수정 가능 합니다.");
+			}catch (Exception e) {
+				model.addAttribute("message",e.getMessage());
+	            return "error/alert_and_back";
+			}
+		}
 		model.addAttribute("boardRequestDto", boardResponseDto);
 		model.addAttribute("boardFile", boardFileResponseDto);
 		return "board/update";
@@ -171,6 +186,14 @@ public class BoardController {
 		boardService.updateViewCount(boardId);
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		List<BoardFileResponseDto> boardFileResponseDto = boardService.getFile(boardId);
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
+		if ((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))) {
+			model.addAttribute("isWriter",true);
+		}
+		log.info("현재 로그인 유저 id : {}", user.getPmsUser().getUserId());
+		log.info("게시물 작성자 id : {}", boardResponseDto.getUserId());
 		model.addAttribute("boardFile", boardFileResponseDto);
 		model.addAttribute("boardDto", boardResponseDto); // th:object="${boardDto}"
 

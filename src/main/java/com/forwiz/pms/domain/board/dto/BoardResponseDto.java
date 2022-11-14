@@ -23,17 +23,19 @@ public class BoardResponseDto {
 	private LocalDateTime uptDate;
 	private Long viewCount;
 	private String userName;
+	private String userId;
 	private List<MultipartFile> multipartFile;
 	
 	
 	@Builder
-	public BoardResponseDto(Long id, String title, Category category, String content, String userName, LocalDateTime regDate) {
+	public BoardResponseDto(Long id, String title, Category category, String content, String userName, LocalDateTime regDate, String userId) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
 		this.content = content;
 		this.userName = userName;
 		this.regDate = regDate;
+		this.userId = userId;
 	}
 	
 	// querydsl Select 대상을 지정

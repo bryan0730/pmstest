@@ -14,7 +14,8 @@
 </head>
 
 <div layout:fragment="content" class="content">
-	<form th:action="@{'/pms/board/update/' + *{id}}" th:object="${boardRequestDto}" method="post" enctype="multipart/form-data">
+	<form th:action="@{'/pms/board/update/' + *{id}}" th:object="${boardRequestDto}" method="post"
+		enctype="multipart/form-data">
 		<input type="hidden" name="_method" value="put" />
 		<input type="hidden" id="boardId" name="id" th:value="*{id}" />
 		<article>
@@ -74,9 +75,9 @@
 				</div>
 				<br>
 				<div>
-					<button type="submit" class="btn btn-sm btn-primary" id="btnSave">수정</button>
+					<button type="submit" class="btn btn-sm btn-primary" id="btnSave">등록</button>
 					<a href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}" class="delete btn btn-sm btn btn-danger"
-						th:text="삭제"></a> <a href="javascript:history.back();">이전 페이지로 이동</a>
+						th:text="삭제"></a> <a class="btn btn-sm btn-primary" href="javascript:history.back();">이전 페이지로 이동</a>
 					</button>
 				</div>
 			</div>

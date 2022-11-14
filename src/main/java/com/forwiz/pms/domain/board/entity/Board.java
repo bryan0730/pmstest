@@ -44,6 +44,8 @@ public class Board {
 	private Category category;// 카테고리 [NOTICE, WORK]
 
 	private String title; // 제목
+	
+	@Column(length = 3000)
 	private String content; // 내용	
 
 	@CreatedDate

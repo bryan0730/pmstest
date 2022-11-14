@@ -34,6 +34,7 @@ public class BoardRequestDto {
 	private LocalDateTime uptDate; // 수정 날짜
 	private Long viewCount; // 조회수
 	private String username; // 사용자 이름
+	private String userId;
 	private List<MultipartFile> multipartFile;
 
 	

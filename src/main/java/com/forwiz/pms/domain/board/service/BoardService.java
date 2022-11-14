@@ -82,6 +82,7 @@ public class BoardService {
 		.category(board.getCategory())
 		.content(board.getContent())
 		.regDate(board.getRegDate())
+		.userId(board.getPmsUser().getUserId())
 		.build();
 		
 		return boardResponseDto;
