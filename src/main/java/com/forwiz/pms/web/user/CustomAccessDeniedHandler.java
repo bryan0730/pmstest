@@ -18,8 +18,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
         response.setStatus(HttpStatus.FORBIDDEN.value());
 
-        request.setAttribute("msg", "접근권한없음");
-        request.setAttribute("nextPage", "pms");
+        request.setAttribute("msg", "해당 페이지에 접근 또는 엑세스할 수 있는 권한이 없습니다.");
+        request.setAttribute("nextPage", "pms/board/notice");
 
         request.getRequestDispatcher("/err/denied-page").forward(request,response);
     }

@@ -17,7 +17,7 @@ public class PmsUserController {
 
     @GetMapping("/err/denied-page")
     public String goDenied(){
-        return "denied";
+        return "error/denied";
     }
 
 }
