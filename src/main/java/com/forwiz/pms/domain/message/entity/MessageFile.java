@@ -33,7 +33,7 @@ public class MessageFile {
     private String fileContentType;
 
     @CreatedDate
-    private LocalDateTime regDate;
+    private LocalDateTime regDate = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="message_id", nullable = false)

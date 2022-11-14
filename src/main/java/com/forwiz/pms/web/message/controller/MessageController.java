@@ -4,16 +4,22 @@ import com.forwiz.pms.domain.message.dto.MessageDetailResponse;
 import com.forwiz.pms.domain.message.dto.MessageReceiveListResponse;
 import com.forwiz.pms.domain.message.dto.MessageSaveRequest;
 import com.forwiz.pms.domain.message.dto.MessageSendListResponse;
+import com.forwiz.pms.domain.message.entity.UploadFile;
 import com.forwiz.pms.domain.message.service.MessageService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Slf4j
@@ -47,7 +53,7 @@ public class MessageController {
 
     @ResponseBody
     @PostMapping("/send")
-    public String saveMessage(@ModelAttribute MessageSaveRequest messageSaveRequest){
+    public String saveMessage(@ModelAttribute MessageSaveRequest messageSaveRequest) throws IOException {
 
 //        messageSaveRequest.getMessageFiles().forEach(a -> System.out.println(a.getOriginalFilename()));
 

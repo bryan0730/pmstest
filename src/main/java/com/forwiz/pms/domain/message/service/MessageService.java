@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -26,9 +27,10 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserService userService;
+    private final MessageFileService messageFileService;
 
     @Transactional
-    public void saveMessage(MessageSaveRequest messageSaveRequest) {
+    public void saveMessage(MessageSaveRequest messageSaveRequest) throws IOException {
 
         PmsUser sender = userService.findById(messageSaveRequest.getMessageSender());
         PmsUser receiver = userService.findById(messageSaveRequest.getMessageReceiver());
@@ -40,7 +42,9 @@ public class MessageService {
                 .receiver(receiver)
                 .messageState(MessageState.UNREAD)
                 .build();
-        messageRepository.save(message);
+        Message savedMessage = messageRepository.save(message);
+
+        messageFileService.saveMessageFile(savedMessage, messageSaveRequest.getMessageFiles());
     }
 
     @Transactional(readOnly = true)
@@ -95,6 +99,8 @@ public class MessageService {
 
         return new MessageDetailResponse(messageInfo);
     }
+
+
     private Predicate<Long> isSameId(Long id){
         return (param) -> param.equals(id);
     }
