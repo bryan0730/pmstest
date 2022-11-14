@@ -1,12 +1,10 @@
 package com.forwiz.pms.domain.menusetting.dto;
 
-import com.forwiz.pms.domain.menusetting.dto.MenuMapperType;
-
 public enum MenuUrl implements MenuMapperType {
 
     NOTICE_BOARD("공지 게시판","/pms/board/notice"),
-    BUSINESS_BOARD("업무 게시판","/pms/board/business"),
-    MESSAGE("메시지","/pms/message"),
+    BUSINESS_BOARD("업무 게시판","/pms/board/work"),
+    MESSAGE("메시지","/pms/message/receive"),
     USER_SETTING("사용자 관리","/admin/user"),
     ORG_SETTING("조직 관리","/admin/organization"),
     MENU_SETTING("메뉴 관리","/admin/menu")
