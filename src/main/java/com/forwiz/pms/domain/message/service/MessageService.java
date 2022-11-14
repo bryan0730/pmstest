@@ -44,7 +44,9 @@ public class MessageService {
                 .build();
         Message savedMessage = messageRepository.save(message);
 
-        messageFileService.saveMessageFile(savedMessage, messageSaveRequest.getMessageFiles());
+        if (messageSaveRequest.getMessageFiles()!=null){
+            messageFileService.saveMessageFile(savedMessage, messageSaveRequest.getMessageFiles());
+        }
     }
 
     @Transactional(readOnly = true)
