@@ -2,6 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="fragment/layout">
 <div layout:fragment="content" class="content">
+	<h1 class="mt-4">Board</h1>
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item">Board</li>
+		<li class="breadcrumb-item active">Notice</li>
+	</ol>
 	<form th:action th:object="${form}" method="get">
 		<nav class="container">
 			<br>
@@ -41,7 +46,7 @@
 						<td th:text="${totalCount - (size * number) - index.index}"></td>
 						<!-- <td th:text="${index.count}"></td> -->
 						<td>
-							<a th:text="${list.title}" th:href="@{/detail/{boardId}(boardId=${list.id})}"></a>
+							<a th:text="${list.title}" th:href="@{/pms/board/detail/{boardId}(boardId=${list.id})}"></a>
 						</td>
 						<td th:text="${list.userName}"></td>
 						<td th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
@@ -52,7 +57,7 @@
 			<br>
 
 			<div class="d-flex justify-content-end">
-				<a href="/write" class="btn btn-primary">글쓰기</a>
+				<a th:href="@{/pms/board/write}" class="btn btn-primary">글쓰기</a>
 			</div>
 			<br>
 			<!-- th:with 으로 start, end 변수를 정의	 -->
@@ -62,31 +67,31 @@
 				<ul class="pagination">
 					<!-- '<' '<<' -->
 					<li th:if="${start > 1}" class="page-item">
-						<a th:href="@{/notice/?(page=0, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous"> <span
+						<a th:href="@{/pms/board/notice/?(page=0, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous"> <span
 								aria-hidden="true">&laquo;&laquo;</span>
 						</a>
 					</li>
 
 					<li th:if="${start > 1}" class="page-item">
-						<a th:href="@{/notice/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#"
+						<a th:href="@{/pms/board/notice/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#"
 							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
 					<!--페이지 네비게이션 바 숫자들을 넣는 로직이다. #number.sequence를 이용하면 start 부터 end 까지 숫자를 하나씩 올려가며 넣을 수 있다.   -->
 					<li th:each="page: ${#numbers.sequence(start, end)}" class="page-item"
 						th:classappend="${list.number+1 == page} ? active">
-						<a th:href="@{/notice/?(page=${page-1}, searchVal=${searchVal})}" th:text="${page}" class="page-link" href="#">1</a>
+						<a th:href="@{/pms/board/notice/?(page=${page-1}, searchVal=${searchVal})}" th:text="${page}" class="page-link" href="#">1</a>
 					</li>
 
 					<!-- '>' '>>' -->
 					<li th:if="${end < list.totalPages}" class="page-item">
-						<a th:href="@{/notice/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link" href="#"
+						<a th:href="@{/pms/board/notice/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link" href="#"
 							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>
 
 					<li th:if="${end < list.totalPages}" class="page-item">
-						<a th:href="@{/notice/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#"
+						<a th:href="@{/pms/board/notice/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#"
 							aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span>
 						</a>
 					</li>

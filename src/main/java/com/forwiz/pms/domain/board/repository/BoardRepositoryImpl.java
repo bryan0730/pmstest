@@ -2,7 +2,7 @@ package com.forwiz.pms.domain.board.repository;
 
 import static com.forwiz.pms.domain.board.entity.QBoard.board;
 import static com.forwiz.pms.domain.board.entity.QBoardFile.boardFile;
-import static com.forwiz.pms.domain.user.entity.QPmsUser.pmsUser;
+
 import static com.forwiz.pms.domain.board.dto.QBoardSubSelect.boardSubSelect;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +18,7 @@ import com.forwiz.pms.domain.board.dto.BoardFileResponseDto;
 import com.forwiz.pms.domain.board.dto.BoardResponseDto;
 import com.forwiz.pms.domain.board.dto.BoardSubSelect;
 import com.forwiz.pms.domain.board.dto.QBoardFileResponseDto;
-import com.forwiz.pms.domain.board.dto.QBoardResponseDto;
-import com.forwiz.pms.domain.board.dto.QBoardSubSelect;
+
 import com.forwiz.pms.domain.board.entity.Category;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

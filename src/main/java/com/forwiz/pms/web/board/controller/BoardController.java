@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardController {
 
-//	private final CustomBoardRepository customBoardRepository;
 	private final BoardService boardService;
 	private final FileService fileService;
 
@@ -43,17 +42,14 @@ public class BoardController {
 	 * 
 	 * @Method : main
 	 */
-//	@GetMapping("/board")
-//	public String main() {
-//		return "views/content";
-//	}
+
 
 	/**
 	 * 공지 게시판 목록화면
 	 * 
 	 * @Method : noticeList
 	 */
-	@GetMapping("/notice")
+	@GetMapping("/pms/board/notice")
 	public String noticeList(String searchVal, Pageable pageable, Model model) {
 		Category category = Category.NOTICE;
 		Page<BoardResponseDto> results = boardService.selectBoardList(searchVal, pageable, category);
@@ -67,7 +63,7 @@ public class BoardController {
 	 * 
 	 * @Method : workList
 	 */
-	@GetMapping("/work")
+	@GetMapping("/pms/board/work")
 	public String workList(String searchVal, Pageable pageable, Model model) {
 		Category category = Category.WORK;
 		Page<BoardResponseDto> results = boardService.selectBoardList(searchVal, pageable, category);
@@ -105,7 +101,7 @@ public class BoardController {
 	 * 
 	 * @Method : write
 	 */
-	@GetMapping("/write")
+	@GetMapping("/pms/board/write")
 	public String write(Model model) {
 		// response
 		model.addAttribute("boardRequestDto", new BoardResponseDto());
@@ -117,7 +113,7 @@ public class BoardController {
 	 * 
 	 * @Method : save
 	 */
-	@PostMapping("/write")
+	@PostMapping("/pms/board/write")
 	public String save(@Valid BoardRequestDto boardRequestDto, BindingResult result) throws Exception {
 		// 유효성 검사
 		if (result.hasErrors()) { // 오류가 있을경우 다시 글쓰기 화면으로
@@ -127,9 +123,9 @@ public class BoardController {
 		boardService.saveBoard(boardRequestDto);
 
 		if (boardRequestDto.getCategory() == Category.NOTICE) {
-			return "redirect:/notice";
+			return "redirect:/pms/board/notice";
 		}
-		return "redirect:/work";
+		return "redirect:/pms/board/work";
 	}
 
 	/**
@@ -137,7 +133,7 @@ public class BoardController {
 	 * 
 	 * @Method : update (Get)
 	 */
-	@GetMapping("/update/{boardId}")
+	@GetMapping("/pms/board/update/{boardId}")
 	public String update(@PathVariable Long boardId, Model model) {
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		List<BoardFileResponseDto> boardFileResponseDto = boardService.getFile(boardId);
@@ -151,7 +147,7 @@ public class BoardController {
 	 * 
 	 * @Method : update
 	 */
-	@PostMapping("/update/{boardId}")
+	@PostMapping("/pms/board/update/{boardId}")
 	public String update(@Valid BoardRequestDto boardRequestDto, BindingResult result) throws Exception {
 		// 유효성검사
 		if (result.hasErrors()) {
@@ -159,9 +155,9 @@ public class BoardController {
 		}
 		boardService.saveBoard(boardRequestDto);
 		if (boardRequestDto.getCategory() == Category.NOTICE) {
-			return "redirect:/notice";
+			return "redirect:/pms/board/notice";
 		}
-		return "redirect:/work";
+		return "redirect:/pms/board/work";
 	}
 
 	/**
@@ -169,7 +165,7 @@ public class BoardController {
 	 * 
 	 * @Method : detail
 	 */
-	@GetMapping("/detail/{boardId}")
+	@GetMapping("/pms/board/detail/{boardId}")
 	public String detail(@PathVariable Long boardId, Model model) {
 		// response
 		boardService.updateViewCount(boardId);
@@ -191,9 +187,9 @@ public class BoardController {
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		boardService.deleteBoard(boardId);
 		if (boardResponseDto.getCategory() == Category.NOTICE) {
-			return "redirect:/notice";
+			return "redirect:/pms/board/notice";
 		}
-		return "redirect:/work";
+		return "redirect:/pms/board/work";
 		// TODO: 화면 이동 어떻게 바꿀수??
 		// 화면이동 코드 중복되는게 많다
 	}

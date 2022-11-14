@@ -13,10 +13,7 @@ public class PmsUserController {
         return "login";
     }
 
-    @GetMapping("/pms/board")
-    public String goPms(){
-        return "pms";
-    }
+
 
     @GetMapping("/err/denied-page")
     public String goDenied(){

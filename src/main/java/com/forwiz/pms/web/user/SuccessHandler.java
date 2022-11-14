@@ -44,6 +44,6 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         session.setAttribute("groupname", groupname);
         session.setAttribute("role", role.getDescription());
 
-        response.sendRedirect("/pms/board");
+        response.sendRedirect("/pms/board/notice");
     }
 }

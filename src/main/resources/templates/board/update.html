@@ -14,7 +14,7 @@
 </head>
 
 <div layout:fragment="content" class="content">
-	<form th:action="@{'/update/' + *{id}}" th:object="${boardRequestDto}" method="post" enctype="multipart/form-data">
+	<form th:action="@{'/pms/board/update/' + *{id}}" th:object="${boardRequestDto}" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="_method" value="put" />
 		<input type="hidden" id="boardId" name="id" th:value="*{id}" />
 		<article>
@@ -37,8 +37,8 @@
 				<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 					<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 				</div>
-				<label for="title">제목</label>
-				<input type="text" th:field="*{title}" rows="10" class="form-control">
+				<label for="board-title">제목</label>
+				<input type="text" id="board-title" th:field="*{title}" rows="10" class="form-control">
 				<br>
 				카테고리
 				<div th:each="type : ${categorys}" class="form-check form-check-inline mb-3">
