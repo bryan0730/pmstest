@@ -15,6 +15,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "order by m.messageId desc ")
     List<Message> findByReceiverAndSendDateOrderByMessageId(PmsUser receiver, Date referenceTime);
     int countByMessageStateAndReceiver(MessageState messageState, PmsUser receiverId);
-    List<Message> findByReceiver(PmsUser receiver);
-    List<Message> findBySender(PmsUser sender);
+    List<Message> findByReceiverOrderByMessageIdDesc(PmsUser receiver);
+    List<Message> findBySenderOrderByMessageIdDesc(PmsUser sender);
 }

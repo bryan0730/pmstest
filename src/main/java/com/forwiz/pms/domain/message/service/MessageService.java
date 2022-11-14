@@ -62,7 +62,7 @@ public class MessageService {
 
         PmsUser receiver = getUserInfo(authentication);
 
-        return messageRepository.findByReceiver(receiver)
+        return messageRepository.findByReceiverOrderByMessageIdDesc(receiver)
                 .stream()
                 .map(MessageReceiveListResponse::new)
                 .collect(Collectors.toList());
@@ -73,7 +73,7 @@ public class MessageService {
 
         PmsUser sender = getUserInfo(authentication);
 
-        return messageRepository.findBySender(sender)
+        return messageRepository.findBySenderOrderByMessageIdDesc(sender)
                 .stream()
                 .map(MessageSendListResponse::new)
                 .collect(Collectors.toList());
