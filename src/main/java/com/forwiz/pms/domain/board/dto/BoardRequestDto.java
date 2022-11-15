@@ -35,6 +35,7 @@ public class BoardRequestDto {
 	private Long viewCount; // 조회수
 	private String username; // 사용자 이름
 	private String userId;
+	private String boardScope;
 	private List<MultipartFile> multipartFile;
 
 	
@@ -45,6 +46,7 @@ public class BoardRequestDto {
 				.title(title)
 				.category(category)
 				.content(content)
+				.boardScope(boardScope)
 				.build();
 	}
 }

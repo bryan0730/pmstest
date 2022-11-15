@@ -83,6 +83,7 @@ public class BoardService {
 		.content(board.getContent())
 		.regDate(board.getRegDate())
 		.userId(board.getPmsUser().getUserId())
+		.boardScope(board.getBoardScope())
 		.build();
 		
 		return boardResponseDto;
@@ -104,7 +105,10 @@ public class BoardService {
 	 * @Method : selectBoardList
 	 */
 	public Page<BoardResponseDto> selectBoardList(String searchVal, Pageable pageable, Category category) {
-		return customBoardRepository.selectBoardList(searchVal, pageable, category);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
+		String organizationName = user.getPmsUser().getOrganization().getOrganizationName();
+		return customBoardRepository.selectBoardList(searchVal, pageable, category, organizationName);
 	}
 
 	/**

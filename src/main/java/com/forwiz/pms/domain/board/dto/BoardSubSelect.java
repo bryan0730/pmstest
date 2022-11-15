@@ -28,6 +28,7 @@ import lombok.Getter;
     + ", b.category"
     + ", b.reg_date"
     + ", b.view_count"
+    + ", b.board_scope"
     + ", p.user_name "
     + "from board b "
     + "left outer join pms_user p on b.id = p.id"
@@ -62,5 +63,8 @@ public class BoardSubSelect {
     
     @Column(name = "user_name")
     private String userName;
+
+    @Column(name = "board_scope")
+    private String boardScope;
     
 }

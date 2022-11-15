@@ -59,6 +59,9 @@ public class Board {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
 	private PmsUser pmsUser; // 작성자
+	
+	@Column
+	private String boardScope;	//공개범위
 
 	public Board update(String title, Category category, String content) {
 		this.title = title;
@@ -68,12 +71,13 @@ public class Board {
 	}
 
 	@Builder
-	public Board(String title, Category category, String content, PmsUser pmsUser) {
+	public Board(String title, Category category, String content, PmsUser pmsUser, String boardScope) {
 		this.title = title;
 		this.category = category;
 		this.content = content;
 		this.viewCount = 0L;
 		this.pmsUser = pmsUser;
+		this.boardScope = boardScope;
 	}
 
 	public Board updateViewCount(Long viewCount) {

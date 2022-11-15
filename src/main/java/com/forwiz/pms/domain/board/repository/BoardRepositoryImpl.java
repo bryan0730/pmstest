@@ -38,10 +38,11 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
 
 	//게시판 목록
 	@Override
-	public Page<BoardResponseDto> selectBoardList(String searchVal, Pageable pageable, Category category) {
+	public Page<BoardResponseDto> selectBoardList(String searchVal, Pageable pageable, Category category, String organizationName) {
 		long startPage = pageable.getOffset();
 		long pageSize = pageable.getPageSize();
-		List<BoardSubSelect> content = getBoardDtos(searchVal, pageable, category, startPage, pageSize);
+		
+		List<BoardSubSelect> content = getBoardDtos(searchVal, pageable, category, startPage, pageSize, organizationName);
 		List<BoardResponseDto> boardList = content.stream()
 				.map(BoardResponseDto::new)
 				.collect(Collectors.toList());
@@ -72,13 +73,14 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
 	}
 
 	//게시판 페이징 목록
-	private List<BoardSubSelect> getBoardDtos(String searchVal, Pageable pageable, Category category, long startPage, long pageSize){
+	private List<BoardSubSelect> getBoardDtos(String searchVal, Pageable pageable, Category category, long startPage, long pageSize, String organizationName){
         List<BoardSubSelect> content = jpaQueryFactory
         		.selectFrom(boardSubSelect)
         		.where(boardSubSelect.rowNum.gt(startPage))	//페이지 범위 어떻게 받아올수 있을까??
         		.where(boardSubSelect.rowNum.lt(startPage + pageSize+1))
         		.where(boardSubSelect.category.eq(category))
         		.where(containsSearchList(searchVal))
+        		.where(boardSubSelect.boardScope.eq(organizationName).or(boardSubSelect.boardScope.eq("전체")))
         		.fetch();
         
         // oracle 아닐경우
