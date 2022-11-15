@@ -49,7 +49,7 @@
 					</div>
 				</div>
 				<br>
-				<a th:if="${isWriter}" class="btn btn-sm btn-danger" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
+				<a th:if="${isWriter}" class="delete btn btn-sm btn-danger" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
 				<a th:if="${isWriter}" class="btn btn-sm btn-primary" th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a>
 				<a class="btn btn-sm btn-primary" href="javascript:history.back();">이전 페이지로 이동</a>
 			</div>
