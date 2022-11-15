@@ -45,7 +45,7 @@ public class Board {
 
 	private String title; // 제목
 	
-	@Column(length = 3000)
+	@Column(length = 5000)
 	private String content; // 내용	
 
 	@CreatedDate
