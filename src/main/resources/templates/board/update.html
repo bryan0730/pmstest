@@ -33,6 +33,14 @@
 					<label th:for="${#ids.prev('category')}" th:text="${type.description}" class="form-check-label"> </label>
 				</div>
 				<br>
+				공개범위
+				<div class="form-check form-check-inline mb-3">
+					<input type="radio" th:field="*{boardScope}" name="boardScope" value="전체" id="boardScope1" class="form-check-input">
+					<label for="boardScope1" class="form-check-label">전체</label>
+				</div><div class="form-check form-check-inline mb-3">
+					<input type="radio" th:field="*{boardScope}" name="boardScope" th:value="${session.groupname}" id="boardScope2" class="form-check-input">
+					<label for="boardScope2" class="form-check-label">조직</label>
+				</div>
 				<br>
 				<div class="mb-3">
 					<label for="content">내용</label>

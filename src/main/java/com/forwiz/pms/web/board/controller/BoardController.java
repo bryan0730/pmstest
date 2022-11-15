@@ -192,6 +192,7 @@ public class BoardController {
 		if ((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))) {
 			model.addAttribute("isWriter",true);
 		}
+		log.info("현재 로그인 유저 조직 : {}", user.getPmsUser().getOrganization().getOrganizationName());
 		log.info("현재 로그인 유저 id : {}", user.getPmsUser().getUserId());
 		log.info("게시물 작성자 id : {}", boardResponseDto.getUserId());
 		model.addAttribute("boardFile", boardFileResponseDto);

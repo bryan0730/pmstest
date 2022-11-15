@@ -15,7 +15,7 @@ public interface CustomBoardRepository {
 	 
 	//게시판 페이징 처리된 리스트 목록
 	
-	Page<BoardResponseDto> selectBoardList(String searchVal, Pageable pageable, Category category);
+	Page<BoardResponseDto> selectBoardList(String searchVal, Pageable pageable, Category category, String organizationName);
 
 	//게시판 상세 첨부파일 조회
 	List<BoardFileResponseDto> selectBoardFileDetail(Long boardId);

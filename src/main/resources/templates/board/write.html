@@ -29,6 +29,15 @@
 					<label th:for="${#ids.prev('category')}" th:text="${type.description}" class="form-check-label"> </label>
 				</div>
 				<br>
+				공개범위
+				<div class="form-check form-check-inline mb-3">
+					<input type="radio" name="boardScope" value="전체" id="boardScope1" class="form-check-input" checked="checked">
+					<label for="boardScope1" class="form-check-label">전체</label>
+				</div><div class="form-check form-check-inline mb-3">
+					<input type="radio" name="boardScope" th:value="${session.groupname}" id="boardScope2" class="form-check-input">
+					<label for="boardScope2" class="form-check-label">조직</label>
+				</div>
+				<br>
 				<div class="mb-3">
 					<label for="content">내용</label>
 					<div class="textLengthWrap">
@@ -67,7 +76,7 @@ $('#content').keyup(function (e) {
     
     // 글자수 제한
     if (content.length > 5000) {
-        $(this).val($(this).val().substring(0, 200));
+        $(this).val($(this).val().substring(0, 5000));
         alert('글자수는 5000자까지 입력 가능합니다.');
     };
 });
