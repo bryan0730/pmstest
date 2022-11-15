@@ -22,6 +22,7 @@ public class MessageFileStore {
     }
 
     public List<UploadFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException{
+
         List<UploadFile> storeFileList = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()){
@@ -33,6 +34,7 @@ public class MessageFileStore {
     }
 
     public UploadFile storeFile(MultipartFile multipartFile) throws IOException{
+
         if (multipartFile.isEmpty()){
             return null;
         }
@@ -54,12 +56,17 @@ public class MessageFileStore {
     }
 
     private String createStoreFileName(String originFileName){
+
         String ext = extractExt(originFileName);
         String uuid = UUID.randomUUID().toString();
-        return uuid + "." + ext;
+
+        String crackedExt = ext.substring(0,1);
+
+        return uuid + "." + crackedExt;
     }
 
     private String extractExt(String originFileName){
+
         int pos = originFileName.lastIndexOf(".");
         return originFileName.substring(pos+1);
     }

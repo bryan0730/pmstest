@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     private final SidebarInfoInterceptor sidebarInfoInterceptor;
     private final NoticeInterceptor noticeInterceptor;
+    private final FileExtentionChangeInterceptor fileExtentionChangeInterceptor;
 
     @Bean
     public MenuMapper menuMapper(){
@@ -37,5 +38,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/css/**", "/js/**", "/assets/**"
                 );
+        registry.addInterceptor(fileExtentionChangeInterceptor)
+                .order(3)
+                .addPathPatterns("/attach/*")
+                .excludePathPatterns("/css/**", "/js/**", "/assets/**");
     }
 }

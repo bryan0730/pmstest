@@ -1,5 +1,6 @@
 package com.forwiz.pms.domain.message.service;
 
+import com.forwiz.pms.domain.message.dto.MessageFileInfoResponse;
 import com.forwiz.pms.domain.message.entity.Message;
 import com.forwiz.pms.domain.message.entity.MessageFile;
 import com.forwiz.pms.domain.message.entity.UploadFile;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
@@ -48,10 +50,9 @@ public class MessageFileService {
             messageFileRepository.save(messageFile);
         }
     }
-
     @Transactional(readOnly = true)
-    public ResponseEntity<Resource> findByMessageFileId(Long fileId) throws MalformedURLException {
-        
+    public MessageFileInfoResponse messageFileDownload(Long fileId) throws MalformedURLException {
+
         MessageFile messageFile = messageFileRepository.findById(fileId).orElseThrow(IllegalArgumentException::new);
 
         Long receiverId = messageFile.getMessage().getReceiver().getId();
@@ -63,16 +64,18 @@ public class MessageFileService {
             throw new NoFileDownloadAuthException();
         }
 
-        String storeFileName = messageFile.getStoreFileName();
+        String storeFileName = messageFile.getStoreFileName(); //   test.t
         String uploadFileName = messageFile.getUploadFileName();
 
-        UrlResource resource = new UrlResource("file:" + messageFileStore.getFullPath(storeFileName));
+        int idx = storeFileName.lastIndexOf(".");
+        String originFileName = storeFileName.substring(0,idx); //확장자 제거한 uuid 파일명
+        String originExtFullName = originFileName+"."+messageFile.getExtension(); //원래 확장자 붙인 파일명
 
-        String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);
-        String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
+        File serverFile = new File(messageFileStore.getFullPath(storeFileName)); // C:/study/file/test.t
+        serverFile.renameTo(new File(messageFileStore.getFullPath(originExtFullName)));// C:/study/file/test.txt
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
-                .body(resource);
+        UrlResource resource = new UrlResource("file:" + messageFileStore.getFullPath(originExtFullName));
+
+        return new MessageFileInfoResponse(resource, originExtFullName, storeFileName, uploadFileName);
     }
 }
