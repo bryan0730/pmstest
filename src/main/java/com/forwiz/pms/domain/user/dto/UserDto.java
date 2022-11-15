@@ -3,6 +3,9 @@ package com.forwiz.pms.domain.user.dto;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -10,19 +13,23 @@ import lombok.*;
 @Builder
 public class UserDto {
 
+    @NotBlank
     private String userId;
-
+    @NotBlank
     private String userPw;
-
+    @NotBlank
     private String userGroup;
 
+    @NotBlank
     private String userName;
+
     private Role auth;
 
+    @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$", message = "핸드폰 번호의 양식과 맞지 않습니다. 01x-xxxx-xxxx")
     private String userPhoneNumber;
 
+    @NotBlank
     private String userRank;
-
 
 //  Dto -> Entity
     public PmsUser toEntity(){

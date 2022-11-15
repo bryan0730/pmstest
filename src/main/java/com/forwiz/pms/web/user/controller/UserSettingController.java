@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -42,12 +43,9 @@ public class UserSettingController {
 
         return delCount + "개 삭제완료 하였습니다.";
     }
-    /*
-    redierct:/admin/settings
-     */
-//    @ResponseBody
+
     @PostMapping("/join")
-    public String signUp(UserDto userDto){
+    public String signUp(@Valid UserDto userDto){
 
         UserDto resultDto = userService.signUp(userDto);
         log.info("result : {}", resultDto);

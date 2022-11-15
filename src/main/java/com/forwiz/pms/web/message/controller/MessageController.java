@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -53,7 +54,7 @@ public class MessageController {
 
     @ResponseBody
     @PostMapping("/send")
-    public String saveMessage(@ModelAttribute MessageSaveRequest messageSaveRequest) throws IOException {
+    public String saveMessage(@ModelAttribute @Valid MessageSaveRequest messageSaveRequest) throws IOException {
 
 //        messageSaveRequest.getMessageFiles().forEach(a -> System.out.println(a.getOriginalFilename()));
 
