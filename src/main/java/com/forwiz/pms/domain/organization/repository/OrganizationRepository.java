@@ -9,13 +9,12 @@ import java.util.Optional;
 
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
 
-    Optional<Organization> findByOrganizationName(String id);
+    Optional<Organization> findByOrganizationNameAndOrganizationDelete(String id, boolean organizationDelete);
 
     List<Organization> findByOrganizationDelete(boolean delYN);
 
-    @Query("select distinct o from Organization o left join fetch o.pmsUsers " +
-            "where o.organizationDelete = ?1 and o.organizationName<>'DEFAULT'")
+    @Query("select distinct o from Organization o left join fetch o.pmsUsers p where o.organizationDelete = ?1 and o.organizationName<>'DEFAULT' and p.userDeleteYN = false ")
     List<Organization> findSidebarInfoList(boolean delYN);
 
-    Long countByOrganizationName(String organizationName);
+    Long countByOrganizationNameAndOrganizationDelete(String organizationName, boolean organizationDelete);
 }

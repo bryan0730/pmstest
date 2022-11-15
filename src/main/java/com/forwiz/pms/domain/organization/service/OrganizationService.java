@@ -28,7 +28,7 @@ public class OrganizationService {
 
     @Transactional(readOnly = true)
     public Organization findById(String name){
-        return organizationRepository.findByOrganizationName(name)
+        return organizationRepository.findByOrganizationNameAndOrganizationDelete(name, false)
                 .orElseThrow(() -> new EntityNotFoundException("not found entity"));
     }
 
@@ -73,7 +73,7 @@ public class OrganizationService {
 
 
     private Long organizationNameDuplicateCheck(String organizationName){
-        Long rowCount = organizationRepository.countByOrganizationName(organizationName);
+        Long rowCount = organizationRepository.countByOrganizationNameAndOrganizationDelete(organizationName, false);
         log.info("orgName duplicated check method ::::: row count : {}", rowCount);
 
         return rowCount;
