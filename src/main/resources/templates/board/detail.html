@@ -2,42 +2,59 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
 
 <div layout:fragment="content" class="content">
-	<table>
-		<thead>
-			<tr>
-				<th>제목</th>
-				<th th:text="${boardDto.title}"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>카테고리</td>
-				<td th:text="${boardDto.category}"></td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td th:text="${boardDto.userName}"></td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td th:text="${boardDto.content}"></td>
-			</tr>
-			<tr>
-				<td>작성일자</td>
-				<td th:text="${#temporals.format(boardDto.regDate, 'yyyy-MM-dd  hh:mm:ss')}"></td>
-			</tr>
-			<tr>
-				<td>첨부파일</td>
-				<td>
-					<p th:each="boardFile, index : ${boardFile}">
-						<a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
-					</p>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<a href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}" class="delete" th:text="삭제"></a> <a
-		th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a> <a href="javascript:history.back();">이전 페이지로 이동</a>
+	<div class="container-fluid border">
+		<div class="row">
+			<div class="col-md-12 p-5">
+				<div class="row">
+					<div class="col-md-4">
+						<!-- 카테고리 -->
+						카테고리 : 
+						<span th:if="${boardDto.category.toString().equals('NOTICE')}">
+						<a href="/pms/board/notice" >공 지 게 시 판</a>
+						</span>
+						<span th:if="${boardDto.category.toString().equals('WORK')}">
+						<a href="/pms/board/work" >업 무 게 시 판</a>
+						</span>
+						<br>
+						<!-- <p th:text="${boardDto.category}"></p> -->
+					</div>
+					<div class="col-md-4">
+						<!-- 작성자 -->
+						작성자 <p th:text="${boardDto.userName}" />
+					</div>
+					<div class="col-md-4">
+						<!-- 등록일자 -->
+						등록 일자 <p th:text="${#temporals.format(boardDto.regDate, 'yyyy-MM-dd  hh:mm:ss')}"></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- <p th:text="${boardDto.category}"></p> -->
+						<!-- 제목 -->
+						<label>제목</label>
+						<h3 class="p-3 border bg-light" th:text="${boardDto.title}"></h3>
+					</div>
+				</div>
+				<!-- 내용 -->
+				<label>내용</label>
+				<p class="p-3 border bg-light" th:text="${boardDto.content}"></p>
+
+
+				<div class="row-md">
+					<!-- 첨부 파일 -->
+					<div class="col-md-6 bg-light border px-3">
+						<p th:each="boardFile, index : ${boardFile}">
+							<a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
+						</p>
+					</div>
+				</div>
+				<br>
+				<a th:if="${isWriter}" class="btn btn-sm btn-danger" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
+				<a th:if="${isWriter}" class="btn btn-sm btn-primary" th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a>
+				<a class="btn btn-sm btn-primary" href="javascript:history.back();">이전 페이지로 이동</a>
+			</div>
+		</div>
+	</div>
 </div>
 </html>
 
@@ -55,3 +72,6 @@
 		});
 	});
 </script>
+
+
+
