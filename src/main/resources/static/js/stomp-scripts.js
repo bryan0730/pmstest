@@ -45,6 +45,18 @@ $(document).ready(function() {
         $("#message-text").text(comment);
     });
 
+    $("#msg-file").on("change", function () {
+        const dataTransfer = new DataTransfer();
+        let files = $("#msg-file")[0].files;
+        console.log(files.length);
+        if (files.length>5){
+            let fileArray = Array.from(files);
+            fileArray.splice(4,1);
+            fileArray.forEach(file => { dataTransfer.items.add(file)});
+            $('#msg-file')[0].files = dataTransfer.files;
+            alert("첨부파일은 최대 5개까지만 등록가능합니다.");
+        }
+    });
 
     $("#send-msg").click(function (){
         const token = $("meta[name='_csrf']").attr("content");
@@ -60,16 +72,6 @@ $(document).ready(function() {
         fileArray.forEach((file) => console.log(file.name));
         fileArray.forEach((file) => form.append("messageFiles", file));
 
-
-        let json = {
-            "messageReceiver" : receiver,
-            "messageSender" : $("#pmsUserId").val(),
-            "comment" : $("#message-text").val(),
-            "sendDate" : new Date()
-        };
-
-        const jsonString = JSON.stringify(json);
-        console.log(jsonString);
         $.ajax({
             url: "/pms/message/send",
             type: "POST",
@@ -83,10 +85,8 @@ $(document).ready(function() {
             processData:false,
             cache:false,
             enctype:'multipart/form-data',
-            // contentType:"application/json",
             success: function(data){
                 sendMessage();
-                alert(data);
             },
             error: function(xhr, status, error){
                 let obj = JSON.parse(xhr.responseText);
