@@ -3,38 +3,24 @@
 
 <head layout:fragment="css">
 <style>
-/* .fieldError {
-	border-color: #bd2130;
+.textCount, .textTotal {
+	display: inline
+}
+.textLengthWrap{
+	text-align: right
 }
 
-.form-group p {
-	color: red;
-} */
 </style>
 </head>
 
-<div layout:fragment="content" class="content">
+<div layout:fragment="content" class="content p-5">
 	<form th:action="@{'/pms/board/update/' + *{id}}" th:object="${boardRequestDto}" method="post"
 		enctype="multipart/form-data">
 		<input type="hidden" name="_method" value="put" />
 		<input type="hidden" id="boardId" name="id" th:value="*{id}" />
 		<article>
 			<div class="container" role="main">
-				<!--                 <div class="form-group">
-                    <label for="title">제목</label>
-                    <input type="text" class="form-control" id="title" name="title" th:value="*{title}"
-                           placeholder="제목을 입력해 주세요"
-                           th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
-                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect date</p>
-                </div>
-                <br>
-				카테고리  
-				<div th:each="type : ${categorys}" class="form-check form-check-inline mb-3">
-				    <input type="radio" th:field="*{category}" th:value="${type.name()}" class="form-check-input">
-				    <label th:for="${#ids.prev('category')}" th:text="${type.description}"
-				           class="form-check-label">
-				    </label>
-				</div> -->
+
 				<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
 					<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 				</div>
@@ -48,14 +34,13 @@
 				</div>
 				<br>
 				<br>
-				<!--                 <div class="mb-3">
-                    <label for="reg_id">작성자</label>
-                    <input type="text" class="form-control" id="reg_id" name="regId" value="관리자" readonly>
-                </div> -->
-				<br>
 				<div class="mb-3">
 					<label for="content">내용</label>
-					<textarea class="form-control" rows="5" id="content" name="content" th:text="*{content}" placeholder="내용을 입력해 주세요"></textarea>
+					<div class="textLengthWrap">
+						<p class="textCount">0자</p>
+						<p class="textTotal">/5000자</p>
+					</div>
+					<textarea class="form-control" rows="15" id="content" name="content" th:text="*{content}" maxlength="5000" placeholder="내용을 입력해 주세요"></textarea>
 				</div>
 				<br>
 				<div class="mb-3">
@@ -115,6 +100,24 @@
 			form.submit();
 		}
 	}
+	
+	$('#content').keyup(function (e) {
+		let content = $(this).val();
+	    
+	    // 글자수 세기
+	    if (content.length == 0 || content == '') {
+	    	$('.textCount').text('0자');
+	    } else {
+	    	$('.textCount').text(content.length + '자');
+	    }
+	    
+	    // 글자수 제한
+	    if (content.length > 5000) {
+	        $(this).val($(this).val().substring(0, 200));
+	        alert('글자수는 5000자까지 입력 가능합니다.');
+	    };
+	});
+	
 </script>
 
 <script type='text/javascript'>
