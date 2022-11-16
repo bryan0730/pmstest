@@ -18,9 +18,11 @@ import com.forwiz.pms.domain.file.entity.FileInfo;
 import com.forwiz.pms.domain.file.repository.FileRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class FileController {
 
 	private final FileRepository fileRepository;
@@ -33,11 +35,11 @@ public class FileController {
 		FileInfo fileInfo = fileRepository.findById(fileIdx).get();
 		// 파일 경로
 		Path saveFilePath = Paths.get(fileInfo.getUploadDir() + java.io.File.separator + fileInfo.getSavedFileName());
+		log.info("saveFilePath :{}", saveFilePath);
 		// 해당 경로에 파일이 없으면
 		if (!saveFilePath.toFile().exists()) {	//경로를 파일객체로 변환 존재여부
 			throw new RuntimeException("file not found");
 		}
-
 		// 파일 헤더 설정
 		setFileHeader(res, fileInfo);
 
