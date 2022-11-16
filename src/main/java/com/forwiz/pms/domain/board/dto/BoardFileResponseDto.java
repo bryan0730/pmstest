@@ -8,11 +8,7 @@ import lombok.Getter;
 public class BoardFileResponseDto {
 	private Long boardFileId;
 
-	private Long id;
-
 	private Long fileId;
-
-	private Long boardId;
 
 	private String originFileName;
 

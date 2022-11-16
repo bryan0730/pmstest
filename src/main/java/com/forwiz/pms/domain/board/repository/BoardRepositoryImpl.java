@@ -28,9 +28,6 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
 
 	private final JPAQueryFactory jpaQueryFactory;
 
-	//QBoard board = board;
-	//QMember member = member;
-	//QPmsUser pmsUser = pmsUser;
 	
 	public BoardRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
 		this.jpaQueryFactory = jpaQueryFactory;
@@ -47,7 +44,6 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
 				.map(BoardResponseDto::new)
 				.collect(Collectors.toList());
 		Long count = getCount(searchVal,category);
-		//return null;
 		return new PageImpl<>(boardList, pageable, count);
 	}
 

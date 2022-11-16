@@ -11,13 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardFileRequestDto {
-	private Long boardFileId;
-	private Long id;
-	private Long fileId;
 	private Long boardId;
-	private String originFileName;
-	private Long size;
-	private String extension;
 	
 	public BoardFile toEntity(FileInfo fileInfo) {
 		return BoardFile

@@ -214,8 +214,6 @@ public class BoardController {
 			return "redirect:/pms/board/notice";
 		}
 		return "redirect:/pms/board/work";
-		// TODO: 화면 이동 어떻게 바꿀수??
-		// 화면이동 코드 중복되는게 많다
 	}
 
 	/**

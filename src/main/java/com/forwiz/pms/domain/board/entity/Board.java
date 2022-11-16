@@ -51,9 +51,6 @@ public class Board {
 	@CreatedDate
 	private LocalDateTime regDate; // 등록 날짜
 
-	@LastModifiedDate
-	private LocalDateTime uptDate; // 수정 날짜
-
 	private Long viewCount; // 조회수
 
 	@ManyToOne(fetch = FetchType.LAZY)
