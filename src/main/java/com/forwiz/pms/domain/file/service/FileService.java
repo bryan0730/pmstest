@@ -20,6 +20,7 @@ import com.forwiz.pms.domain.board.entity.BoardFile;
 import com.forwiz.pms.domain.board.repository.BoardFileRepository;
 import com.forwiz.pms.domain.file.dto.FileInfoDto;
 import com.forwiz.pms.domain.file.entity.FileInfo;
+import com.forwiz.pms.domain.file.exception.NoSearchFileException;
 import com.forwiz.pms.domain.file.repository.FileRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -143,6 +144,15 @@ public class FileService {
         boardFile.delete("Y");
         return boardFile;
     }
+
+
+	/**
+	 * @Method : getFile
+	 */
+	public FileInfoDto getFile(Long fileIdx) {
+		FileInfo fileInfo = fileRepository.findById(fileIdx).get();
+		return new FileInfoDto(fileInfo);
+	}
     
     
 }

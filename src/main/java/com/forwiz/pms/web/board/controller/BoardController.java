@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import com.forwiz.pms.domain.board.dto.BoardFileResponseDto;
 import com.forwiz.pms.domain.board.dto.BoardRequestDto;
 import com.forwiz.pms.domain.board.dto.BoardResponseDto;
 import com.forwiz.pms.domain.board.entity.Category;
+import com.forwiz.pms.domain.board.exception.AccessDenied;
 import com.forwiz.pms.domain.board.service.BoardService;
 import com.forwiz.pms.domain.file.service.FileService;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
@@ -145,12 +147,7 @@ public class BoardController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
 		if (!(user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))){
-			try {
-				throw new Exception("작성자만 수정 가능 합니다.");
-			}catch (Exception e) {
-				model.addAttribute("message",e.getMessage());
-	            return "error/alert_and_back";
-			}
+				throw new AccessDenied("작성자만 수정 가능 합니다.");
 		}
 		model.addAttribute("boardRequestDto", boardResponseDto);
 		model.addAttribute("boardFile", boardFileResponseDto);
@@ -206,11 +203,18 @@ public class BoardController {
 	 * 
 	 * @Method : boardDelete
 	 */
+	@Transactional
 	@GetMapping("/delete/{boardId}")
 	public String boardDelete(@PathVariable Long boardId) {
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		boardService.deleteBoard(boardId);
-		if (boardResponseDto.getCategory() == Category.NOTICE) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
+		if (!(user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))){
+				throw new AccessDenied("작성자만 삭제 가능 합니다.");
+		}
+		else 
+			if (boardResponseDto.getCategory() == Category.NOTICE) {
 			return "redirect:/pms/board/notice";
 		}
 		return "redirect:/pms/board/work";
