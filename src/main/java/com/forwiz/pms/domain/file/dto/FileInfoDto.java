@@ -41,4 +41,14 @@ public class FileInfoDto {
 				.contentType(contentType)
 				.build();
 	}
+
+	public FileInfoDto(FileInfo fileInfo) {
+		this.id = fileInfo.getId();
+		this.originFileName = fileInfo.getOriginFileName();
+		this.savedFileName = fileInfo.getSavedFileName();
+		this.uploadDir = fileInfo.getUploadDir();
+		this.extension = fileInfo.getExtension();
+		this.fileVolume = fileInfo.getFileVolume();
+		this.contentType = fileInfo.getContentType();
+	}
 }

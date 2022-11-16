@@ -1,16 +1,21 @@
 package com.forwiz.pms.web.exception;
 
-import com.forwiz.pms.domain.message.exception.MessageException;
-import com.forwiz.pms.domain.message.exception.NoSearchMessageException;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
+import com.forwiz.pms.domain.board.exception.AccessDenied;
+import com.forwiz.pms.domain.file.exception.NoSearchFileException;
+import com.forwiz.pms.domain.message.exception.MessageException;
+import com.forwiz.pms.domain.message.exception.NoSearchMessageException;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice
@@ -21,6 +26,26 @@ public class GlobalControllerAdvice {
         log.info("ExceptionHandler NoSearchMessageException : {}", e.toString());
 
         return "redirect:/pms/board";
+    }
+    
+    /**
+     [board] 파일 다운로드 시 파일을 찾을 수 없을 때
+     */
+    @ExceptionHandler(NoSearchFileException.class)
+    public String fileSearchExceptionHandler(NoSearchFileException e, Model model) {
+        log.info("ExceptionHandler NoSearchFileException : {}", e.toString());
+		model.addAttribute("message",e.getMessage());
+        return "error/alert_and_back";
+    }
+
+    /**
+     [board] 작성자가 아닌 사용자가 수정 시 예외처리
+     */
+    @ExceptionHandler(AccessDenied.class)
+    public String AccessDeniedHandler(AccessDenied e, Model model) {
+    	log.info("ExceptionHandler AccessDenied : {}", e.toString());
+    	model.addAttribute("message",e.getMessage());
+    	return "error/alert_and_back";
     }
 
     @ExceptionHandler(MessageException.class)

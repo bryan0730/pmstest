@@ -70,6 +70,7 @@ public class BoardService {
 	 * 상세조회
 	 */
 
+	@Transactional
 	public BoardResponseDto getBoard(Long boardId) {
 		Optional<Board> getBoard = boardRepository.findById(boardId);
 		Board board = getBoard.get();
@@ -95,6 +96,7 @@ public class BoardService {
 	}
 	
 	//삭제
+	@Transactional
 	public void deleteBoard(Long boardId) {
 		Board board = boardRepository.findById(boardId).get();
 		this.boardRepository.delete(board);
