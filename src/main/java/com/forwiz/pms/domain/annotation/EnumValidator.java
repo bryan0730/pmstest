@@ -1,4 +1,4 @@
-package com.forwiz.pms.domain.board;
+package com.forwiz.pms.domain.annotation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

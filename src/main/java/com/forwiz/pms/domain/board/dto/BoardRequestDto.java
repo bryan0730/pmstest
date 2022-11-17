@@ -1,14 +1,12 @@
 package com.forwiz.pms.domain.board.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.forwiz.pms.domain.board.ValidEnum;
+import com.forwiz.pms.domain.annotation.ValidEnum;
 import com.forwiz.pms.domain.board.entity.Board;
 import com.forwiz.pms.domain.board.entity.Category;
 import com.forwiz.pms.domain.user.entity.PmsUser;
