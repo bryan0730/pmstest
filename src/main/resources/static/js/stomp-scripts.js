@@ -128,6 +128,14 @@ function showNotification(msg){
         "</div>" +
         "</div>"
     );
+
+    $("#toast-sender").html(JSON.parse(msg.body).messageSenderName);
+    $("#toast-message").html(JSON.parse(msg.body).messageContent)
+
+    const toastLiveExample = $("#liveToast");
+    const toast = new bootstrap.Toast(toastLiveExample)
+
+    toast.show()
     console.log(JSON.parse(msg.body));
 }
 
