@@ -1,4 +1,4 @@
-package com.forwiz.pms.web;
+package com.forwiz.pms.web.interceptor;
 
 import com.forwiz.pms.domain.organization.dto.OrganizationUsersResponse;
 import com.forwiz.pms.domain.organization.service.OrganizationService;
@@ -27,7 +27,6 @@ public class SidebarInfoInterceptor implements HandlerInterceptor {
         try{
             modelAndView.addObject("infoList", infoList);
         }catch (NullPointerException e){
-//            modelAndView.addObject("infoList", "회원정보 없음");
             log.info("Sidebar Interceptor Null point catch");
         }
     }

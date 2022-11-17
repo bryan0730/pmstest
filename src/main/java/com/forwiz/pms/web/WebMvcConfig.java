@@ -4,6 +4,7 @@ import com.forwiz.pms.domain.menusetting.service.MenuMapper;
 import com.forwiz.pms.domain.menusetting.dto.MenuUrl;
 import com.forwiz.pms.web.interceptor.FileExtentionChangeInterceptor;
 import com.forwiz.pms.web.interceptor.NoticeInterceptor;
+
 import com.forwiz.pms.web.interceptor.SidebarInfoInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
