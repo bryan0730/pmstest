@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.forwiz.pms.domain.board.dto.BoardFileResponseDto;
 import com.forwiz.pms.domain.board.dto.BoardResponseDto;
-import com.forwiz.pms.domain.board.dto.BoardSubSelect;
 import com.forwiz.pms.domain.board.entity.Category;
 
 public interface CustomBoardRepository {

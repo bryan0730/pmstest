@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,13 +44,6 @@ public class BoardController {
 	}
 
 	/**
-	 * 메인화면
-	 * 
-	 * @Method : main
-	 */
-
-
-	/**
 	 * 공지 게시판 목록화면
 	 * 
 	 * @Method : noticeList
@@ -80,7 +72,7 @@ public class BoardController {
 	}
 
 	/**
-	 * workList > board 처리
+	 * board 처리
 	 * 
 	 * @Method : boardModelPut
 	 */
@@ -92,7 +84,7 @@ public class BoardController {
 	}
 
 	/**
-	 * workList > page처리
+	 * page처리
 	 * 
 	 * @Method : pageModelPut
 	 */
@@ -128,12 +120,10 @@ public class BoardController {
 			return "board/write";
 		}
 		boardService.saveBoard(boardRequestDto);
-
-		if (boardRequestDto.getCategory() == Category.NOTICE) {
-			return "redirect:/pms/board/notice";
-		}
-		return "redirect:/pms/board/work";
+		String returnPage = boardService.getReturnPage(boardRequestDto.getCategory());
+		return "redirect:/pms/board/"+returnPage;
 	}
+
 
 	/**
 	 * 게시물 수정 화면
@@ -155,7 +145,7 @@ public class BoardController {
 	}
 
 	/**
-	 * (put 수정) 게시물 수정
+	 * 게시물 수정
 	 * 
 	 * @Method : update
 	 */
@@ -166,10 +156,8 @@ public class BoardController {
 			return "board/update";
 		}
 		boardService.saveBoard(boardRequestDto);
-		if (boardRequestDto.getCategory() == Category.NOTICE) {
-			return "redirect:/pms/board/notice";
-		}
-		return "redirect:/pms/board/work";
+		String returnPage = boardService.getReturnPage(boardRequestDto.getCategory());
+		return "redirect:/pms/board/"+returnPage;
 	}
 
 	/**
@@ -203,22 +191,19 @@ public class BoardController {
 	 * 
 	 * @Method : boardDelete
 	 */
-	@Transactional
 	@GetMapping("/delete/{boardId}")
 	public String boardDelete(@PathVariable Long boardId) {
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
-		boardService.deleteBoard(boardId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
 		if (!(user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))){
-				throw new AccessDenied("작성자만 삭제 가능 합니다.");
+			throw new AccessDenied("작성자만 삭제 가능 합니다.");
 		}
-		else 
-			if (boardResponseDto.getCategory() == Category.NOTICE) {
-			return "redirect:/pms/board/notice";
-		}
-		return "redirect:/pms/board/work";
+		boardService.deleteBoard(boardId);
+		String returnPage = boardService.getReturnPage(boardResponseDto.getCategory());
+		return "redirect:/pms/board/" + returnPage;
 	}
+	
 
 	/**
 	 * 파일삭제
