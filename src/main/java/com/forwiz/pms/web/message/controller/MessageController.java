@@ -37,8 +37,7 @@ public class MessageController {
 
         List<MessageReceiveListResponse> receiveList = messageService.findByReceiver();
 
-        int totalRecordCount =receiveList.size();
-        Paging paging = pageCalculator.calculate(totalRecordCount,10,page,5);
+        Paging paging = getPaging(receiveList.size(), page);
 
         List<MessageReceiveListResponse> receivePageList = receiveList.stream()
                 .skip(paging.getCurrentRecordStart() - 1)
@@ -50,6 +49,7 @@ public class MessageController {
 
         return "message-receive";
     }
+
     @GetMapping({"/send/{pageNum}", "/send"})
     public String sendMessageForm(@PathVariable(required = false) Optional<Integer> pageNum, Model model){
 
@@ -57,8 +57,7 @@ public class MessageController {
 
         List<MessageSendListResponse> sendList = messageService.findBySender();
 
-        int totalRecordCount = sendList.size();
-        Paging paging = pageCalculator.calculate(totalRecordCount,10,page,5);
+        Paging paging = getPaging(sendList.size(), page);
         List<MessageSendListResponse> sendPageList = sendList.stream()
                 .skip(paging.getCurrentRecordStart() - 1)
                 .limit(paging.getPageRecordCount())
@@ -85,5 +84,9 @@ public class MessageController {
         model.addAttribute("messageDetails", response);
 
         return "message-details";
+    }
+
+    private Paging getPaging(int listSize, int page) {
+        return pageCalculator.calculate(listSize,10, page,5);
     }
 }
