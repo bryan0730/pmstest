@@ -25,7 +25,7 @@ public class GlobalControllerAdvice {
     public String messageSearchExceptionHandler(NoSearchMessageException e){
         log.info("ExceptionHandler NoSearchMessageException : {}", e.toString());
 
-        return "redirect:/pms/board";
+        return "redirect:/pms/message/receive";
     }
     
     /**

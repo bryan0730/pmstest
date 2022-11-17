@@ -38,6 +38,22 @@
       </tbody>
     </table>
 
+      <ul class="pagination justify-content-center" th:if="${!#lists.isEmpty(receiveList)}">
+        <li class="page-item">
+          <a class="page-link" aria-label="이전" th:if="${paging.hasPreviousPage==true}" th:onclick="|location.href='@{/pms/message/receive/{page}(page=${paging.currentPageStartNumber-1})}'|">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" th:each="page, i : ${#numbers.sequence(paging.currentPageStartNumber, paging.currentPageEndNumber)}">
+          <a class="page-link" th:text="${i.current}" th:href="@{/pms/message/receive/{page}(page=${i.current})}">1</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" aria-label="다음" th:if="${paging.hasNextPage==true}" th:onclick="|location.href='@{/pms/message/receive/{page}(page=${paging.currentPageEndNumber+1})}'|">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+
     <div class="empty-box" th:if="${#lists.isEmpty(receiveList)}" th:text="#{empty.data}">
     </div>
 

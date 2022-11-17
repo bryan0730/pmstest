@@ -4,24 +4,22 @@ import com.forwiz.pms.domain.message.dto.MessageDetailResponse;
 import com.forwiz.pms.domain.message.dto.MessageReceiveListResponse;
 import com.forwiz.pms.domain.message.dto.MessageSaveRequest;
 import com.forwiz.pms.domain.message.dto.MessageSendListResponse;
-import com.forwiz.pms.domain.message.entity.UploadFile;
 import com.forwiz.pms.domain.message.service.MessageService;
 
+import com.forwiz.pms.domain.page.PageCalculator;
+import com.forwiz.pms.domain.page.Paging;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -30,24 +28,44 @@ import java.util.List;
 public class MessageController {
 
     private final MessageService messageService;
+    private final PageCalculator pageCalculator;
 
-    @GetMapping("/receive")
-    public String receiveMessageForm(Model model){
+    @GetMapping({"/receive/{pageNum}", "/receive"})
+    public String receiveMessageForm(@PathVariable(required = false) Optional<Integer> pageNum, Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int page = pageNum.isEmpty() ? 1 : pageNum.get();
 
-        List<MessageReceiveListResponse> receiveList = messageService.findByReceiver(authentication);
-        model.addAttribute("receiveList", receiveList);
+        List<MessageReceiveListResponse> receiveList = messageService.findByReceiver();
+
+        int totalRecordCount =receiveList.size();
+        Paging paging = pageCalculator.calculate(totalRecordCount,10,page,5);
+
+        List<MessageReceiveListResponse> receivePageList = receiveList.stream()
+                .skip(paging.getCurrentRecordStart() - 1)
+                .limit(paging.getPageRecordCount())
+                .collect(Collectors.toList());
+
+        model.addAttribute("receiveList", receivePageList);
+        model.addAttribute("paging", paging);
 
         return "message-receive";
     }
-    @GetMapping("/send")
-    public String sendMessageForm(Model model){
+    @GetMapping({"/send/{pageNum}", "/send"})
+    public String sendMessageForm(@PathVariable(required = false) Optional<Integer> pageNum, Model model){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int page = pageNum.isEmpty() ? 1 : pageNum.get();
 
-        List<MessageSendListResponse> sendList = messageService.findBySender(authentication);
-        model.addAttribute("sendList", sendList);
+        List<MessageSendListResponse> sendList = messageService.findBySender();
+
+        int totalRecordCount = sendList.size();
+        Paging paging = pageCalculator.calculate(totalRecordCount,10,page,5);
+        List<MessageSendListResponse> sendPageList = sendList.stream()
+                .skip(paging.getCurrentRecordStart() - 1)
+                .limit(paging.getPageRecordCount())
+                .collect(Collectors.toList());
+
+        model.addAttribute("sendList", sendPageList);
+        model.addAttribute("paging", paging);
 
         return "message-send";
     }
@@ -55,8 +73,6 @@ public class MessageController {
     @ResponseBody
     @PostMapping("/send")
     public String saveMessage(@ModelAttribute @Valid MessageSaveRequest messageSaveRequest) throws IOException {
-
-//        messageSaveRequest.getMessageFiles().forEach(a -> System.out.println(a.getOriginalFilename()));
 
         messageService.saveMessage(messageSaveRequest);
 

@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -64,9 +64,9 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<MessageReceiveListResponse> findByReceiver(Authentication authentication){
+    public List<MessageReceiveListResponse> findByReceiver(){
 
-        PmsUser receiver = getUserInfo(authentication);
+        PmsUser receiver = getUserInfo();
 
         return messageRepository.findByReceiverOrderByMessageIdDesc(receiver)
                 .stream()
@@ -75,9 +75,9 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<MessageSendListResponse> findBySender(Authentication authentication) {
+    public List<MessageSendListResponse> findBySender() {
 
-        PmsUser sender = getUserInfo(authentication);
+        PmsUser sender = getUserInfo();
 
         return messageRepository.findBySenderOrderByMessageIdDesc(sender)
                 .stream()
@@ -91,30 +91,35 @@ public class MessageService {
         Message messageInfo = messageRepository.findById(messageId)
                 .orElseThrow(NoSearchMessageException::new);
 
+        Long senderId = messageInfo.getSender().getId();
+        Long receiverId = messageInfo.getReceiver().getId();
+
         //검증 로직(해당 메시지 상세조회 접근 권한이 있는가 확인)
         //해당 ID 메시지의 receiver id(sender id)가 context에 있는 id와 같은가를 확인
-        if(!isAuthMessage(messageInfo.getSender().getId(), messageInfo.getReceiver().getId())){
+        if(!isAuth(id -> id.equals(senderId), id -> id.equals(receiverId))){
             throw new NoSearchMessageException();
         }
 
-        messageInfo.updateMessageState(MessageState.READ);
+        if (isSame(receiverId).apply(getUserInfo().getId())){
+            messageInfo.updateMessageState(MessageState.READ);
+        }
 
         return new MessageDetailResponse(messageInfo);
     }
 
-
-    private Predicate<Long> isSameId(Long id){
-        return (param) -> param.equals(id);
+    private PmsUser getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PmsUserDetails principal = (PmsUserDetails) authentication.getPrincipal();
+        return principal.getPmsUser();
     }
-    private boolean isAuthMessage(Long senderId, Long receiverId){
+    private boolean isAuth(Function<Long, Boolean> f1, Function<Long, Boolean> f2){
         PmsUserDetails user = (PmsUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long loginUserId = user.getPmsUser().getId();
 
-        return isSameId(senderId).test(loginUserId) || isSameId(receiverId).test(loginUserId);
+        return f1.apply(loginUserId) || f2.apply(loginUserId);
     }
-    private PmsUser getUserInfo(Authentication authentication) {
-        PmsUserDetails principal = (PmsUserDetails) authentication.getPrincipal();
-        return principal.getPmsUser();
+    private Function<Long, Boolean> isSame(Long id){
+        return (sessionId) -> sessionId.equals(id);
     }
 
 }
