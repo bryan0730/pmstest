@@ -1,5 +1,8 @@
-package com.forwiz.pms.web.user;
+package com.forwiz.pms.web;
 
+import com.forwiz.pms.web.user.CustomAccessDeniedHandler;
+import com.forwiz.pms.web.user.FailureHandler;
+import com.forwiz.pms.web.user.SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

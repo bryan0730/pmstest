@@ -1,4 +1,4 @@
-package com.forwiz.pms.web;
+package com.forwiz.pms.web.interceptor;
 
 import com.forwiz.pms.domain.message.dto.MessageFileInfoResponse;
 import com.forwiz.pms.domain.message.service.MessageFileStore;

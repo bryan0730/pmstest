@@ -1,4 +1,4 @@
-package com.forwiz.pms.web;
+package com.forwiz.pms.web.interceptor;
 
 import com.forwiz.pms.domain.message.dto.NoticePopupResponse;
 import com.forwiz.pms.domain.message.dto.MessageState;
