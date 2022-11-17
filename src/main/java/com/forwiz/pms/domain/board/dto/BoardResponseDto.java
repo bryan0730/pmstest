@@ -55,14 +55,4 @@ public class BoardResponseDto {
 	public BoardResponseDto() {
 		
 	}
-
-	//게시판 목록 조회 subselect
-	public BoardResponseDto(BoardSubSelect boardSubSelect) {
-		this.id = boardSubSelect.getBoardId();
-		this.title = boardSubSelect.getTitle();
-		this.category = boardSubSelect.getCategory();
-		this.regDate = boardSubSelect.getRegDate();
-		this.viewCount = boardSubSelect.getViewCount();
-		this.userName = boardSubSelect.getUserName();
-	}
 }
