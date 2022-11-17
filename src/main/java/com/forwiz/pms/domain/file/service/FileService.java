@@ -20,6 +20,7 @@ import com.forwiz.pms.domain.board.entity.BoardFile;
 import com.forwiz.pms.domain.board.repository.BoardFileRepository;
 import com.forwiz.pms.domain.file.dto.FileInfoDto;
 import com.forwiz.pms.domain.file.entity.FileInfo;
+import com.forwiz.pms.domain.file.exception.NoSearchFileException;
 import com.forwiz.pms.domain.file.repository.FileRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,6 @@ public class FileService {
 	 */
 	@Transactional
 	public Map<String, Object> saveFile(BoardRequestDto boardRequestDto, Long boardId) throws Exception {
-//		TODO : 저장 폴더 만들기 ? 
 		
 		List<MultipartFile> multipartFile = boardRequestDto.getMultipartFile();
 
@@ -60,10 +60,11 @@ public class FileService {
                     for (MultipartFile file1 : multipartFile) {
                         String originalFileName = file1.getOriginalFilename();    //오리지날 파일명
                         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));    //파일 확장자
-                        String savedFileName = UUID.randomUUID() + extension;    //저장될 파일 명
-
+//                        String savedFileName = UUID.randomUUID() + extension;    //저장될 파일 명
+                        String savedFileName = UUID.randomUUID() + extension.substring(0,2);    //저장될 파일 명(확장자 깨트리기)
                         File targetFile = new File(uploadDir + savedFileName);
 
+                        
                         //초기값으로 fail 설정
                         result.put("result", "FAIL");
 
@@ -143,6 +144,15 @@ public class FileService {
         boardFile.delete("Y");
         return boardFile;
     }
+
+
+	/**
+	 * @Method : getFile
+	 */
+	public FileInfoDto getFile(Long fileIdx) {
+		FileInfo fileInfo = fileRepository.findById(fileIdx).get();
+		return new FileInfoDto(fileInfo);
+	}
     
     
 }
