@@ -11,24 +11,34 @@
 		<article>
 			<div>
 				<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-					<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />12
+					<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 				</div>
 				<label for="board-title">제목</label>
 				<input type="text" id="board-title" th:field="*{title}" rows="10" class="form-control" placeholder="제목을 입력해 주세요">
 				<br>
-				카테고리
-				<div th:each="type : ${categorys}" class="form-check form-check-inline mb-3">
+				게시판
+				<!-- 게시판 선택 라디오 -->
+<!-- 				<div th:each="type : ${categorys}" class="form-check form-check-inline mb-3">
 					<input type="radio" th:field="*{category}" th:value="${type.name()}" class="form-check-input">
 					<label th:for="${#ids.prev('category')}" th:text="${type.description}" class="form-check-label"> </label>
+				</div> -->
+				<!-- 게시판 선택 selectBox -->
+				<div>
+					<select th:field="*{category}" class="form-select">
+						  <option value="">== 게시판을 선택해 주세요 ==</option>
+						  <option th:each="type : ${categorys}" th:value="${type.name()}"
+						  th:text="${type.description}"></option>
+					</select>
 				</div>
 				<br>
-				공개범위
+				공개 설정
+				<br>
 				<div class="form-check form-check-inline mb-3">
 					<input type="radio" name="boardScope" value="전체" id="boardScope1" class="form-check-input" checked="checked">
-					<label for="boardScope1" class="form-check-label">전체</label>
+					<label for="boardScope1" class="form-check-label">전체 공개</label>
 				</div><div class="form-check form-check-inline mb-3">
 					<input type="radio" name="boardScope" th:value="${session.groupname}" id="boardScope2" class="form-check-input">
-					<label for="boardScope2" class="form-check-label">조직</label>
+					<label for="boardScope2" class="form-check-label">조직 공개</label>
 				</div>
 				<br>
 				<div class="mb-3">
@@ -37,7 +47,7 @@
 						<p class="textCount">0자</p>
 						<p class="textTotal">/5000자</p>
 					</div>
-					<textarea class="form-control" rows="15" id="content" name="content" th:field="*{content}" maxlength="5000" placeholder="내용을 입력해 주세요"></textarea>
+					<textarea class="form-control" rows="15" id="content" name="content" th:field="*{content}" maxlength="5000" placeholder="내용을 입력하세요"></textarea>
 				</div>
 				<br>
 				<div class="mb-3">
@@ -45,10 +55,9 @@
 					<input class="form-control" type="file" id="formFileMultiple" name="multipartFile" multiple>
 				</div>
 				<br>
-				<div>
-					<button type="submit" class="btn btn-sm btn-primary" id="btnSave">등록</button>
-					<a class="btn btn-sm btn-primary" href="javascript:history.back();">이전 페이지로 이동</a>
-					</button>
+				<div class="d-flex justify-content-end">
+					<button type="submit" class="btn btn-sm btn-primary mx-1" id="btnSave">등록</button> 
+					<a class="btn btn-sm btn btn-secondary" href="javascript:history.back();">목록</a>
 				</div>
 			</div>
 		</article>

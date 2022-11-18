@@ -174,14 +174,16 @@ public class BoardController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		PmsUserDetails user = (PmsUserDetails) auth.getPrincipal();
-		if ((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))) {
-			model.addAttribute("isWriter", true);
-		}
-
+		
 		if (!(user.getPmsUser().getOrganization().getOrganizationName().equals(boardResponseDto.getBoardScope()))
 				&& !(boardResponseDto.getBoardScope().equals("전체"))) {
 			throw new AccessDenied(boardResponseDto.getBoardScope() + " 소속의 사용자만 열람 하실 수 있습니다.");
 		}
+		
+		if ((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))) {
+			model.addAttribute("isWriter", true);
+		}
+		
 		model.addAttribute("boardFile", boardFileResponseDto);
 		model.addAttribute("boardDto", boardResponseDto); // th:object="${boardDto}"
 
