@@ -30,7 +30,7 @@ public class MessageController {
     private final MessageService messageService;
     private final PageCalculator pageCalculator;
 
-    @GetMapping({"/receive/{pageNum}", "/receive"})
+    @GetMapping({"/receive/{pageNum}", "/receive","/"})
     public String receiveMessageForm(@PathVariable(required = false) Optional<Integer> pageNum, Model model){
 
         int page = pageNum.isEmpty() ? 1 : pageNum.get();

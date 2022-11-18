@@ -1,5 +1,14 @@
 
 $(document).ready(function() {
+
+    $("#org-regist-btn").click(function (){
+       if($("#org-name-text").val()==""){
+           alert("조직명을 입력하세요");
+           return false;
+       }
+    });
+
+
     $("#delBtn").click(function () {
         if (!confirm("삭제하시겠습니까?")) return;
 
@@ -34,7 +43,8 @@ $(document).ready(function() {
                 window.location.replace("/admin/organization");
             },
             error: function (xhr, status, error) {
-                alert(xhr.responseText + error);
+                let obj = JSON.parse(xhr.responseText);
+                alert(obj.errorMessage);
             }
         });
     });

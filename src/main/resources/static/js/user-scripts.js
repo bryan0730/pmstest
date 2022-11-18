@@ -60,7 +60,8 @@ $(document).ready(function() {
                 window.location.replace("/admin/user");
             },
             error: function (xhr, status, error) {
-                alert(xhr.responseText + error);
+                let obj = JSON.parse(xhr.responseText);
+                alert(obj.errorMessage);
             }
         });
     });

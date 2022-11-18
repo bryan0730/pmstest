@@ -20,4 +20,14 @@ public class PmsUserController {
         return "error/denied";
     }
 
+    @GetMapping({"/","/pms"})
+    public String goMain(){
+        return "redirect:/pms/board/notice";
+    }
+
+    @GetMapping("/admin")
+    public String goAdmin(){
+        return "redirect:/admin/organization";
+    }
+
 }

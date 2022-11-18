@@ -2,6 +2,7 @@ package com.forwiz.pms.web.organization.controller;
 
 import com.forwiz.pms.domain.organization.dto.OrganizationListResponse;
 import com.forwiz.pms.domain.organization.dto.SaveOrganizationRequest;
+import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
 import com.forwiz.pms.domain.organization.service.OrganizationService;
 import com.forwiz.pms.domain.organization.DuplicateConfirmation;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,10 @@ public class OrganizationController {
     @ResponseBody
     @PostMapping("/del")
     public String delOrganization(@RequestBody List<Map<String, Long>> mapList){
+
+        if(mapList.size()==0){
+            throw new DeleteListEmptyException("삭제할 데이터가 없습니다.");
+        }
 
         int delCount = organizationService.delOrganization(mapList);
         String msg = delCount + "개 삭제완료 하였습니다.";

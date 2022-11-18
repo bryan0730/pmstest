@@ -1,6 +1,7 @@
 package com.forwiz.pms.web.user.controller;
 
 import com.forwiz.pms.domain.organization.dto.OrganizationListResponse;
+import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
 import com.forwiz.pms.domain.user.dto.UserDto;
 import com.forwiz.pms.domain.user.dto.UserSettingResponse;
 import com.forwiz.pms.domain.organization.service.OrganizationService;
@@ -38,6 +39,10 @@ public class UserSettingController {
     @ResponseBody
     @PostMapping("/del")
     public String delUser(@RequestBody List<Map<String, Long>> mapList){
+
+        if(mapList.size()==0){
+            throw new DeleteListEmptyException("삭제할 데이터가 없습니다.");
+        }
 
         int delCount = userService.delUser(mapList);
 

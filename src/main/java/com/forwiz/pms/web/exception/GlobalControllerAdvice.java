@@ -2,6 +2,7 @@ package com.forwiz.pms.web.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import com.forwiz.pms.domain.message.exception.MessageException;
 import com.forwiz.pms.domain.message.exception.NoSearchMessageException;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
 
 @Slf4j
 @ControllerAdvice
@@ -42,10 +45,19 @@ public class GlobalControllerAdvice {
      [board] 작성자가 아닌 사용자가 수정 시 예외처리
      */
     @ExceptionHandler(AccessDenied.class)
-    public String AccessDeniedHandler(AccessDenied e, Model model) {
+    public String accessDeniedHandler(AccessDenied e, Model model) {
     	log.info("ExceptionHandler AccessDenied : {}", e.toString());
     	model.addAttribute("message",e.getMessage());
     	return "error/alert_and_back";
+    }
+
+    @ExceptionHandler(DeleteListEmptyException.class)
+    public ResponseEntity<ErrorResponse> deleteListEmptyExceptionHandler(DeleteListEmptyException e){
+
+        log.info("ExceptionHandler AccessDenied : {}", e.toString());
+        final ErrorResponse errorResponse = new ErrorResponse("ERROR-DEL", e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MessageException.class)
