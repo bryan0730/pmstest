@@ -1,16 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
 
-<head layout:fragment="css">
-<style>
-.textCount, .textTotal {
-	display: inline
-}
-.textLengthWrap{
-	text-align: right
-}
 
-</style>
+<head>
+  <link th:href="@{/css/board.css}" rel="stylesheet" />
 </head>
 
 <div layout:fragment="content" class="content p-5">
@@ -62,22 +55,4 @@
 	</form>
 </div>
 </html>
-
-<script>
-$('#content').keyup(function (e) {
-	let content = $(this).val();
-    
-    // 글자수 세기
-    if (content.length == 0 || content == '') {
-    	$('.textCount').text('0자');
-    } else {
-    	$('.textCount').text(content.length + '자');
-    }
-    
-    // 글자수 제한
-    if (content.length > 5000) {
-        $(this).val($(this).val().substring(0, 5000));
-        alert('글자수는 5000자까지 입력 가능합니다.');
-    };
-});
-</script>
+<script th:src="@{/js/board-scripts.js}"></script>

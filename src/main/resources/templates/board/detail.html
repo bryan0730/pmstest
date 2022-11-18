@@ -32,16 +32,16 @@
 						<!-- <p th:text="${boardDto.category}"></p> -->
 						<!-- 제목 -->
 						<label>제목</label>
-						<h3 class="p-3 border bg-light" th:text="${boardDto.title}"></h3>
+						<h3 class="p-3 bg-light" th:text="${boardDto.title}"></h3>
 					</div>
 				</div>
 				<!-- 내용 -->
 				<label>내용</label>
-				<p class="p-3 border bg-light" th:text="${boardDto.content}"></p>
+				<p class="p-3 bg-light" th:text="${boardDto.content}"></p>
 
 				<div class="row-md">
 					<!-- 첨부 파일 -->
-					<div class="col-md-6 bg-light border px-3">
+					<div class="col-md-6 bg-light px-3">
 						<p th:each="boardFile, index : ${boardFile}">
 							<a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
 						</p>
@@ -56,21 +56,4 @@
 	</div>
 </div>
 </html>
-
-
-
-<script type='text/javascript'>
-	//게시물 삭제
-	const delete_elements = document.getElementsByClassName("delete");
-	Array.from(delete_elements).forEach(function(element) {
-		element.addEventListener('click', function() {
-			if (confirm("정말로 삭제하시겠습니까?")) {
-				location.href = this.dataset.uri;
-			}
-			;
-		});
-	});
-</script>
-
-
-
+<script th:src="@{/js/board-scripts.js}"></script>
