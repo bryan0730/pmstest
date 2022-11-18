@@ -25,6 +25,7 @@ import com.forwiz.pms.domain.board.exception.AccessDenied;
 import com.forwiz.pms.domain.board.service.BoardService;
 import com.forwiz.pms.domain.file.service.FileService;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
+import com.forwiz.pms.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -121,9 +122,8 @@ public class BoardController {
 		}
 		boardService.saveBoard(boardRequestDto);
 		String returnPage = boardService.getReturnPage(boardRequestDto.getCategory());
-		return "redirect:/pms/board/"+returnPage;
+		return "redirect:/pms/board/" + returnPage;
 	}
-
 
 	/**
 	 * 게시물 수정 화면
@@ -135,9 +135,9 @@ public class BoardController {
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		List<BoardFileResponseDto> boardFileResponseDto = boardService.getFile(boardId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
-		if (!(user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))){
-				throw new AccessDenied("작성자만 수정 가능 합니다.");
+		PmsUserDetails user = (PmsUserDetails) auth.getPrincipal();
+		if (!((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId())))) {
+			throw new AccessDenied("작성자만 수정 가능 합니다.");
 		}
 		model.addAttribute("boardRequestDto", boardResponseDto);
 		model.addAttribute("boardFile", boardFileResponseDto);
@@ -157,7 +157,7 @@ public class BoardController {
 		}
 		boardService.saveBoard(boardRequestDto);
 		String returnPage = boardService.getReturnPage(boardRequestDto.getCategory());
-		return "redirect:/pms/board/"+returnPage;
+		return "redirect:/pms/board/" + returnPage;
 	}
 
 	/**
@@ -171,15 +171,17 @@ public class BoardController {
 		boardService.updateViewCount(boardId);
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		List<BoardFileResponseDto> boardFileResponseDto = boardService.getFile(boardId);
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
+		PmsUserDetails user = (PmsUserDetails) auth.getPrincipal();
 		if ((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))) {
-			model.addAttribute("isWriter",true);
+			model.addAttribute("isWriter", true);
 		}
-		log.info("현재 로그인 유저 조직 : {}", user.getPmsUser().getOrganization().getOrganizationName());
-		log.info("현재 로그인 유저 id : {}", user.getPmsUser().getUserId());
-		log.info("게시물 작성자 id : {}", boardResponseDto.getUserId());
+
+		if (!(user.getPmsUser().getOrganization().getOrganizationName().equals(boardResponseDto.getBoardScope()))
+				&& !(boardResponseDto.getBoardScope().equals("전체"))) {
+			throw new AccessDenied(boardResponseDto.getBoardScope() + " 소속의 사용자만 열람 하실 수 있습니다.");
+		}
 		model.addAttribute("boardFile", boardFileResponseDto);
 		model.addAttribute("boardDto", boardResponseDto); // th:object="${boardDto}"
 
@@ -195,15 +197,14 @@ public class BoardController {
 	public String boardDelete(@PathVariable Long boardId) {
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		PmsUserDetails user =(PmsUserDetails) auth.getPrincipal();	
-		if (!(user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))){
+		PmsUserDetails user = (PmsUserDetails) auth.getPrincipal();
+		if (!((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId())))) {
 			throw new AccessDenied("작성자만 삭제 가능 합니다.");
 		}
 		boardService.deleteBoard(boardId);
 		String returnPage = boardService.getReturnPage(boardResponseDto.getCategory());
 		return "redirect:/pms/board/" + returnPage;
 	}
-	
 
 	/**
 	 * 파일삭제

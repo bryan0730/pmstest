@@ -31,7 +31,10 @@ public class BoardFile {
 	@Column(name = "board_file_id")
 	private Long id; // 번호
 
+	@Column(nullable = false)
 	private Long boardId;
+	
+	@Column(nullable = false)
 	private String delYn;
 
 	@OneToOne(fetch = FetchType.LAZY)
