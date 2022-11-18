@@ -6,6 +6,13 @@ ul {
     list-style: none
 }
 
+.logout-btn{
+    background: white !important;
+    color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+    font-weight: 900 !important;
+    border-radius: 8px !important;
+}
+
 .gnb {
     margin: 0 auto;
 }
@@ -25,7 +32,7 @@ ul {
     padding: 10px;
     font-size: 16px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.5);
+    color: #fff;
     transition: all 0.2s;
     text-decoration: none
 }
@@ -42,7 +49,7 @@ ul {
 
 .name-box>div>span{
     font-size: 0.875em;
-    color : rgba(255, 255, 255, 0.5);
+    color : #fff;
 }
 
 .name-box>div{

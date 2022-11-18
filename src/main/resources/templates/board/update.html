@@ -1,16 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
 
-<head layout:fragment="css">
-<style>
-.textCount, .textTotal {
-	display: inline
-}
-.textLengthWrap{
-	text-align: right
-}
-
-</style>
+<head>
+  <link th:href="@{/css/board.css}" rel="stylesheet" />
 </head>
 
 <div layout:fragment="content" class="content p-5">
@@ -27,13 +19,20 @@
 				<label for="board-title">제목</label>
 				<input type="text" id="board-title" th:field="*{title}" rows="10" class="form-control">
 				<br>
-				카테고리
-				<div th:each="type : ${categorys}" class="form-check form-check-inline mb-3">
+				게시판
+				<!-- <div th:each="type : ${categorys}" class="form-check form-check-inline mb-3">
 					<input type="radio" th:field="*{category}" th:value="${type.name()}" class="form-check-input">
 					<label th:for="${#ids.prev('category')}" th:text="${type.description}" class="form-check-label"> </label>
+				</div> -->
+				<div>
+					<select th:field="*{category}" class="form-select">
+						<option value="">== 게시판을 선택해 주세요==</option>
+						<option th:each="type : ${categorys}" th:value="${type.name()}" th:text="${type.description}"></option>
+					</select>
 				</div>
 				<br>
-				공개범위
+				공개설정
+				<br>
 				<div class="form-check form-check-inline mb-3">
 					<input type="radio" th:field="*{boardScope}" name="boardScope" value="전체" id="boardScope1" class="form-check-input">
 					<label for="boardScope1" class="form-check-label">전체</label>
@@ -48,7 +47,7 @@
 						<p class="textCount">0자</p>
 						<p class="textTotal">/5000자</p>
 					</div>
-					<textarea class="form-control" rows="15" id="content" name="content" th:text="*{content}" maxlength="5000" placeholder="내용을 입력해 주세요"></textarea>
+					<textarea class="form-control" rows="15" id="content" name="content" th:text="*{content}" maxlength="5000" placeholder="내용을 입력하세요"></textarea>
 				</div>
 				<br>
 				<div class="mb-3">
@@ -67,76 +66,15 @@
 					<input class="form-control" type="file" id="formFileMultiple" name="multipartFile" multiple>
 				</div>
 				<br>
-				<div>
-					<button type="submit" class="btn btn-sm btn-primary" id="btnSave">등록</button>
-					<a href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}" class="delete btn btn-sm btn btn-danger"
-						th:text="삭제"></a> <a class="btn btn-sm btn-primary" href="javascript:history.back();">이전 페이지로 이동</a>
-					</button>
+				<div class="d-flex justify-content-end">
+					<button type="submit" class="btn btn-sm btn-primary mx-1" id="btnSave">수정</button>
+					<a href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}" class="delete btn btn-sm btn btn-danger mx-1"
+						th:text="삭제"></a> 
+					<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">취소</a>
 				</div>
 			</div>
 		</article>
 	</form>
 </div>
 </html>
-
-<script>
-	//파일삭제
-	function boardDelete(fileId) {
-		if (confirm("정말로 삭제하시겠습니까?")) {
-			//배열생성
-			const form = document.createElement('form');
-			form.setAttribute('method', 'post'); //Post 메소드 적용
-			form.setAttribute('action', '/boardFileDelete');
-
-			//파일 id
-			var input1 = document.createElement('input');
-			input1.setAttribute("type", "hidden");
-			input1.setAttribute("name", "fileId");
-			input1.setAttribute("value", fileId);
-
-			//게시판 id
-			const selectedElements = document.querySelector("#boardId")
-			var input2 = document.createElement('input');
-			input2.setAttribute("type", "hidden");
-			input2.setAttribute("name", "boardId");
-			input2.setAttribute("value", selectedElements.value);
-
-			form.appendChild(input1);
-			form.appendChild(input2);
-			console.log(form);
-			document.body.appendChild(form);
-			form.submit();
-		}
-	}
-	
-	$('#content').keyup(function (e) {
-		let content = $(this).val();
-	    
-	    // 글자수 세기
-	    if (content.length == 0 || content == '') {
-	    	$('.textCount').text('0자');
-	    } else {
-	    	$('.textCount').text(content.length + '자');
-	    }
-	    
-	    // 글자수 제한
-	    if (content.length > 5000) {
-	        $(this).val($(this).val().substring(0, 200));
-	        alert('글자수는 5000자까지 입력 가능합니다.');
-	    };
-	});
-	
-</script>
-
-<script type='text/javascript'>
-	//게시물 삭제
-	const delete_elements = document.getElementsByClassName("delete");
-	Array.from(delete_elements).forEach(function(element) {
-		element.addEventListener('click', function() {
-			if (confirm("정말로 삭제하시겠습니까?")) {
-				location.href = this.dataset.uri;
-			}
-			;
-		});
-	});
-</script>
+<script th:src="@{/js/board-scripts.js}"></script>

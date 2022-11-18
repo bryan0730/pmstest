@@ -41,23 +41,27 @@ public class Board {
 	private Long id; // 번호
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Category category;// 카테고리 [NOTICE, WORK]
 
+	@Column(length = 200 , nullable = false)
 	private String title; // 제목
 	
 	@Column(length = 5000)
 	private String content; // 내용	
 
 	@CreatedDate
+	@Column(nullable = false)
 	private LocalDateTime regDate; // 등록 날짜
-
+	
+	@Column(nullable = false)
 	private Long viewCount; // 조회수
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
 	private PmsUser pmsUser; // 작성자
 	
-	@Column
+	@Column(nullable = false)
 	private String boardScope;	//공개범위
 
 	public Board update(String title, Category category, String content) {

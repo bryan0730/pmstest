@@ -39,12 +39,16 @@ public class FileInfo {
 	@Column(nullable = false)
 	private String savedFileName; // 저장된 파일명
 
+	@Column(nullable = false)
 	private String uploadDir; // 경로명
 
+	@Column(nullable = false)
 	private String extension; // 확장자
 
+	@Column(nullable = false)
 	private Long fileVolume; // 파일 사이즈
 
+	@Column(nullable = false)
 	private String contentType; // ContentType
 
 	@CreatedDate

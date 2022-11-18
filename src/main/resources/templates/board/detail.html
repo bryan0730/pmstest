@@ -2,13 +2,22 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
 
 <div layout:fragment="content" class="content">
-	<div class="container-fluid border">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 p-5">
 				<div class="row">
+					<div class="col-md-12">
+						<!-- <p th:text="${boardDto.category}"></p> -->
+						<!-- 제목 -->
+						<label>제목</label>
+						<h3 class="p-3 bg-light" th:text="${boardDto.title}"></h3>
+					</div>
+				</div>
+				<div class="row">
 					<div class="col-md-4">
 						<!-- 카테고리 -->
-						카테고리 : 
+						카테고리 
+						<br>
 						<span th:if="${boardDto.category.toString().equals('NOTICE')}">
 						<a href="/pms/board/notice" >공 지 게 시 판</a>
 						</span>
@@ -27,51 +36,26 @@
 						등록 일자 <p th:text="${#temporals.format(boardDto.regDate, 'yyyy-MM-dd  hh:mm:ss')}"></p>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<!-- <p th:text="${boardDto.category}"></p> -->
-						<!-- 제목 -->
-						<label>제목</label>
-						<h3 class="p-3 border bg-light" th:text="${boardDto.title}"></h3>
-					</div>
-				</div>
 				<!-- 내용 -->
 				<label>내용</label>
-				<p class="p-3 border bg-light" th:text="${boardDto.content}"></p>
-
+				<p class="p-3 bg-light" th:text="${boardDto.content}"></p>
 
 				<div class="row-md">
 					<!-- 첨부 파일 -->
-					<div class="col-md-6 bg-light border px-3">
+					<div class="col-md-6 bg-light px-3">
 						<p th:each="boardFile, index : ${boardFile}">
 							<a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
 						</p>
 					</div>
 				</div>
 				<br>
-				<a th:if="${isWriter}" class="delete btn btn-sm btn-danger" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
-				<a th:if="${isWriter}" class="btn btn-sm btn-primary" th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a>
-				<a class="btn btn-sm btn-primary" href="javascript:history.back();">이전 페이지로 이동</a>
-			</div>
+				<div class="d-flex justify-content-end">
+					<a th:if="${isWriter}" class="btn btn-sm btn-primary mx-1" th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a>
+					<a th:if="${isWriter}" class="delete btn btn-sm btn-danger mx-1" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
+					<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">목록</a>
+				</div>
 		</div>
 	</div>
 </div>
 </html>
-
-
-
-<script type='text/javascript'>
-	//게시물 삭제
-	const delete_elements = document.getElementsByClassName("delete");
-	Array.from(delete_elements).forEach(function(element) {
-		element.addEventListener('click', function() {
-			if (confirm("정말로 삭제하시겠습니까?")) {
-				location.href = this.dataset.uri;
-			}
-			;
-		});
-	});
-</script>
-
-
-
+<script th:src="@{/js/board-scripts.js}"></script>
