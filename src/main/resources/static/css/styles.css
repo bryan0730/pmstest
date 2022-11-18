@@ -317,7 +317,7 @@ caption {
 th {
   text-align: inherit;
   text-align: -webkit-match-parent;
-  background: #dedede;
+  background: #efefef !important;
   padding: 7px 0;
   text-align: center;
 
