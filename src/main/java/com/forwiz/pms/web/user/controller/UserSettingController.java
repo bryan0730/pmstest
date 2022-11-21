@@ -3,6 +3,7 @@ package com.forwiz.pms.web.user.controller;
 import com.forwiz.pms.domain.organization.dto.OrganizationListResponse;
 import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
 import com.forwiz.pms.domain.user.dto.UserDto;
+import com.forwiz.pms.domain.user.dto.UserDuplicatedResponse;
 import com.forwiz.pms.domain.user.dto.UserSettingResponse;
 import com.forwiz.pms.domain.organization.service.OrganizationService;
 import com.forwiz.pms.domain.user.service.UserService;
@@ -52,8 +53,16 @@ public class UserSettingController {
     @PostMapping("/join")
     public String signUp(@Valid UserDto userDto){
 
-        UserDto resultDto = userService.signUp(userDto);
+        userService.signUp(userDto);
 
         return "redirect:/admin/user";
+    }
+
+    @ResponseBody
+    @PostMapping("/verify")
+    public UserDuplicatedResponse idDuplicatedCheck(@RequestBody String verification){
+
+        log.info("verify id : {}", verification);
+        return userService.idDuplicatedCheck(verification);
     }
 }

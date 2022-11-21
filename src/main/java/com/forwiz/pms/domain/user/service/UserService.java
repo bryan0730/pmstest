@@ -3,6 +3,7 @@ package com.forwiz.pms.domain.user.service;
 import com.forwiz.pms.domain.organization.service.OrganizationService;
 import com.forwiz.pms.domain.user.dto.Role;
 import com.forwiz.pms.domain.user.dto.UserDto;
+import com.forwiz.pms.domain.user.dto.UserDuplicatedResponse;
 import com.forwiz.pms.domain.user.dto.UserSettingResponse;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 import com.forwiz.pms.domain.organization.entity.Organization;
@@ -106,5 +107,16 @@ public class UserService {
         }
 
         return mapList.size();
+    }
+
+    @Transactional
+    public UserDuplicatedResponse idDuplicatedCheck(String verification) {
+
+        boolean empty = userRepository.findByUserId(verification).isEmpty();
+        if (empty){
+            return new UserDuplicatedResponse(true, "사용 가능한 ID입니다.");
+        }
+
+        return new UserDuplicatedResponse(false, "사용 불가능한 ID입니다.");
     }
 }

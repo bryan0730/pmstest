@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.id-div{
+    display: flex;
+}
+
+.duplicated-text{
+    width: 400px;
+}
+
+.duplicated-msg{
+
+}
+
+.true-msg{
+    color: green;
+}
+
+.false-msg{
+    color: red;
+}

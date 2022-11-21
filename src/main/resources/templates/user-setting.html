@@ -3,7 +3,9 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragment/layout.html}">
-
+<head>
+  <link th:href="@{/css/user-setting.css}" rel="stylesheet" />
+</head>
 <div layout:fragment="content">
   <h1 class="mt-4">Setting</h1>
   <ol class="breadcrumb mb-4">
@@ -56,9 +58,14 @@
         </div>
         <div class="modal-body">
           <form th:action="@{/admin/user/join}" method="post">
+            <input type="hidden" value=false id="verify-check">
             <div class="mb-3">
               <label for="id-text" class="col-form-label">아이디:</label>
-              <input type="text" class="form-control" id="id-text" name="userId">
+              <div class="id-div">
+                <input type="text" class="form-control duplicated-text" id="id-text" name="userId">
+                <button type="button" id="duplicated-btn" class="btn btn-primary">중복</button>
+              </div>
+              <div class="duplicated-msg" id="duplicated-msg"></div>
             </div>
             <div class="mb-3">
               <label for="pw-text" class="col-form-label">비밀번호:</label>
@@ -89,7 +96,6 @@
               <input type="radio" id="auth-user" name="auth" value="ROLE_USER" checked="checked">
               <label for="auth-user" class="col-form-label">USER</label>
             </div>
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
