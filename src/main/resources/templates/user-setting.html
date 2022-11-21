@@ -29,13 +29,13 @@
       <tbody>
       <tr th:each="user, stat : ${userList}">
         <input type="hidden" name="userId" th:value="${user.id}">
-        <td th:text="|${stat.count}|"></td>
-        <td th:text="${user.userId}"></td>
-        <td th:text="${user.userName}"></td>
-        <td th:text="${user.userPhoneNumber}"></td>
-        <td th:text="${user.organizationName}"></td>
-        <td th:text="${user.userRank}"></td>
-        <td>
+        <td class="table-td" th:text="|${stat.count}|"></td>
+        <td class="table-td" th:text="${user.userId}"></td>
+        <td class="table-td" th:text="${user.userName}"></td>
+        <td class="table-td" th:text="${user.userPhoneNumber}"></td>
+        <td class="table-td" th:text="${user.organizationName}"></td>
+        <td class="table-td" th:text="${user.userRank}"></td>
+        <td class="table-td">
           <input type="checkbox" name="delYN" th:value="${user.userDeleteYN}">
         </td>
       </tr>

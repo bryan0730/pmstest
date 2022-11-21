@@ -32,10 +32,10 @@
             <tbody>
                 <tr th:each="org, stat : ${orgList}">
                     <input type="hidden" name="orgId" th:value="${org.organizationId}">
-                    <td th:text="|${stat.count}|" th:value="${org.organizationId}"></td>
-                    <td th:text="${org.organizationCode}"></td>
-                    <td th:text="${org.organizationName}"></td>
-                    <td>
+                    <td class="table-td" th:text="|${stat.count}|" th:value="${org.organizationId}"></td>
+                    <td class="table-td" th:text="${org.organizationCode}"></td>
+                    <td class="table-td" th:text="${org.organizationName}"></td>
+                    <td class="table-td">
                         <input type="checkbox" name="isChecked" th:value="${org.organizationDelete}">
                     </td>
                 </tr>

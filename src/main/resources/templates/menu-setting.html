@@ -23,10 +23,10 @@
     </thead>
     <tbody>
     <tr th:each="url, stat : ${url}">
-      <td th:text="|${stat.count}|"></td>
-      <td th:text="${url.menuName}"></td>
-      <td th:text="${url.menuCode}"></td>
-      <td th:text="${url.menuUrl}"></td>
+      <td class="table-td" th:text="|${stat.count}|"></td>
+      <td class="table-td" th:text="${url.menuName}"></td>
+      <td class="table-td" th:text="${url.menuCode}"></td>
+      <td class="table-td" th:text="${url.menuUrl}"></td>
     </tr>
     </tbody>
   </table>

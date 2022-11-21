@@ -30,7 +30,7 @@
 
       <tbody>
       <tr th:each="rv, stat : ${receiveList}" th:class="${rv.messageState=='1'} ? 'unread-row' : ''">
-        <th class="msg tx-middle ssh" scope="row" th:text="|${stat.count}|"></th>
+        <td class="msg tx-middle ssh" scope="row" th:text="|${stat.count}|"></td>
         <td class="text-truncate msg tx-left lo" th:text="${rv.messageContents}" th:onclick="|location.href='@{/pms/message/{msgId}(msgId=${rv.messageId})}'|"></td>
         <td class="msg tx-middle sh" th:text="${rv.senderName}"></td>
         <td class="msg tx-middle sh" th:text="${rv.sendDate}"></td>
