@@ -53,4 +53,17 @@ public class PmsUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        return this.pmsUser.getId().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PmsUserDetails){
+            return this.pmsUser.getId().equals(((PmsUserDetails) obj).pmsUser.getId());
+        }
+        return false;
+    }
 }
