@@ -19,11 +19,9 @@ import com.forwiz.pms.domain.file.exception.NoSearchFileException;
 import com.forwiz.pms.domain.file.service.FileService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class FileController {
 
 	private final FileService fileService;
@@ -38,7 +36,6 @@ public class FileController {
 		
 		// 파일 경로
 		Path saveFilePath = Paths.get(fileDto.getUploadDir() + java.io.File.separator + fileDto.getSavedFileName());
-		log.info("saveFilePath :{}", saveFilePath);
 		// 해당 경로에 파일이 없으면
 		if (!saveFilePath.toFile().exists()) {	//경로를 파일객체로 변환 존재여부
 			throw new NoSearchFileException("파일을 찾을 수 없습니다.");

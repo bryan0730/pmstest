@@ -20,15 +20,12 @@ import com.forwiz.pms.domain.board.entity.BoardFile;
 import com.forwiz.pms.domain.board.repository.BoardFileRepository;
 import com.forwiz.pms.domain.file.dto.FileInfoDto;
 import com.forwiz.pms.domain.file.entity.FileInfo;
-import com.forwiz.pms.domain.file.exception.NoSearchFileException;
 import com.forwiz.pms.domain.file.repository.FileRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class FileService {
 	/*
 	 * upload: path
@@ -80,7 +77,6 @@ public class FileService {
 						// insert
 						FileInfo file = fileDto.toEntity();
 						Long fileId = insertFile(file);
-						log.info("fileId = {}", fileId);
 
 						try {
 							InputStream fileStream = file1.getInputStream();

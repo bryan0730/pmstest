@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 
 	private final BoardRepository boardRepository;
-	//private final MemberRepository memberRepository; >> PmsUserRepository pmsUserRepository;
 	private final CustomBoardRepository customBoardRepository;
 	private final FileService fileService;
 	/**
@@ -69,8 +68,6 @@ public class BoardService {
 	 */
 	@Transactional
 	public BoardResponseDto getBoard(Long boardId) {
-		//Optional<Board> getBoard = boardRepository.findById(boardId);
-		//Board board = getBoard.get();
 		Board board =  boardRepository.findById(boardId).get();
 		
 	    //reponse

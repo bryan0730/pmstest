@@ -25,7 +25,6 @@ import com.forwiz.pms.domain.board.exception.AccessDenied;
 import com.forwiz.pms.domain.board.service.BoardService;
 import com.forwiz.pms.domain.file.service.FileService;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
-import com.forwiz.pms.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -185,7 +184,7 @@ public class BoardController {
 		}
 		
 		model.addAttribute("boardFile", boardFileResponseDto);
-		model.addAttribute("boardDto", boardResponseDto); // th:object="${boardDto}"
+		model.addAttribute("boardDto", boardResponseDto);
 
 		return "board/detail";
 	}
