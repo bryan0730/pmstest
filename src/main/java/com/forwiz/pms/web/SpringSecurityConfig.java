@@ -70,7 +70,7 @@ public class SpringSecurityConfig {
                 .sessionFixation().changeSessionId() //어차피 서블릿 3.1이상 버전에서는 defalut 값
                 .invalidSessionUrl("/login-page")
                 .maximumSessions(1)
-                .maxSessionsPreventsLogin(true) // true : 초과된 세션 사용자 로그인 허용, 기존 사용자 로그아웃 & false : 초과된 사용자 로그인 불가
+                .maxSessionsPreventsLogin(false) // true : 초과된 세션 사용자 로그인 허용, 기존 사용자 로그아웃 & false : 초과된 사용자 로그인 불가
                 .expiredUrl("/login-page")
                 ;
 
