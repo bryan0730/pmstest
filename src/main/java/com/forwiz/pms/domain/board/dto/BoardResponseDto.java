@@ -24,11 +24,13 @@ public class BoardResponseDto {
 	private String userName;
 	private String userId;
 	private String boardScope;
+	private String userOrganization;
 	//private List<MultipartFile> multipartFile;
 	
 	
 	@Builder
-	public BoardResponseDto(Long id, String title, Category category, String content, String userName, LocalDateTime regDate, String userId, String boardScope) {
+	public BoardResponseDto(Long id, String title, Category category, String content, String userName,
+			LocalDateTime regDate, String userId, String boardScope, String userOrganization) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
@@ -37,12 +39,13 @@ public class BoardResponseDto {
 		this.regDate = regDate;
 		this.userId = userId;
 		this.boardScope = boardScope;
+		this.userOrganization = userOrganization;
 	}
 	
 	// querydsl Select 대상을 지정
 	@QueryProjection
 	public BoardResponseDto(Long id, String title, Category category, String content, LocalDateTime regDate, Long viewCount,
-			String userName) {
+			String userName, String userOrganization) {
 		this.id = id;
 		this.title = title;
 		this.category = category;
@@ -50,6 +53,7 @@ public class BoardResponseDto {
 		this.regDate = regDate;
 		this.viewCount = viewCount;
 		this.userName = userName;
+		this.userOrganization = userOrganization;
 	}
 
 	public BoardResponseDto() {

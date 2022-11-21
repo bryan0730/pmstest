@@ -4,6 +4,7 @@ package com.forwiz.pms.domain.board.repository;
 import static com.forwiz.pms.domain.board.entity.QBoard.board;
 import static com.forwiz.pms.domain.board.entity.QBoardFile.boardFile;
 import static com.forwiz.pms.domain.user.entity.QPmsUser.pmsUser;
+import static com.forwiz.pms.domain.organization.entity.QOrganization.organization;
 
 import java.util.List;
 
@@ -60,7 +61,8 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
                         ,board.content
                         ,board.regDate
                         ,board.viewCount
-                        ,pmsUser.userName))
+                        ,pmsUser.userName
+                        ,pmsUser.organization.organizationName))
                 .from(board)
                 .leftJoin(board.pmsUser, pmsUser)
                 .where(containsSearch(searchVal))

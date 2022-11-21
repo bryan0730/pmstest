@@ -83,6 +83,7 @@ public class BoardService {
 		.regDate(board.getRegDate())
 		.userId(board.getPmsUser().getUserId())
 		.boardScope(board.getBoardScope())
+		.userOrganization(board.getPmsUser().getOrganization().getOrganizationName())
 		.build();
 		
 		return boardResponseDto;
