@@ -16,26 +16,37 @@
 				<div class="row">
 					<div class="col-md-4">
 						<!-- 카테고리 -->
-						카테고리 
-						<br>
+						<p class="d-inline bg-light">카테고리 [공개범위]</p>
+						<div class="vr"></div>
 						<span th:if="${boardDto.category.toString().equals('NOTICE')}">
-						<a href="/pms/board/notice" >공 지 게 시 판</a>
+							<a href="/pms/board/notice">공지 게시판</a>
 						</span>
 						<span th:if="${boardDto.category.toString().equals('WORK')}">
-						<a href="/pms/board/work" >업 무 게 시 판</a>
+							<a href="/pms/board/work">업무 게시판</a>
 						</span>
-						<br>
+						<p class="d-inline bg-light bg-opacity-50 border border rounded-start" th:text="${boardDto.boardScope}" />
 						<!-- <p th:text="${boardDto.category}"></p> -->
 					</div>
 					<div class="col-md-4">
 						<!-- 작성자 -->
-						작성자 <p th:text="${boardDto.userName}" />
+						<p class="d-inline bg-light">작성자</p>
+						<div class="vr"></div>
+						<span th:if="${boardDto.userOrganization.equals('DEFAULT')}">
+							<img th:src="@{/img/admin.png}">
+						</span>
+						<span th:unless="${boardDto.userOrganization.equals('DEFAULT')}">
+							<p class="d-inline bg-light bg-opacity-50 border border rounded-start" th:text="${boardDto.userOrganization}" />
+						</span>
+						<p class="d-inline" th:text="${boardDto.userName}" />
 					</div>
 					<div class="col-md-4">
 						<!-- 등록일자 -->
-						등록 일자 <p th:text="${#temporals.format(boardDto.regDate, 'yyyy-MM-dd  hh:mm:ss')}"></p>
+						<p class="d-inline bg-light">등록일자</p>
+						<div class="vr"></div>
+						<p class="d-inline" th:text="${#temporals.format(boardDto.regDate, 'yyyy-MM-dd  hh:mm:ss')}"></p>
 					</div>
 				</div>
+				<hr class="border border-dark">
 				<!-- 내용 -->
 				<label>내용</label>
 				<p class="p-3 bg-light" th:text="${boardDto.content}"></p>
@@ -54,6 +65,7 @@
 					<a th:if="${isWriter}" class="delete btn btn-sm btn-danger mx-1" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
 					<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">목록</a>
 				</div>
+			</div>
 		</div>
 	</div>
 </div>
