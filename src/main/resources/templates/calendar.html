@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout.html}">
+<div layout:fragment="content">
+  <h1 class="mt-4">Calendar</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">Calendar</li>
+    <li class="breadcrumb-item active">calendar</li>
+  </ol>
+
+  <span th:text="${calendar.year}"></span>
+  <span th:text="${calendar.month}"></span>
+  <div class="calendar-container">
+    <div class="calendar-item">일</div><div class="calendar-item">월</div><div class="calendar-item">화</div><div class="calendar-item">수</div><div class="calendar-item">목</div><div class="calendar-item">금</div><div class="calendar-item">토</div>
+    <div class="calendar-item" th:each="cal, stat : ${#numbers.sequence(1, calendar.monthDay)}"></div>
+    <div class="calendar-item" th:each="cal, stat : ${#numbers.sequence(1, calendar.getMonthEnd())}" th:text="${stat.count}">
+
+    </div>
+  </div>
+
+</div>
+</html>
+<style>
+  .calendar-container {
+    display: flex;
+    gap: 20px 0%;
+    flex-wrap: wrap;
+  }
+
+  .calendar-item{
+    width: 14%;
+  }
+</style>
