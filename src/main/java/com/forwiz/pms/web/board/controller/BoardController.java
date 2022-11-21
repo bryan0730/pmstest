@@ -55,7 +55,7 @@ public class BoardController {
 		Page<BoardResponseDto> results = boardService.selectBoardList(searchVal, pageable, category);
 		boardModelPut(results, model, searchVal, pageable, category);
 		pageModelPut(results, model);
-		return "board/notice";
+		return "board/list";
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class BoardController {
 		Page<BoardResponseDto> results = boardService.selectBoardList(searchVal, pageable, category);
 		boardModelPut(results, model, searchVal, pageable, category);
 		pageModelPut(results, model);
-		return "board/work";
+		return "board/list";
 	}
 
 	/**
