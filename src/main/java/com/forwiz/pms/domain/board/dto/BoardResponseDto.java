@@ -1,9 +1,6 @@
 package com.forwiz.pms.domain.board.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import com.forwiz.pms.domain.board.entity.Category;
 import com.querydsl.core.annotations.QueryProjection;

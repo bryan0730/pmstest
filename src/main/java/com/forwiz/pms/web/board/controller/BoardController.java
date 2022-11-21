@@ -25,7 +25,6 @@ import com.forwiz.pms.domain.board.exception.AccessDenied;
 import com.forwiz.pms.domain.board.service.BoardService;
 import com.forwiz.pms.domain.file.service.FileService;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
-import com.forwiz.pms.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +54,7 @@ public class BoardController {
 		Page<BoardResponseDto> results = boardService.selectBoardList(searchVal, pageable, category);
 		boardModelPut(results, model, searchVal, pageable, category);
 		pageModelPut(results, model);
-		return "board/notice";
+		return "board/list";
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class BoardController {
 		Page<BoardResponseDto> results = boardService.selectBoardList(searchVal, pageable, category);
 		boardModelPut(results, model, searchVal, pageable, category);
 		pageModelPut(results, model);
-		return "board/work";
+		return "board/list";
 	}
 
 	/**
@@ -185,7 +184,7 @@ public class BoardController {
 		}
 		
 		model.addAttribute("boardFile", boardFileResponseDto);
-		model.addAttribute("boardDto", boardResponseDto); // th:object="${boardDto}"
+		model.addAttribute("boardDto", boardResponseDto);
 
 		return "board/detail";
 	}
