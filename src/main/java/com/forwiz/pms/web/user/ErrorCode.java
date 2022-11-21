@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum ErrorCode {
 
-    BAD_CREDENTIAL("L001", "BadCredentialsException", "비밀번호가 일치하지 않습니다."),
+    BAD_CREDENTIAL("L001", "BadCredentialsException", "아이디 또는 비밀번호가 일치하지 않습니다."),
     INTERNAL_AUTHENTICATION("L002", "InternalAuthenticationServiceException", "아이디를 확인하세요."),
     AUTHENTICATION_NOT_FOUND("L003", "AuthenticationCredentialNotFoundException", "인증이 거부되었습니다."),
     LOCKED("L004", "LockedEception", "잠긴 계정입니다."),

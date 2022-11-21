@@ -37,7 +37,7 @@ public class NoticeInterceptor implements HandlerInterceptor {
         request.setAttribute("messageList", messageList);
 
         int unreadMessageCount = messageService.countByMessageState(MessageState.UNREAD, user);
-        log.info("NoticeInterceptor unread message count :: {}", unreadMessageCount);
+
         request.setAttribute("unreadMsgCount", unreadMessageCount);
     }
 }

@@ -37,7 +37,6 @@ public class OrganizationController {
     public String saveOrganization(SaveOrganizationRequest saveOrganizationRequest, RedirectAttributes re){
 
         DuplicateConfirmation confirmation = organizationService.saveOrganization(saveOrganizationRequest);
-        log.info("SaveOrganization Duplicate Result Msg : {}", confirmation.getComment());
         re.addFlashAttribute("resultMsg", confirmation.getComment());
 
         return "redirect:/admin/organization";

@@ -53,7 +53,6 @@ public class UserSettingController {
     public String signUp(@Valid UserDto userDto){
 
         UserDto resultDto = userService.signUp(userDto);
-        log.info("result : {}", resultDto);
 
         return "redirect:/admin/user";
     }

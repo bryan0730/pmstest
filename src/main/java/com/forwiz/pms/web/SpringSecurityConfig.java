@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 
 @Configuration
 @EnableWebSecurity
-//@RequiredArgsConstructor
 public class SpringSecurityConfig {
 
     @Bean
@@ -97,7 +96,6 @@ public class SpringSecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
-        System.out.println("configuration.getAuthenticationManager() = " + configuration.getAuthenticationManager());
         return configuration.getAuthenticationManager();
     }
 

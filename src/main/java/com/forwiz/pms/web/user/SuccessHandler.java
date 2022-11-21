@@ -20,19 +20,11 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
-        log.info("Custom SuccessHandler : {}", this);
-
-        RequestCache rec = new HttpSessionRequestCache();
-        SavedRequest sr = rec.getRequest(request,response);
-
-//        log.info("Custom SuccessHandler RedirectUrl : {}", sr.getRedirectUrl());
-
         PmsUserDetails principal = (PmsUserDetails) authentication.getPrincipal();
         String username = principal.getUsername();
         String groupname = principal.getPmsUser().getOrganization().getOrganizationName();
         Role role = principal.getPmsUser().getAuth();
 
-        log.info("Custom SuccessHandler - username: {}", username);
 
         //해당 코드에서 "LazyInitializationException: could not initialize proxy no Session" 발생
         //LAZY, EAGER, 영속성 컨텍스트에 대한 이해 필요

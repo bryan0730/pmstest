@@ -45,7 +45,6 @@ public class OrganizationService {
     @Cacheable(value = "org")
     public List<OrganizationUsersResponse> selectSideBarUserList(){
         List<Organization> organizations = organizationRepository.findSidebarInfoList(false);
-        log.info("::::::OrganizationService.sideBar select method:::::::::::");
 
         return organizations.stream()
                 .map(OrganizationUsersResponse::new)
@@ -74,7 +73,6 @@ public class OrganizationService {
 
     private Long organizationNameDuplicateCheck(String organizationName){
         Long rowCount = organizationRepository.countByOrganizationNameAndOrganizationDelete(organizationName, false);
-        log.info("orgName duplicated check method ::::: row count : {}", rowCount);
 
         return rowCount;
     }
