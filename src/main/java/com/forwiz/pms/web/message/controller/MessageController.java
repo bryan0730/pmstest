@@ -4,13 +4,16 @@ import com.forwiz.pms.domain.message.dto.MessageDetailResponse;
 import com.forwiz.pms.domain.message.dto.MessageReceiveListResponse;
 import com.forwiz.pms.domain.message.dto.MessageSaveRequest;
 import com.forwiz.pms.domain.message.dto.MessageSendListResponse;
+import com.forwiz.pms.domain.message.exception.MessageException;
 import com.forwiz.pms.domain.message.service.MessageService;
 
 import com.forwiz.pms.domain.page.PageCalculator;
 import com.forwiz.pms.domain.page.Paging;
+import com.forwiz.pms.domain.user.dto.PmsUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -71,8 +74,11 @@ public class MessageController {
 
     @ResponseBody
     @PostMapping("/send")
-    public String saveMessage(@ModelAttribute @Valid MessageSaveRequest messageSaveRequest) throws IOException {
+    public String saveMessage(@ModelAttribute @Valid MessageSaveRequest messageSaveRequest, @AuthenticationPrincipal PmsUserDetails userDetails) throws IOException {
 
+        if (!messageSaveRequest.getMessageSender().equals(userDetails.getPmsUser().getId())){
+            throw new MessageException("사용자 정보가 다릅니다.");
+        }
         messageService.saveMessage(messageSaveRequest);
 
         return "메시지 전송하였습니다.";

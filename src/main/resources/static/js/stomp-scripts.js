@@ -46,13 +46,13 @@ $(document).ready(function() {
     $("#msg-file").on("change", function () {
         const dataTransfer = new DataTransfer();
         let files = $("#msg-file")[0].files;
-        console.log(files.length);
         if (files.length>5){
             let fileArray = Array.from(files);
             fileArray.splice(4,1);
             fileArray.forEach(file => { dataTransfer.items.add(file)});
             $('#msg-file')[0].files = dataTransfer.files;
             alert("첨부파일은 최대 5개까지만 등록가능합니다.");
+            $("#msg-file").val("");
         }
     });
 
@@ -86,6 +86,7 @@ $(document).ready(function() {
             success: function(data){
                 sendMessage();
                 alert(data);
+                initMsgModal();
             },
             error: function(xhr, status, error){
                 let obj = JSON.parse(xhr.responseText);
@@ -93,7 +94,13 @@ $(document).ready(function() {
             }
         });
     });
+
+    $("#close-msg").click(function (){
+        initMsgModal();
+    });
 });
+
+
 
 
 function connect() {
@@ -139,4 +146,10 @@ function showNotification(msg){
 function sendMessage(){
     stompClient.send("/ws/pms/"+receiver, {},
         JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val(), 'senderName':$('#pmsUserInfoName').text()}));
+}
+
+function initMsgModal(){
+    console.log("init Modal");
+    $("#message-text").val("");
+    $("#msg-file").val("");
 }

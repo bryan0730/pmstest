@@ -60,7 +60,7 @@ public class MessageFileStore {
         String ext = extractExt(originFileName);
         String uuid = UUID.randomUUID().toString();
 
-        String crackedExt = ext.substring(0,1);
+        String crackedExt = ext.substring(0,2);
 
         return uuid + "." + crackedExt;
     }
