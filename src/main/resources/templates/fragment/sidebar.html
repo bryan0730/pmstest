@@ -40,22 +40,22 @@
           <div class="modal-body">
 
               <div class="mb-3">
-                <label for="recipient-name" class="col-form-label">Receiver:</label>
+                <label for="recipient-name" class="col-form-label">받는사람:</label>
                 <input type="text" class="form-control" id="recipient-name" name="messageReceiver" readonly>
               </div>
               <div class="mb-3">
-                <label for="message-text" class="col-form-label">Message:</label>
+                <label for="message-text" class="col-form-label">내용:</label>
                 <textarea class="form-control" id="message-text" name="messageContent"></textarea>
               </div>
               <div class="mb-3">
-                <label for="msg-file" class="col-form-label">Files:</label>
+                <label for="msg-file" class="col-form-label">첨부파일:</label>
                 <input type="file" multiple="multiple" class="form-control" id="msg-file" name="messageFiles">
               </div>
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="send-msg" data-bs-dismiss="modal">Send</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-primary" id="send-msg" data-bs-dismiss="modal">보내기</button>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
   <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header">
-        <strong class="me-auto">PMS-Message</strong>
+        <strong class="me-auto">PMS-메시지</strong>
         <small id="toast-sender"></small>
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
