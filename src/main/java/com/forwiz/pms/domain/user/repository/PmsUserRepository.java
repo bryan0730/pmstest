@@ -18,4 +18,6 @@ public interface PmsUserRepository extends JpaRepository<PmsUser, Long> {
             "where p.userDeleteYN = ?1")
     List<PmsUser> findByUserDeleteYN(boolean delYN);
 
+    Optional<PmsUser> findByUserId(String verification);
+
 }

@@ -22,6 +22,10 @@ $(document).ready(function() {
             alert("휴대폰 번호는 필수입니다.");
             return false;
         }
+        if($("#verify-check").val()=="false"){
+            alert("ID 중복확인이 필요합니다.");
+            return false;
+        }
     });
 
     $("#delBtn").click(function () {
@@ -60,6 +64,38 @@ $(document).ready(function() {
                 window.location.replace("/admin/user");
             },
             error: function (xhr, status, error) {
+                let obj = JSON.parse(xhr.responseText);
+                alert(obj.errorMessage);
+            }
+        });
+    });
+
+    $("#duplicated-btn").click(function (){
+
+        let verifyId = $("#id-text").val();
+        console.log(verifyId)
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        $.ajax({
+            url: "/admin/user/verify",
+            type: "POST",
+            data: verifyId,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            // dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                $("#verify-check").val(data.isDuplicated);
+                if (data.isDuplicated){
+                    $("#duplicated-msg").attr("class","duplicated-msg true-msg");
+                }else {
+                    $("#duplicated-msg").attr("class","duplicated-msg false-msg");
+                }
+                $("#duplicated-msg").text(data.responseMessage);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
                 let obj = JSON.parse(xhr.responseText);
                 alert(obj.errorMessage);
             }

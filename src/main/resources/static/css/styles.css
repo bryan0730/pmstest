@@ -10816,3 +10816,8 @@ body {
   text-align: center;
 }
 
+.modal-header{
+  background: #0f54a8;
+  color: #fff;
+}
+
