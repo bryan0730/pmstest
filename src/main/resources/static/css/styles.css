@@ -10821,3 +10821,12 @@ body {
   color: #fff;
 }
 
+.alarm-link{
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  height: 35px;
+  display: block;
+  padding: 0.5rem 1rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+

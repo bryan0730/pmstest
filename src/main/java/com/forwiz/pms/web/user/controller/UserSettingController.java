@@ -41,7 +41,7 @@ public class UserSettingController {
     @PostMapping("/del")
     public String delUser(@RequestBody List<Map<String, Long>> mapList){
 
-        if(mapList.size()==0){
+        if(mapList.size()==0 || mapList.get(0).get("id")==1){
             throw new DeleteListEmptyException("삭제할 데이터가 없습니다.");
         }
 

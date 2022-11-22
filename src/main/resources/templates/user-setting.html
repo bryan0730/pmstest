@@ -38,7 +38,7 @@
         <td class="table-td" th:text="${user.organizationName}"></td>
         <td class="table-td" th:text="${user.userRank}"></td>
         <td class="table-td">
-          <input type="checkbox" name="delYN" th:value="${user.userDeleteYN}">
+          <input type="checkbox" name="delYN" th:if="${!user.userId.equals('admin')}" th:value="${user.userDeleteYN}">
         </td>
       </tr>
       </tbody>

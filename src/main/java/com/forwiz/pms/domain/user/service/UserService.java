@@ -112,7 +112,7 @@ public class UserService {
     @Transactional
     public UserDuplicatedResponse idDuplicatedCheck(String verification) {
 
-        boolean empty = userRepository.findByUserId(verification).isEmpty();
+        boolean empty = userRepository.findByUserId(verification, false).isEmpty();
         if (empty){
             return new UserDuplicatedResponse(true, "사용 가능한 ID입니다.");
         }

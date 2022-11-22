@@ -25,15 +25,13 @@ $(document).ready(function() {
         $(".nav-modal-cover").removeClass("active");
     });
 
-    $(".nav-link").on("click", function (){
+    $(".modal-user-name").on("click", function (){
         let userName = $(this).text().trim();
         receiver = $(this).find($('input:hidden')).val();
         $('#recipient-name').val(userName);
 
-        console.log("Message Receiver name = "+userName);
-        console.log("Login User id = "+$("#pmsUserId").val());
-        console.log("Message Receiver id = "+receiver);
     });
+
 
     $("#btn-msg-reply").on("click", function (){
         let userName = $("#exampleFormControlInput1").val();
@@ -87,6 +85,7 @@ $(document).ready(function() {
             enctype:'multipart/form-data',
             success: function(data){
                 sendMessage();
+                alert(data);
             },
             error: function(xhr, status, error){
                 let obj = JSON.parse(xhr.responseText);
@@ -104,8 +103,6 @@ function connect() {
         console.log('Connected: ' + frame);
 
         stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
-            console.log("sender ::" + JSON.parse(message.body).messageSender);
-            console.log("session id :: " + $("#pmsUserId").val());
             if(JSON.parse(message.body).messageSender!=$("#pmsUserId").val()){
                 notificationCount = Number($('.num').text())+notificationCount+1;
                 showNotification(message);
@@ -140,7 +137,6 @@ function showNotification(msg){
 }
 
 function sendMessage(){
-    console.log("send msg 2222222");
     stompClient.send("/ws/pms/"+receiver, {},
         JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val(), 'senderName':$('#pmsUserInfoName').text()}));
 }

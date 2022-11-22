@@ -28,6 +28,10 @@ $(document).ready(function() {
         }
     });
 
+    $("#id-text").on("propertychange change keyup paste input", function() {
+        $("#verify-check").val(false);
+    });
+
     $("#delBtn").click(function () {
         if (!confirm("삭제하시겠습니까?")) return;
 

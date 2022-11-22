@@ -26,7 +26,7 @@
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <div class="alarm-wrap">
-                    <a class="nav-link" role="button" aria-expanded="false">
+                    <a class="nav-link" role="button" aria-expanded="false" th:href="@{/pms/message/receive}">
                         <img th:src="@{/img/alarm2.png}">
                         <input type="hidden" id="unreadCount" th:value="${unreadMsgCount}">
                         <div class="circle-wrapper" style="display: none">
