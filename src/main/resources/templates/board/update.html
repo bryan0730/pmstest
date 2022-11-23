@@ -2,12 +2,13 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
 
 <head>
-  <link th:href="@{/css/board.css}" rel="stylesheet" />
+<link th:href="@{/css/board.css}" rel="stylesheet" />
 </head>
 
 <div layout:fragment="content" class="content p-5">
 	<form th:action="@{'/pms/board/update/' + *{id}}" th:object="${boardRequestDto}" method="post"
 		enctype="multipart/form-data">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<input type="hidden" name="_method" value="put" />
 		<input type="hidden" id="boardId" name="id" th:value="*{id}" />
 		<article>
@@ -36,8 +37,10 @@
 				<div class="form-check form-check-inline mb-3">
 					<input type="radio" th:field="*{boardScope}" name="boardScope" value="전체" id="boardScope1" class="form-check-input">
 					<label for="boardScope1" class="form-check-label">전체</label>
-				</div><div class="form-check form-check-inline mb-3">
-					<input type="radio" th:field="*{boardScope}" name="boardScope" th:value="${session.groupname}" id="boardScope2" class="form-check-input">
+				</div>
+				<div class="form-check form-check-inline mb-3">
+					<input type="radio" th:field="*{boardScope}" name="boardScope" th:value="${session.groupname}" id="boardScope2"
+						class="form-check-input">
 					<label for="boardScope2" class="form-check-label">조직</label>
 				</div>
 				<br>
@@ -47,18 +50,32 @@
 						<p class="textCount">0자</p>
 						<p class="textTotal">/5000자</p>
 					</div>
-					<textarea class="form-control" rows="15" id="content" name="content" th:text="*{content}" maxlength="5000" placeholder="내용을 입력하세요"></textarea>
+					<textarea class="form-control" rows="15" id="content" name="content" th:text="*{content}" maxlength="5000"
+						placeholder="내용을 입력하세요"></textarea>
 				</div>
 				<br>
 				<div class="mb-3">
 					<label for="content">첨부파일</label>
-					<p th:each="boardFile, index : ${boardFile}">
-						<a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
-						<span>
-							<button th:fileId="${boardFile.boardFileId}" th:onclick="boardDelete(this.getAttribute('fileId'))" type="button"
-								class="btn btn-outline-danger">삭제</button>
-						</span>
-					</p>
+
+					<table id="fileTable" class="table">
+						<thead class="table-light">
+							<tr>
+								<th>파일명</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="boardFile, index : ${boardFile}">
+								<td class="table-td" th:text="${boardFile.originFileName}"></td>
+								<td class="table-td">
+									<span>
+										<button th:fileId="${boardFile.boardFileId}" th:onclick="boardDelete(this.getAttribute('fileId'))"
+											type="button" class="btn btn-sm btn-outline-danger">삭제</button>
+									</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 				<br>
 				<div class="mb-3">
@@ -69,8 +86,7 @@
 				<div class="d-flex justify-content-end">
 					<button type="submit" class="btn btn-sm btn-primary mx-1" id="btnSave">수정</button>
 					<a href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}" class="delete btn btn-sm btn btn-danger mx-1"
-						th:text="삭제"></a> 
-					<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">취소</a>
+						th:text="삭제"></a> <a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">취소</a>
 				</div>
 			</div>
 		</article>

@@ -14,7 +14,7 @@ function boardDelete(fileId) {
 	if (confirm("정말로 삭제하시겠습니까?")) {
 		//배열생성
 		const form = document.createElement('form');
-		form.setAttribute('method', 'post'); //Post 메소드 적용
+		form.setAttribute('method', 'GET'); 
 		form.setAttribute('action', '/boardFileDelete');
 
 		//파일 id

@@ -2,14 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="fragment/layout">
 <div layout:fragment="content" class="content">
-	<h1 class="mt-4">Board</h1>
+	<h1 class="mt-4">게시판</h1>
 	<ol class="breadcrumb mb-4">
-		<li class="breadcrumb-item">Board</li>
-		<li th:if="${category.toString().equals('NOTICE')}" class="breadcrumb-item active">Notice</li>
-		<li th:if="${category.toString().equals('WORK')}" class="breadcrumb-item active">Work</li>
+		<li class="breadcrumb-item">게시판</li>
+		<li th:if="${category.toString().equals('NOTICE')}" class="breadcrumb-item active">공지</li>
+		<li th:if="${category.toString().equals('WORK')}" class="breadcrumb-item active">업무</li>
 	</ol>
 	<form th:action th:object="${form}" method="get">
-		<nav class="container">
 			<br>
 			<div class="input-group">
 				<input type="text" name="searchVal" th:value="${searchVal}" class="form-control" placeholder="검색할 제목을 입력해주세요.">
@@ -17,8 +16,12 @@
 			</div>
 			<br>
 			<div>
-				<span th:if="${category.toString().equals('NOTICE')}">공 지 게 시 판</span>
-				<span th:if="${category.toString().equals('WORK')}">업 무 게 시 판</span>
+			<th:block th:if="${category.toString().equals('NOTICE')}">
+				<p class="d-inline">공지 게시판</p>
+			</th:block>
+			<th:block th:if="${category.toString().equals('WORK')}">
+				<p class="d-inline">업무 게시판</p>
+			</th:block>
 			</div>
 			<table class="table table-hover">
 				<colgroup>
@@ -47,16 +50,16 @@
 						<td class="text-center" th:text="${totalCount - (size * number) - index.index}"></td>
 						<!-- <td th:text="${index.count}"></td> -->
 						<td>
-							<a class="text-left" th:text="${list.title}" th:href="@{/pms/board/detail/{boardId}(boardId=${list.id})}"></a>
+							<a class="text-left text-decoration-none" th:text="${list.title}" th:href="@{/pms/board/detail/{boardId}(boardId=${list.id})}"></a>
 						</td>
 						<td class="text-center">
-							<span th:if="${list.userOrganization.equals('DEFAULT')}">
+							<th:block th:if="${list.userOrganization.equals('DEFAULT')}">
 								<img th:src="@{/img/admin.png}">
-							</span>
-							<span th:unless="${list.userOrganization.equals('DEFAULT')}">
-								<p class="d-inline bg-light bg-opacity-50 border border rounded-start" th:text="${list.userOrganization}" />
-							</span>
+							</th:block>
 							<p class="d-inline" th:text="${list.userName}"/>
+							<th:block th:unless="${list.userOrganization.equals('DEFAULT')}">
+								<span class="badge bg-light text-dark" th:text="${list.userOrganization}"></span>
+							</th:block>
 						</td>
 						<td class="text-center" th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
 						<td class="text-center" th:text="${list.viewCount}"></td>
@@ -65,15 +68,15 @@
 			</table>
 			<br>
 
-			<div class="d-flex justify-content-end">
-				<a th:href="@{/pms/board/write}" class="btn btn-primary">글쓰기</a>
+			<div class="d-flex button-container">
+				<a th:href="@{/pms/board/write}" class="btn btn-primary btn-sm">글쓰기</a>
 			</div>
 			<br>
 			<!-- th:with 으로 start, end 변수를 정의	 -->
 			<nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
 				th:with="start=${(list.number/maxPage)*maxPage + 1},
                       end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
-				<ul class="pagination">
+				<ul class="pagination pagination-sm">
 					<!-- '<' '<<' -->
 					<li th:if="${start > 1}" class="page-item">
 						<a th:href="@{/pms/board/notice/?(page=0, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous"> <span
@@ -106,7 +109,6 @@
 					</li>
 				</ul>
 			</nav>
-		</nav>
 	</form>
 </div>
 </html>

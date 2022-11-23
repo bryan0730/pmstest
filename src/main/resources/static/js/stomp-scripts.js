@@ -130,7 +130,7 @@ function fn_checkByte(obj){
 
 
 function connect() {
-    let socket = new SockJS('http://192.168.100.182:7070/our-websocket');
+    let socket = new SockJS('http://localhost:7070/our-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);

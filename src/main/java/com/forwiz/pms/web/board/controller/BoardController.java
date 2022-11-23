@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.forwiz.pms.domain.board.dto.BoardFileResponseDto;
@@ -212,10 +213,10 @@ public class BoardController {
 	 * 
 	 * @Method : boardFileDelete
 	 */
-	@PostMapping("/boardFileDelete")
+	@GetMapping("/boardFileDelete")
 	public String boardFileDelete(@RequestParam Long fileId, @RequestParam Long boardId) {
 		fileService.deleteBoardFile(fileId); // 파일삭제
-		return "redirect:/update/" + boardId;
+		return "redirect:/pms/board/update/" + boardId;
 	}
 
 }
