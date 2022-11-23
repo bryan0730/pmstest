@@ -19,6 +19,9 @@
 
 .nav-link{
 	height: 35px;
-/*     padding-top: 15px !important;
-    padding-bottom: 15px !important; */
+}
+
+sup{
+    float: right;
+    top: 24px !important;
 }

@@ -44,8 +44,8 @@
                 <input type="text" class="form-control" id="recipient-name" name="messageReceiver" readonly>
               </div>
               <div class="mb-3">
-                <label for="message-text" class="col-form-label">내용:</label>
-                <textarea class="form-control" id="message-text" name="messageContent"></textarea>
+                <label for="message-text" class="col-form-label">내용:</label><sup>(<span id="nowByte">0</span>/100bytes)</sup>
+                <textarea class="form-control" id="message-text" name="messageContent" onkeyup="fn_checkByte(this)"></textarea>
               </div>
               <div class="mb-3">
                 <label for="msg-file" class="col-form-label">첨부파일:</label>
