@@ -3,6 +3,7 @@ package com.forwiz.pms.web.exception;
 import javax.servlet.http.HttpServletRequest;
 
 import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
+import com.forwiz.pms.domain.user.exception.IdDuplicatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -17,8 +18,7 @@ import com.forwiz.pms.domain.message.exception.MessageException;
 import com.forwiz.pms.domain.message.exception.NoSearchMessageException;
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Objects;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @ControllerAdvice
@@ -67,6 +67,14 @@ public class GlobalControllerAdvice {
                 new ErrorResponse("ERROR-MSG", e.getMessage());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IdDuplicatedException.class)
+    public String idDuplicatedExceptionHandler(IdDuplicatedException e, RedirectAttributes redirectAttributes){
+        log.error("ExceptionHandler user save IdDuplicatedException : {}", e.getMessage());
+        redirectAttributes.addFlashAttribute("errmsg", e.getMessage());
+
+        return "redirect:/admin/user";
     }
 
     @ExceptionHandler(BindException.class)

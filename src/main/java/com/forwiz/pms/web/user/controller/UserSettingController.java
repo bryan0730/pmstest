@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,10 @@ public class UserSettingController {
 
         List<UserSettingResponse> userList = userService.findAllUser();
         model.addAttribute("userList", userList);
+
         List<OrganizationListResponse> organizations = organizationService.selectOrganizationList();
         model.addAttribute("organizations", organizations);
+
         return "user-setting";
     }
 

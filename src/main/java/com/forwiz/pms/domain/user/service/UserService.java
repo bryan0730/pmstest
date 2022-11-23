@@ -7,6 +7,7 @@ import com.forwiz.pms.domain.user.dto.UserDuplicatedResponse;
 import com.forwiz.pms.domain.user.dto.UserSettingResponse;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 import com.forwiz.pms.domain.organization.entity.Organization;
+import com.forwiz.pms.domain.user.exception.IdDuplicatedException;
 import com.forwiz.pms.domain.user.repository.PmsUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,18 @@ public class UserService {
     @Transactional
     @CacheEvict(value = "org", allEntries = true)
     public UserDto signUp(UserDto userDto){
+
+        /*
+        해당 예외발생을 Controller가 아닌 Service에서 하는 이유?
+        UserSettingController의 delUser 메소드에서는 컨트롤러에서 예외를 발생시켰다.
+        => 다른 개발자 또는 다른 곳에서 해당 서비스의 delete 메소드를 사용할 때 검증 로직이 바뀔수도 있고 삭제한다라는 역할만 주기 위해서
+        하지만 사용자 등록하는 기능은 서비스에서 검증을 하고 예외를 발생시킨다.
+        => 이후에 다른 곳에서 이 서비스 메소드를 사용할때는 무조건 적으로 지켜져야 하는 검증이기 때문이다.
+         */
+
+        if (!userRepository.findByUserId(userDto.getUserId(), false).isEmpty()){
+            throw new IdDuplicatedException("중복된 ID 요청");
+        }
 
         Organization organization = organizationService.findById(userDto.getUserGroup());
         PmsUser pmsUser = PmsUser.builder()

@@ -65,7 +65,7 @@
                 <input type="text" class="form-control duplicated-text" id="id-text" name="userId">
                 <button type="button" id="duplicated-btn" class="btn btn-primary">중복</button>
               </div>
-              <div class="duplicated-msg" id="duplicated-msg"></div>
+              <div class="duplicated-msg false-msg" id="duplicated-msg" th:text="${errmsg}"></div>
             </div>
             <div class="mb-3">
               <label for="pw-text" class="col-form-label">비밀번호:</label>
