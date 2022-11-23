@@ -9,24 +9,23 @@
 					<div class="col-md-12">
 						<!-- <p th:text="${boardDto.category}"></p> -->
 						<!-- 제목 -->
-						<label>제목</label>
+						<!-- 카테고리 -->
+						<div>
+						<th:block th:if="${boardDto.category.toString().equals('NOTICE')}">
+							<a class="text-decoration-none" href="/pms/board/notice">공지 게시판</a>
+						</th:block>
+						<th:block th:if="${boardDto.category.toString().equals('WORK')}">
+							<a class="text-decoration-none" href="/pms/board/work">업무 게시판</a>
+						</th:block>
+						 <span class="badge bg-light text-dark" th:text="${boardDto.boardScope}"></span>
+						</div>
+						<br>
 						<h3 class="p-3 bg-light" th:text="${boardDto.title}"></h3>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-4">
-						<!-- 카테고리 -->
-						<p class="d-inline bg-light">카테고리 [공개범위]</p>
-						<div class="vr"></div>
-						<span th:if="${boardDto.category.toString().equals('NOTICE')}">
-							<a href="/pms/board/notice">공지 게시판</a>
-						</span>
-						<span th:if="${boardDto.category.toString().equals('WORK')}">
-							<a href="/pms/board/work">업무 게시판</a>
-						</span>
-						<p class="d-inline bg-light bg-opacity-50 border border rounded-start" th:text="${boardDto.boardScope}" />
-						<!-- <p th:text="${boardDto.category}"></p> -->
-					</div>
+					<div class="col-md-4"></div>
+					<div class="col-md-4"></div>
 					<div class="col-md-4">
 						<!-- 작성자 -->
 						<p class="d-inline bg-light">작성자</p>
@@ -34,12 +33,13 @@
 						<span th:if="${boardDto.userOrganization.equals('DEFAULT')}">
 							<img th:src="@{/img/admin.png}">
 						</span>
-						<span th:unless="${boardDto.userOrganization.equals('DEFAULT')}">
-							<p class="d-inline bg-light bg-opacity-50 border border rounded-start" th:text="${boardDto.userOrganization}" />
-						</span>
-						<p class="d-inline" th:text="${boardDto.userName}" />
-					</div>
-					<div class="col-md-4">
+						<strong>
+							<p class="d-inline" th:text="${boardDto.userName}" />
+						</strong>
+						<th:block th:unless="${boardDto.userOrganization.equals('DEFAULT')}">
+							<span class="badge bg-light text-dark" th:text="${boardDto.userOrganization}" />
+						</th:block>
+						<br>
 						<!-- 등록일자 -->
 						<p class="d-inline bg-light">등록일자</p>
 						<div class="vr"></div>
@@ -74,7 +74,7 @@
 
 					</div>
 					<br>
-					<div class="d-flex justify-content-end">
+					<div class="d-flex button-container">
 						<a th:if="${isWriter}" class="btn btn-sm btn-primary mx-1"
 							th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a> <a th:if="${isWriter}"
 							class="delete btn btn-sm btn-danger mx-1" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
