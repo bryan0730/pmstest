@@ -72,9 +72,7 @@ public class OrganizationService {
 
 
     private Long organizationNameDuplicateCheck(String organizationName){
-        Long rowCount = organizationRepository.countByOrganizationNameAndOrganizationDelete(organizationName, false);
-
-        return rowCount;
+        return organizationRepository.countByOrganizationNameAndOrganizationDelete(organizationName, false);
     }
 
     @Transactional
