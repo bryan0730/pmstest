@@ -9,106 +9,108 @@
 		<li th:if="${category.toString().equals('WORK')}" class="breadcrumb-item active">업무</li>
 	</ol>
 	<form th:action th:object="${form}" method="get">
-			<br>
-			<div class="input-group">
-				<input type="text" name="searchVal" th:value="${searchVal}" class="form-control" placeholder="검색할 제목을 입력해주세요.">
-				<button type="submit" class="btn btn-secondary">검색</button>
-			</div>
-			<br>
-			<div>
+		<br>
+		<div class="input-group">
+			<input type="text" name="searchVal" th:value="${searchVal}" class="form-control" placeholder="검색할 제목을 입력해주세요.">
+			<button type="submit" class="btn btn-secondary">검색</button>
+		</div>
+		<br>
+		<div>
 			<th:block th:if="${category.toString().equals('NOTICE')}">
 				<p class="d-inline">공지 게시판</p>
 			</th:block>
 			<th:block th:if="${category.toString().equals('WORK')}">
 				<p class="d-inline">업무 게시판</p>
 			</th:block>
-			</div>
-			<table class="table table-hover">
-				<colgroup>
-					<col width="5%" />
-					<col width="20%" />
-					<col width="12%" />
-					<col width="8%" />
-					<col width="5%" />
-				</colgroup>
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>날짜</th>
-						<th>조회수</th>
-					</tr>
-				</thead>
+		</div>
+		<table class="table table-hover">
+			<colgroup>
+				<col width="5%" />
+				<col width="20%" />
+				<col width="12%" />
+				<col width="8%" />
+				<col width="5%" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>날짜</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
 
-				<tbody>
-					<tr th:if="${totalCount == 0}">
-						<td colspan="6" style="text-align: center">조회된 리스트가 없습니다.</td>
-					</tr>
+			<tbody>
+				<tr th:if="${totalCount == 0}">
+					<td colspan="6" style="text-align: center">조회된 리스트가 없습니다.</td>
+				</tr>
 
-					<tr th:each="list, index : ${list}">
-						<td class="text-center" th:text="${totalCount - (size * number) - index.index}"></td>
-						<!-- <td th:text="${index.count}"></td> -->
-						<td>
-							<a class="text-left text-decoration-none" th:text="${list.title}" th:href="@{/pms/board/detail/{boardId}(boardId=${list.id})}"></a>
-						</td>
-						<td class="text-center">
-							<th:block th:if="${list.userOrganization.equals('DEFAULT')}">
-								<img th:src="@{/img/admin.png}">
-							</th:block>
-							<p class="d-inline" th:text="${list.userName}"/>
-							<th:block th:unless="${list.userOrganization.equals('DEFAULT')}">
-								<span class="badge bg-light text-dark" th:text="${list.userOrganization}"></span>
-							</th:block>
-						</td>
-						<td class="text-center" th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
-						<td class="text-center" th:text="${list.viewCount}"></td>
-					</tr>
-				</tbody>
-			</table>
-			<br>
+				<tr th:each="list, index : ${list}">
+					<td class="text-center" th:text="${totalCount - (size * number) - index.index}"></td>
+					<!-- <td th:text="${index.count}"></td> -->
+					<td>
+						<a class="text-left text-decoration-none text-dark" th:text="${list.title}"
+							th:href="@{/pms/board/detail/{boardId}(boardId=${list.id})}"></a>
+					</td>
+					<td class="text-center">
+						<th:block th:if="${list.userOrganization.equals('DEFAULT')}">
+							<img th:src="@{/img/admin.png}">
+						</th:block>
+						<p class="d-inline" th:text="${list.userName}" />
+						<th:block th:unless="${list.userOrganization.equals('DEFAULT')}">
+							<span class="badge bg-light text-dark" th:text="${list.userOrganization}"></span>
+						</th:block>
+					</td>
+					<td class="text-center" th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
+					<td class="text-center" th:text="${list.viewCount}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
 
-			<div class="d-flex button-container">
-				<a th:href="@{/pms/board/write}" class="btn btn-primary btn-sm">글쓰기</a>
-			</div>
-			<br>
-			<!-- th:with 으로 start, end 변수를 정의	 -->
-			<nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
-				th:with="start=${(list.number/maxPage)*maxPage + 1},
+		<div class="d-flex button-container">
+			<a th:href="@{/pms/board/write}" class="btn btn-primary btn-sm">글쓰기</a>
+		</div>
+		<br>
+		<!-- th:with 으로 start, end 변수를 정의	 -->
+		<nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
+			th:with="start=${(list.number/maxPage)*maxPage + 1},
                       end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
-				<ul class="pagination pagination-sm">
-					<!-- '<' '<<' -->
-					<li th:if="${start > 1}" class="page-item">
-						<a th:href="@{/pms/board/notice/?(page=0, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous"> <span
-								aria-hidden="true">&laquo;&laquo;</span>
-						</a>
-					</li>
+			<ul class="pagination pagination-sm">
+				<!-- '<' '<<' -->
+				<li th:if="${start > 1}" class="page-item">
+					<a th:href="@{/pms/board/notice/?(page=0, searchVal=${searchVal})}" class="page-link" href="#"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;&laquo;</span>
+					</a>
+				</li>
 
-					<li th:if="${start > 1}" class="page-item">
-						<a th:href="@{/pms/board/notice/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#"
-							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					<!--페이지 네비게이션 바 숫자들을 넣는 로직이다. #number.sequence를 이용하면 start 부터 end 까지 숫자를 하나씩 올려가며 넣을 수 있다.   -->
-					<li th:each="page: ${#numbers.sequence(start, end)}" class="page-item"
-						th:classappend="${list.number+1 == page} ? active">
-						<a th:href="@{/pms/board/notice/?(page=${page-1}, searchVal=${searchVal})}" th:text="${page}" class="page-link" href="#">1</a>
-					</li>
+				<li th:if="${start > 1}" class="page-item">
+					<a th:href="@{/pms/board/notice/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				<!--페이지 네비게이션 바 숫자들을 넣는 로직이다. #number.sequence를 이용하면 start 부터 end 까지 숫자를 하나씩 올려가며 넣을 수 있다.   -->
+				<li th:each="page: ${#numbers.sequence(start, end)}" class="page-item"
+					th:classappend="${list.number+1 == page} ? active">
+					<a th:href="@{/pms/board/notice/?(page=${page-1}, searchVal=${searchVal})}" th:text="${page}" class="page-link"
+						href="#">1</a>
+				</li>
 
-					<!-- '>' '>>' -->
-					<li th:if="${end < list.totalPages}" class="page-item">
-						<a th:href="@{/pms/board/notice/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link" href="#"
-							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
+				<!-- '>' '>>' -->
+				<li th:if="${end < list.totalPages}" class="page-item">
+					<a th:href="@{/pms/board/notice/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link" href="#"
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
 
-					<li th:if="${end < list.totalPages}" class="page-item">
-						<a th:href="@{/pms/board/notice/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#"
-							aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
+				<li th:if="${end < list.totalPages}" class="page-item">
+					<a th:href="@{/pms/board/notice/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#"
+						aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
 	</form>
 </div>
 </html>

@@ -8,8 +8,8 @@
 <div layout:fragment="content" class="content p-5">
 	<form th:action="@{'/pms/board/update/' + *{id}}" th:object="${boardRequestDto}" method="post"
 		enctype="multipart/form-data">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<input type="hidden" name="_method" value="put" />
+		<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
+		<input type="hidden" name="_method" value="POST" />
 		<input type="hidden" id="boardId" name="id" th:value="*{id}" />
 		<article>
 			<div class="container" role="main">
@@ -61,26 +61,29 @@
 						<thead class="table-light">
 							<tr>
 								<th>파일명</th>
-								<th>삭제</th>
+								<th>체크</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="boardFile, index : ${boardFile}">
+								<input type="hidden" name="boardFileId" th:value="${boardFile.fileId}">
 								<td class="table-td" th:text="${boardFile.originFileName}"></td>
 								<td class="table-td">
-									<span>
-										<button th:fileId="${boardFile.boardFileId}" th:onclick="boardDelete(this.getAttribute('fileId'))"
-											type="button" class="btn btn-sm btn-outline-danger">삭제</button>
-									</span>
+									<input type="checkbox" name="delYN" th:value="${boardFile.delYn}">
 								</td>
 							</tr>
 						</tbody>
 					</table>
+					<div class="d-flex justify-content-end">
+						<button class="btn btn-sm btn-danger" name="delBtn" id="delBtn">삭제</button>
+					</div>
 				</div>
 				<br>
 				<div class="mb-3">
 					<label for="formFileMultiple" class="form-label">파일업로드</label>
 					<input class="form-control" type="file" id="formFileMultiple" name="multipartFile" multiple>
+			
+			
 				</div>
 				<br>
 				<div class="d-flex justify-content-end">

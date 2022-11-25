@@ -26,7 +26,7 @@
 				<div class="row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4"></div>
-					<div class="col-md-4">
+					<div class="col-md-4 float-right">
 						<!-- 작성자 -->
 						<p class="d-inline bg-light">작성자</p>
 						<div class="vr"></div>
@@ -41,14 +41,13 @@
 						</th:block>
 						<br>
 						<!-- 등록일자 -->
-						<p class="d-inline bg-light">등록일자</p>
+						<p class="d-inline bg-light">작성일</p>
 						<div class="vr"></div>
 						<p class="d-inline" th:text="${#temporals.format(boardDto.regDate, 'yyyy-MM-dd  hh:mm:ss')}"></p>
 					</div>
 				</div>
 				<hr class="border border-dark">
 				<!-- 내용 -->
-				<label>내용</label>
 				<p class="p-3 bg-light" th:text="${boardDto.content}"></p>
 
 				<div class="row-md">
@@ -64,14 +63,12 @@
 									<!-- 첨부 파일 -->
 									<div class="col-md-6 bg-light px-3">
 										<p th:each="boardFile, index : ${boardFile}">
-											<a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
+											<a class="text-decoration-none" th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
 										</p>
 									</div>
 								</div>
 							</div>
 						</div>
-
-
 					</div>
 					<br>
 					<div class="d-flex button-container">

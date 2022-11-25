@@ -9,49 +9,62 @@ Array.from(delete_elements).forEach(function(element) {
 	});
 });
 
-//파일삭제
-function boardDelete(fileId) {
-	if (confirm("정말로 삭제하시겠습니까?")) {
-		//배열생성
-		const form = document.createElement('form');
-		form.setAttribute('method', 'GET'); 
-		form.setAttribute('action', '/boardFileDelete');
 
-		//파일 id
-		var input1 = document.createElement('input');
-		input1.setAttribute("type", "hidden");
-		input1.setAttribute("name", "fileId");
-		input1.setAttribute("value", fileId);
+$('#content').keyup(function(e) {
+	let content = $(this).val();
 
-		//게시판 id
-		const selectedElements = document.querySelector("#boardId")
-		var input2 = document.createElement('input');
-		input2.setAttribute("type", "hidden");
-		input2.setAttribute("name", "boardId");
-		input2.setAttribute("value", selectedElements.value);
-
-		form.appendChild(input1);
-		form.appendChild(input2);
-		console.log(form);
-		document.body.appendChild(form);
-		form.submit();
+	// 글자수 세기
+	if (content.length == 0 || content == '') {
+		$('.textCount').text('0자');
+	} else {
+		$('.textCount').text(content.length + '자');
 	}
-}
 
-	$('#content').keyup(function (e) {
-		let content = $(this).val();
-	    
-	    // 글자수 세기
-	    if (content.length == 0 || content == '') {
-	    	$('.textCount').text('0자');
-	    } else {
-	    	$('.textCount').text(content.length + '자');
-	    }
-	    
-	    // 글자수 제한
-	    if (content.length > 5000) {
-	        $(this).val($(this).val().substring(0, 200));
-	        alert('글자수는 5000자까지 입력 가능합니다.');
-	    };
+	// 글자수 제한
+	if (content.length > 5000) {
+		$(this).val($(this).val().substring(0, 200));
+		alert('글자수는 5000자까지 입력 가능합니다.');
+	};
+});
+
+$("#delBtn").click(function() {
+	if (!confirm("삭제하시겠습니까?")) return;
+
+	let tdArr = [];
+	const checkbox = $("input[name=delYN]:checked");
+
+	console.log("체크박스 리스트 유무 : " + checkbox);
+
+	const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
+
+	checkbox.each(function(i) {
+		let tr = checkbox.parent().parent().eq(i);
+		let td = tr.children();
+
+		let val = td.eq(0).val();
+		let jsonObject = { "id": val };
+		console.log("val : " + val);
+		tdArr.push(jsonObject);
 	});
-	
+	const jsonString = JSON.stringify(tdArr);
+
+	$.ajax({
+		url: "/deleteCheckedBoardFiles",
+		type: "POST",
+		data: jsonString,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		dataType: "text",
+		contentType: "application/json",
+		success: function(data) {
+			alert(data);
+			window.location.reload();
+		},
+		error: function(xhr, status, error) {
+			let obj = JSON.parse(xhr.responseText);
+			alert(obj.errorMessage);
+		}
+	});
+});
