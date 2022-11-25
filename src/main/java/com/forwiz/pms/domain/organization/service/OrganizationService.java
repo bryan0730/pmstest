@@ -26,12 +26,6 @@ public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
 
-    @Transactional(readOnly = true)
-    public Organization findById(String name){
-        return organizationRepository.findByOrganizationNameAndOrganizationDelete(name, false)
-                .orElseThrow(() -> new EntityNotFoundException("not found entity"));
-    }
-
     @Transactional
     public List<OrganizationListResponse> selectOrganizationList(){
         List<Organization> organizations = organizationRepository.findByOrganizationDelete(false);
@@ -91,7 +85,7 @@ public class OrganizationService {
     }
 
     @Transactional
-    public void save(Organization organization){
-        organizationRepository.save(organization);
+    public Organization save(Organization organization){
+        return organizationRepository.save(organization);
     }
 }

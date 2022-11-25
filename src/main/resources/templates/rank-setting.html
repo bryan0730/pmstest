@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout.html}">
+<div layout:fragment="content">
+    <h1 class="mt-4">설정</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item">설정</li>
+        <li class="breadcrumb-item active">직급</li>
+    </ol>
+
+    <th:block th:replace="fragment/setting-menu-button :: settingMenuBtnFragment"></th:block>
+
+    <table class="table">
+        <thead class="table-light">
+        <tr>
+            <th>번호</th>
+            <th>메뉴명</th>
+            <th>코드</th>
+            <th>URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="list, stat : ${formList}">
+            <td class="table-td" th:text="|${stat.count}|"></td>
+            <td class="table-td" th:text="${url.menuName}"></td>
+            <td class="table-td" th:text="${url.menuCode}"></td>
+            <td class="table-td" th:text="${url.menuUrl}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>

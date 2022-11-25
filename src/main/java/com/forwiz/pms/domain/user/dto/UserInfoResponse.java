@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserSettingResponse {
+public class UserInfoResponse {
 
     private Long id;
     private String userId;
@@ -16,13 +16,13 @@ public class UserSettingResponse {
     private String userRank;
     private Boolean userDeleteYN;
 
-    public UserSettingResponse(PmsUser user){
+    public UserInfoResponse(PmsUser user){
         this.id = user.getId();
         this.userId = user.getUserId();
         this.userName = user.getUserName();
-        this.organizationName = user.getOrganization().getOrganizationName();
+        this.organizationName = user.getUserRank().getOrganization().getOrganizationName();
         this.userPhoneNumber = user.getUserPhoneNumber();
-        this.userRank = user.getUserRank();
+        this.userRank = user.getUserRank().getRankName();
         this.userDeleteYN = user.getUserDeleteYN();
     }
 }

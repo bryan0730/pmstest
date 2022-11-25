@@ -1,5 +1,6 @@
 package com.forwiz.pms.domain.organization.entity;
 
+import com.forwiz.pms.domain.rank.entity.UserRank;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,8 +33,11 @@ public class Organization {
     @Column(nullable = false)
     private Boolean organizationDelete;
 
-    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
-    private List<PmsUser> pmsUsers = new ArrayList<>();
+//    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+//    private List<PmsUser> pmsUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "organization")
+    private List<UserRank> userRanks = new ArrayList<>();
 
     public void updateDelYN(boolean delYN){
         this.organizationDelete = delYN;

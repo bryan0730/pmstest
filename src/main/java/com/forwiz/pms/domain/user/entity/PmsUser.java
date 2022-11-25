@@ -19,6 +19,7 @@ import javax.persistence.SequenceGenerator;
 import com.forwiz.pms.domain.board.entity.Board;
 import com.forwiz.pms.domain.message.entity.Message;
 import com.forwiz.pms.domain.organization.entity.Organization;
+import com.forwiz.pms.domain.rank.entity.UserRank;
 import com.forwiz.pms.domain.user.dto.Role;
 
 import lombok.AccessLevel;
@@ -49,9 +50,16 @@ public class PmsUser {
     @Column(length = 50, nullable = false)
     private String userName;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "organization_id", nullable = false)
+//    private Organization organization;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+    @JoinColumn(name = "rank_id")
+    private UserRank userRank;
+
+    @Column
+    private String userOrganizationName;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
@@ -60,8 +68,8 @@ public class PmsUser {
     @Column(nullable = false)
     private String userPhoneNumber;
 
-    @Column(nullable = false)
-    private String userRank;
+//    @Column(nullable = false)
+//    private String userRank;
 
     @Column(nullable = false)
     private Boolean userDeleteYN;

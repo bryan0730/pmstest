@@ -31,7 +31,9 @@ public class UserDto {
     @NotBlank
     private String userRank;
 
-//  Dto -> Entity
+    @NotBlank
+    private Long rankId;
+
     public PmsUser toEntity(){
 
         return PmsUser.builder()
@@ -44,7 +46,6 @@ public class UserDto {
                 .build();
     }
 
-//  Entity -> Dto
     /*
     User 엔티티 클래스에 직접 세션을 저장하려면 직렬화를 해야 하는데,
     엔티티 클래스에 직렬화를 해준다면 추후에 다른 엔티티와 연관관계를 맺을 시 직렬화 대상에 다른 엔티티까지 포함될 수 있어
@@ -53,11 +54,9 @@ public class UserDto {
     public UserDto(PmsUser pmsUser){
         this.userId = pmsUser.getUserId();
         this.userPw = pmsUser.getUserPw();
-        this.userGroup = pmsUser.getOrganization().getOrganizationName();
         this.userName = pmsUser.getUserName();
         this.auth = pmsUser.getAuth();
         this.userPhoneNumber = pmsUser.getUserPhoneNumber();
-        this.userRank = pmsUser.getUserRank();
     }
 
 }

@@ -1,10 +1,14 @@
 package com.forwiz.pms.domain.user.service;
 
+
 import com.forwiz.pms.domain.organization.service.OrganizationService;
-import com.forwiz.pms.domain.user.dto.Role;
-import com.forwiz.pms.domain.user.dto.UserDto;
-import com.forwiz.pms.domain.user.dto.UserDuplicatedResponse;
-import com.forwiz.pms.domain.user.dto.UserSettingResponse;
+import com.forwiz.pms.domain.rank.dto.RankFormResponse;
+import com.forwiz.pms.domain.rank.dto.RankInfoResponse;
+import com.forwiz.pms.domain.rank.dto.SaveRankRequest;
+import com.forwiz.pms.domain.rank.entity.UserRank;
+
+import com.forwiz.pms.domain.rank.service.RankService;
+import com.forwiz.pms.domain.user.dto.*;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.user.exception.IdDuplicatedException;
@@ -31,12 +35,12 @@ public class UserService {
     *  수정하는 서비스의 로직이 끝나면(트랜잭션 끝나면) 자동으로 update된다.
     * */
     private final PmsUserRepository userRepository;
-    private final OrganizationService organizationService;
+    private final RankService rankService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
     @CacheEvict(value = "org", allEntries = true)
-    public UserDto signUp(UserDto userDto){
+    public void signUp(UserDto userDto){
 
         /*
         해당 예외발생을 Controller가 아닌 Service에서 하는 이유?
@@ -50,61 +54,50 @@ public class UserService {
             throw new IdDuplicatedException("중복된 ID 요청");
         }
 
-        Organization organization = organizationService.findById(userDto.getUserGroup());
+        UserRank userRank = rankService.findById(userDto.getRankId());
         PmsUser pmsUser = PmsUser.builder()
                 .userId(userDto.getUserId())
                 .userPw(passwordEncoder.encode(userDto.getUserPw()))
                 .userName(userDto.getUserName())
                 .auth(userDto.getAuth())
-                .organization(organization)
+                .userRank(userRank)
                 .userPhoneNumber(userDto.getUserPhoneNumber())
-                .userRank(userDto.getUserRank())
+                .userOrganizationName(userRank.getOrganization().getOrganizationName())
                 .userDeleteYN(false)
                 .build()
                 ;
-
-        pmsUser = userRepository.save(pmsUser);
-
-        return new UserDto(pmsUser);
+        userRepository.save(pmsUser);
     }
 
     @Transactional(readOnly = true)
-    public List<UserSettingResponse> findAllUser() {
-
-        List<PmsUser> userList = userRepository.findByUserDeleteYN(false);
-        return userList.stream()
-                .map(UserSettingResponse::new)
+    public List<UserInfoResponse> findAllUserFormData() {
+        //사용자 리스트 가져오기(사용자 조회 폼에서만 필요/ 모달에서 필요 X)
+         return userRepository.findByUserDeleteYN(false)
+                .stream()
+                .map(UserInfoResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public UserSettingFormResponse makeUserSettingFormData(String orgName) {
+
+        //사용자 리스트 가져옴(삭제안된)
+        List<UserInfoResponse> allUserFormData = findAllUserFormData();
+        //조직리스트와 해당 조직별 직급 리스트
+        RankFormResponse orgAndRankData  = rankService.makeRankFormData(orgName);
+
+        return new UserSettingFormResponse(allUserFormData, orgAndRankData);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RankInfoResponse> getUserSettingRankInfo(String orgName){
+        return rankService.getRankInfoResponses(orgName);
     }
 
     @Transactional
     public PmsUser findById(Long id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("no search member"));
-    }
-
-    @PostConstruct
-    @Transactional
-    public void init(){
-        Organization organization = Organization.builder()
-                .organizationName("DEFAULT")
-                .organizationCode("A0001")
-                .organizationDelete(false)
-                .build();
-        organizationService.save(organization);
-
-        PmsUser pmsUser = PmsUser.builder()
-                .userId("admin")
-                .userPw(passwordEncoder.encode("1234"))
-                .userName(Role.ROLE_ADMIN.getDescription())
-                .auth(Role.ROLE_ADMIN)
-                .organization(organization)
-                .userRank(Role.ROLE_ADMIN.getDescription())
-                .userPhoneNumber("000-0000-0000")
-                .userDeleteYN(false)
-                .build()
-                ;
-        userRepository.save(pmsUser);
     }
 
     @Transactional
