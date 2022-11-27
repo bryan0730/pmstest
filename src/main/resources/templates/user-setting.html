@@ -29,7 +29,7 @@
       </thead>
 
       <tbody>
-      <tr th:each="user, stat : ${userList}">
+      <tr th:each="user, stat : ${userFormList.userInfoList}">
         <input type="hidden" name="userId" th:value="${user.id}">
         <td class="table-td" th:text="|${stat.count}|"></td>
         <td class="table-td" th:text="${user.userId}"></td>
@@ -72,14 +72,16 @@
               <input type="password" class="form-control" id="pw-text" name="userPw">
             </div>
             <div class="mb-3">
-              <label for="group-text" class="col-form-label">소속:</label>
-              <select name="userGroup" class="form-control" id="group-text">
-                <option th:each="val : ${organizations}" th:value="${val?.organizationName}" th:utext="${val?.organizationName}"></option>
+              <label for="org-group-text" class="col-form-label">소속:</label>
+              <select name="userGroup" class="form-select" id="org-group-text">
+                <option th:each="val : ${userFormList.orgAndRankData.organizationList}" th:value="${val?.organizationId}" th:utext="${val?.organizationName}"></option>
               </select>
             </div>
             <div class="mb-3">
-              <label for="rank-text" class="col-form-label">직급:</label>
-              <input type="text" class="form-control" id="rank-text" name="userRank">
+              <label for="group-rank" class="col-form-label">직급:</label>
+              <select name="rankId" class="form-select" id="group-rank">
+                <option th:each="val : ${userFormList.orgAndRankData.rankList}" th:value="${val?.rankId}" th:utext="${val?.rankName}"></option>
+              </select>
             </div>
             <div class="mb-3">
               <label for="name-text" class="col-form-label">이름:</label>

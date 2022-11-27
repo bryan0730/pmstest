@@ -36,7 +36,7 @@
                     <td class="table-td" th:text="${org.organizationCode}"></td>
                     <td class="table-td" th:text="${org.organizationName}"></td>
                     <td class="table-td">
-                        <input type="checkbox" name="isChecked" th:value="${org.organizationDelete}">
+                        <input type="checkbox" name="isChecked" th:if="${!org.organizationName.equals('DEFAULT')}" th:value="${org.organizationDelete}">
                     </td>
                 </tr>
             </tbody>

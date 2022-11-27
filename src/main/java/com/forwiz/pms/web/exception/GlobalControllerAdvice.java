@@ -3,6 +3,7 @@ package com.forwiz.pms.web.exception;
 import javax.servlet.http.HttpServletRequest;
 
 import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
+import com.forwiz.pms.domain.rank.exception.NotSaveRankException;
 import com.forwiz.pms.domain.user.exception.IdDuplicatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,15 @@ public class GlobalControllerAdvice {
         final ErrorResponse errorResponse = new ErrorResponse("ERROR-DEL", e.getMessage());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotSaveRankException.class)
+    public String noSaveRankExceptionHandler(NotSaveRankException e, RedirectAttributes redirectAttributes){
+
+        log.info("ExceptionHandler NotSaveRankException : {}", e.getMessage());
+        redirectAttributes.addFlashAttribute("errMsg", e.getMessage());
+
+        return "redirect:/admin/rank/"+e.getOrgId();
     }
 
     @ExceptionHandler(MessageException.class)

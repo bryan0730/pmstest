@@ -6,14 +6,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserInfoResponse {
+public class OrgUserInfoResponse {
 
     private Long id;
     private String userId;
     private String userName;
     private String userPhoneNumber;
 
-    public UserInfoResponse(PmsUser pmsUser){
+    public OrgUserInfoResponse(PmsUser pmsUser){
         this.id = pmsUser.getId();
         this.userId = pmsUser.getUserId();
         this.userName = pmsUser.getUserName();

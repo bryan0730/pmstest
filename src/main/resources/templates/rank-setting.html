@@ -3,6 +3,9 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragment/layout.html}">
+<head>
+    <link th:href="@{/css/rank-setting.css}" rel="stylesheet" />
+</head>
 <div layout:fragment="content">
     <h1 class="mt-4">설정</h1>
     <ol class="breadcrumb mb-4">
@@ -11,24 +14,39 @@
     </ol>
 
     <th:block th:replace="fragment/setting-menu-button :: settingMenuBtnFragment"></th:block>
+    <div id="rank-view-form">
+        <form th:action="@{/admin/rank/save}" method="post">
+            <div class="rank-write-container">
+                <label for="rankName" class="col-form-label">직급명:</label>
+                <input type="text" name="rankName" id="rankName">
+                <label for="rankWeight" class="col-form-label">직급순위:</label>
+                <input type="number" name="rankWeight" id="rankWeight">
+                <button class="btn btn-outline-secondary btn-sm" type="submit" id="rank-regist-btn">등록</button>
+                <select name="organizationId" class="form-select" id="group-text">
+                    <option th:each="org : ${formList.organizationList}" th:selected="${#httpServletRequest.requestURI == '/admin/rank/'+org.organizationId}" th:value="${org.organizationId}" th:utext="${org.organizationName}">
+                    </option>
+                </select>
+                <p class="rank-err-msg" th:text="${errMsg}"></p>
+            </div>
+        </form>
 
-    <table class="table">
-        <thead class="table-light">
-        <tr>
-            <th>번호</th>
-            <th>메뉴명</th>
-            <th>코드</th>
-            <th>URL</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="list, stat : ${formList}">
-            <td class="table-td" th:text="|${stat.count}|"></td>
-            <td class="table-td" th:text="${url.menuName}"></td>
-            <td class="table-td" th:text="${url.menuCode}"></td>
-            <td class="table-td" th:text="${url.menuUrl}"></td>
-        </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <thead class="table-light">
+            <tr>
+                <th>번호</th>
+                <th>직급명</th>
+                <th>우선순위</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rank, stat : ${formList.rankList}">
+                <td class="table-td" th:text="|${stat.count}|"></td>
+                <td class="table-td" th:text="${rank.rankName}"></td>
+                <td class="table-td" th:text="${rank.rankWeight}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </html>
+<script th:src="@{/js/rank-scripts.js}"></script>

@@ -6,8 +6,8 @@ import com.forwiz.pms.domain.rank.service.RankService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -19,24 +19,30 @@ public class RankController {
 
     private final RankService rankService;
 
-    @GetMapping("/{orgName}")
-    public String rankForm(@PathVariable(name = "orgName", required = false) Optional<String> orgName, RedirectAttributes redirectAttributes){
+    @GetMapping({"/{orgId}", "/"})
+    public String rankForms(@PathVariable(name = "orgId",required = false) Optional<Long> orgId,
+                           Model model){
 
-        String organizationName = orgName.isEmpty() ? "DEFAULT" : orgName.get();
-        RankFormResponse formResponse = rankService.makeRankFormData(organizationName);
-        redirectAttributes.addAttribute("formList", formResponse);
+        Long organizationId = orgId.isEmpty() ? 1L : orgId.get();
+        log.info("rankForm controller org name: {}", organizationId);
+        RankFormResponse formResponse = rankService.makeRankFormData(organizationId);
 
-        return "redirect:/admin/rank";
+        model.addAttribute("formList",formResponse);
+
+        return "rank-setting";
     }
 
-    @GetMapping
+
+    @PostMapping("/rank-view")
     public String rankForm(@ModelAttribute RankFormResponse rankFormResponse){ return "rank-setting"; }
 
-    @PostMapping
+    @PostMapping("/save")
     public String saveRank(SaveRankRequest saveRankRequest){
 
+        log.info("org name? : {}", saveRankRequest.getOrganizationId());
         rankService.saveRank(saveRankRequest);
 
-        return "redirect:/admin/rank/"+saveRankRequest.getRankName();
+        return "redirect:/admin/rank/"+saveRankRequest.getOrganizationId();
     }
+
 }

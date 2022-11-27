@@ -61,7 +61,7 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
                         ,board.regDate
                         ,board.viewCount
                         ,pmsUser.userName
-                        ,pmsUser.organization.organizationName))
+                        ,pmsUser.userOrganizationName))
                 .from(board)
                 .leftJoin(board.pmsUser, pmsUser)
                 .where(containsSearch(searchVal))

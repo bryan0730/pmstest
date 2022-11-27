@@ -22,7 +22,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
 
         PmsUserDetails principal = (PmsUserDetails) authentication.getPrincipal();
         String username = principal.getUsername();
-        String groupname = principal.getPmsUser().getOrganization().getOrganizationName();
+        String groupname = principal.getPmsUser().getUserRank().getOrganization().getOrganizationName();
         Role role = principal.getPmsUser().getAuth();
 
 

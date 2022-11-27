@@ -1,16 +1,14 @@
 package com.forwiz.pms.domain.user.service;
 
 
-import com.forwiz.pms.domain.organization.service.OrganizationService;
+import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
 import com.forwiz.pms.domain.rank.dto.RankFormResponse;
 import com.forwiz.pms.domain.rank.dto.RankInfoResponse;
-import com.forwiz.pms.domain.rank.dto.SaveRankRequest;
 import com.forwiz.pms.domain.rank.entity.UserRank;
 
 import com.forwiz.pms.domain.rank.service.RankService;
 import com.forwiz.pms.domain.user.dto.*;
 import com.forwiz.pms.domain.user.entity.PmsUser;
-import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.user.exception.IdDuplicatedException;
 import com.forwiz.pms.domain.user.repository.PmsUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
@@ -79,19 +76,19 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserSettingFormResponse makeUserSettingFormData(String orgName) {
+    public UserSettingFormResponse makeUserSettingFormData(Long orgId) {
 
         //사용자 리스트 가져옴(삭제안된)
         List<UserInfoResponse> allUserFormData = findAllUserFormData();
         //조직리스트와 해당 조직별 직급 리스트
-        RankFormResponse orgAndRankData  = rankService.makeRankFormData(orgName);
+        RankFormResponse orgAndRankData  = rankService.makeRankFormData(orgId);
 
         return new UserSettingFormResponse(allUserFormData, orgAndRankData);
     }
 
     @Transactional(readOnly = true)
-    public List<RankInfoResponse> getUserSettingRankInfo(String orgName){
-        return rankService.getRankInfoResponses(orgName);
+    public List<RankInfoResponse> getUserSettingRankInfo(Long orgId){
+        return rankService.getRankInfoResponses(orgId);
     }
 
     @Transactional
@@ -103,7 +100,7 @@ public class UserService {
     @Transactional
     @CacheEvict(value = "org", allEntries = true)
     public int delUser(List<Map<String, Long>> mapList) {
-
+        adminVerify(mapList);
         for(Map<String, Long> obj : mapList){
             Long userId = obj.get("id");
             PmsUser pmsUser = userRepository.findById(userId)
@@ -114,7 +111,12 @@ public class UserService {
 
         return mapList.size();
     }
-
+    // 내부 검증로직
+    private void adminVerify(List<Map<String, Long>> mapList){
+        if(mapList.isEmpty() || mapList.stream().anyMatch(map -> map.get("id") == 1)){
+            throw new DeleteListEmptyException("삭제할 데이터가 없습니다.");
+        }
+    }
     @Transactional
     public UserDuplicatedResponse idDuplicatedCheck(String verification) {
 

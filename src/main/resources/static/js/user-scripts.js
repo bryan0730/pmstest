@@ -105,4 +105,39 @@ $(document).ready(function() {
             }
         });
     });
+
+    $("#org-group-text").on("change", function() {
+
+        let orgId= $("#org-group-text option:selected").val();
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            url: "/admin/user/rank-info",
+            type: "POST",
+            data: orgId,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            contentType: "application/json",
+            success: function (data) {
+                addSelectBox(data);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+                let obj = JSON.parse(xhr.responseText);
+                alert(obj.errorMessage);
+            }
+        });
+
+
+    });
+
+    function addSelectBox(data){
+        $("#group-rank option").remove();
+        data.forEach(d => {
+            $("#group-rank")
+                .append("<option value='"+ d.rankId +"'>"+d.rankName+"</option>");
+        });
+    }
 });

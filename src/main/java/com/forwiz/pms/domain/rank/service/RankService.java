@@ -11,6 +11,7 @@ import com.forwiz.pms.domain.rank.entity.UserRank;
 import com.forwiz.pms.domain.rank.repository.UserRankRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,22 +28,22 @@ public class RankService {
     private final OrganizationRepository organizationRepository;
 
     @Transactional(readOnly = true)
-    public RankFormResponse makeRankFormData(String orgName) {
+    public RankFormResponse makeRankFormData(Long orgId) {
 
         List<OrganizationListResponse> organizationList = organizationRepository.findByOrganizationDelete(false)
                 .stream()
                 .map(OrganizationListResponse::new)
                 .collect(Collectors.toList());
 
-        List<RankInfoResponse> rankList = getRankInfoResponses(orgName);
+        List<RankInfoResponse> rankList = getRankInfoResponses(orgId);
 
         return new RankFormResponse(rankList,organizationList);
     }
 
     @Transactional(readOnly = true)
-    public List<RankInfoResponse> getRankInfoResponses(String orgName) {
+    public List<RankInfoResponse> getRankInfoResponses(Long orgId) {
 
-        Organization organization = organizationRepository.findByOrganizationNameAndOrganizationDelete(orgName, false)
+        Organization organization = organizationRepository.findByOrganizationIdAndOrganizationDelete(orgId, false)
                 .orElseThrow(() -> new EntityNotFoundException("not found entity"));
 
         return rankRepository.findByOrganizationOrderByRankWeight(organization)
@@ -52,6 +53,7 @@ public class RankService {
     }
 
     @Transactional
+    @CacheEvict(value = "org", allEntries = true)
     public UserRank saveRank(SaveRankRequest saveRankRequest){
 
         Organization organization = organizationRepository.findById(saveRankRequest.getOrganizationId())

@@ -7,8 +7,8 @@
     <input th:checked="${#httpServletRequest.requestURI == '/admin/organization'}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
     <label class="btn btn-outline-secondary" for="btnradio1" th:onclick="|location.href='@{/admin/organization}'|">조직 설정</label>
 
-    <input th:checked="${#httpServletRequest.requestURI == '/admin/rank/DEFAULT'}" type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-    <label class="btn btn-outline-secondary" for="btnradio3" th:onclick="|location.href='@{/admin/rank/DEFALUT}'|">직급 설정</label>
+    <input th:checked="${#httpServletRequest.requestURI == '/admin/rank/**'}" type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+    <label class="btn btn-outline-secondary" for="btnradio4" th:onclick="|location.href='@{/admin/rank/1}'|">직급 설정</label>
 
     <input th:checked="${#httpServletRequest.requestURI == '/admin/user'}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
     <label class="btn btn-outline-secondary" for="btnradio2" th:onclick="|location.href='@{/admin/user}'|">사용자 설정</label>

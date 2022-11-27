@@ -33,7 +33,7 @@ public class UserSettingController {
         //사용자 등록 모달에서 필요한 데이터 : 조직리스트/조직별 직급리스트
         //사용자 조회 폼에서 필요한 데이터 : 사용자리스트
         //리스트 3개 사용
-        UserSettingFormResponse userFormResponse = userService.makeUserSettingFormData("DEFAULT");
+        UserSettingFormResponse userFormResponse = userService.makeUserSettingFormData(1L);
         model.addAttribute("userFormList", userFormResponse);
 
         return "user-setting";
@@ -43,26 +43,23 @@ public class UserSettingController {
     //아니다 그냥 사용자 등록버튼을 누르면 다시 서버 요청하게 할까?
     @ResponseBody
     @PostMapping("/rank-info")
-    public List<RankInfoResponse> changeSelectBox(@RequestBody String orgName){
-        return userService.getUserSettingRankInfo(orgName);
+    public List<RankInfoResponse> changeSelectBox(@RequestBody Long orgId){
+        log.info("User setting form orgId : {}", orgId);
+        return userService.getUserSettingRankInfo(orgId);
     }
 
     @ResponseBody
     @PostMapping("/del")
     public String delUser(@RequestBody List<Map<String, Long>> mapList){
 
-        if(mapList.size()==0 || mapList.get(0).get("id")==1){
-            throw new DeleteListEmptyException("삭제할 데이터가 없습니다.");
-        }
-
         int delCount = userService.delUser(mapList);
-
         return delCount + "개 삭제완료 하였습니다.";
     }
 
     @PostMapping("/join")
     public String signUp(@Valid UserDto userDto){
 
+        log.info("rankId : {}", userDto.getRankId());
         userService.signUp(userDto);
 
         return "redirect:/admin/user";

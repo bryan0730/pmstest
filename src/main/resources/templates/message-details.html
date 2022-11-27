@@ -20,11 +20,11 @@
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">보낸 사람</label>
       <input type="hidden" id="msgSenderId" th:value="${messageDetails.senderId}">
-      <input type="email" class="form-control" id="exampleFormControlInput1" th:value="${messageDetails.senderName}" readonly>
+      <input type="text" class="form-control" id="exampleFormControlInput1" th:value="${messageDetails.senderName}" readonly>
     </div>
     <div class="mb-3">
       <label for="exampleFormControlInput2" class="form-label">받는 사람</label>
-      <input type="email" class="form-control" id="exampleFormControlInput2" th:value="${messageDetails.receiverName}" readonly>
+      <input type="text" class="form-control" id="exampleFormControlInput2" th:value="${messageDetails.receiverName}" readonly>
     </div>
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">내용</label>

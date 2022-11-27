@@ -181,7 +181,7 @@ public class BoardController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		PmsUserDetails user = (PmsUserDetails) auth.getPrincipal();
 		
-		if (!(user.getPmsUser().getOrganization().getOrganizationName().equals(boardResponseDto.getBoardScope()))
+		if (!(user.getPmsUser().getUserRank().getOrganization().getOrganizationName().equals(boardResponseDto.getBoardScope()))
 				&& !(boardResponseDto.getBoardScope().equals("전체"))) {
 			throw new AccessDenied(boardResponseDto.getBoardScope() + " 소속의 사용자만 열람 하실 수 있습니다.");
 		}

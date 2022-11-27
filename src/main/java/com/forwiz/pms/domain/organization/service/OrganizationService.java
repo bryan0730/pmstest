@@ -7,6 +7,7 @@ import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.organization.repository.OrganizationRepository;
 import com.forwiz.pms.domain.organization.DuplicateConfirmation;
 import com.forwiz.pms.domain.organization.OrgCodeCreater;
+import com.forwiz.pms.domain.user.repository.PmsUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
+    private final PmsUserRepository userRepository;
 
     @Transactional
     public List<OrganizationListResponse> selectOrganizationList(){
@@ -38,7 +40,9 @@ public class OrganizationService {
     @Transactional
     @Cacheable(value = "org")
     public List<OrganizationUsersResponse> selectSideBarUserList(){
-        List<Organization> organizations = organizationRepository.findSidebarInfoList(false);
+
+        List<Long> rankIdList = userRepository.findUserRankIdByDelYn(false);
+        List<Organization> organizations = organizationRepository.findSidebarInfoList(false, rankIdList);
 
         return organizations.stream()
                 .map(OrganizationUsersResponse::new)

@@ -4,6 +4,7 @@ import com.forwiz.pms.domain.user.entity.PmsUser;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
@@ -17,8 +18,9 @@ public class UserDto {
     private String userId;
     @NotBlank
     private String userPw;
-    @NotBlank
-    private String userGroup;
+
+    @NotNull
+    private Long userGroup;
 
     @NotBlank
     private String userName;
@@ -28,10 +30,7 @@ public class UserDto {
     @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$", message = "핸드폰 번호의 양식과 맞지 않습니다. 01x-xxxx-xxxx")
     private String userPhoneNumber;
 
-    @NotBlank
-    private String userRank;
-
-    @NotBlank
+    @NotNull
     private Long rankId;
 
     public PmsUser toEntity(){

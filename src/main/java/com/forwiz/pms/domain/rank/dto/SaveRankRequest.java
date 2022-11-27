@@ -8,12 +8,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class SaveRankRequest {
 
     private Long organizationId;
     private String rankName;
     private Integer rankWeight;
+
+    public SaveRankRequest(Long organizationId, String rankName, Integer rankWeight){
+        this.organizationId = organizationId;
+        this.rankName = rankName;
+        this.rankWeight = rankWeight;
+    }
 
     public UserRank toEntity(final Organization organization){
         return UserRank.builder()
