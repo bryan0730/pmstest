@@ -82,6 +82,7 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
 	                        ,boardFile.fileInfo.originFileName
 	                        ,boardFile.fileInfo.fileVolume
 	                        ,boardFile.fileInfo.extension
+	                        ,boardFile.delYn
 	                ))
 	                .from(boardFile)
 	                .leftJoin(boardFile.fileInfo)

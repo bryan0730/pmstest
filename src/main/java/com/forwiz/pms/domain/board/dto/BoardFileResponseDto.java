@@ -15,17 +15,20 @@ public class BoardFileResponseDto {
 	private Long size;
 
 	private String extension;
+	
+	private String delYn;
 
 	public BoardFileResponseDto() {
 
 	}
 
 	@QueryProjection
-	public BoardFileResponseDto(Long boardFileId, Long fileId, String originFileName, Long size, String extension) {
+	public BoardFileResponseDto(Long boardFileId, Long fileId, String originFileName, Long size, String extension, String delYn) {
 		this.boardFileId = boardFileId;
 		this.fileId = fileId;
 		this.originFileName = originFileName;
 		this.size = size;
 		this.extension = extension;
+		this.delYn = delYn;
 	}
 }

@@ -1,6 +1,7 @@
 package com.forwiz.pms.web.board.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forwiz.pms.domain.board.dto.BoardFileResponseDto;
 import com.forwiz.pms.domain.board.dto.BoardRequestDto;
@@ -25,6 +29,7 @@ import com.forwiz.pms.domain.board.entity.Category;
 import com.forwiz.pms.domain.board.exception.AccessDenied;
 import com.forwiz.pms.domain.board.service.BoardService;
 import com.forwiz.pms.domain.file.service.FileService;
+import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
 
 import lombok.RequiredArgsConstructor;
@@ -33,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping
 public class BoardController {
 
 	private final BoardService boardService;
@@ -208,15 +214,17 @@ public class BoardController {
 		return "redirect:/pms/board/" + returnPage;
 	}
 
-	/**
-	 * 파일삭제
-	 * 
-	 * @Method : boardFileDelete
-	 */
-	@GetMapping("/boardFileDelete")
-	public String boardFileDelete(@RequestParam Long fileId, @RequestParam Long boardId) {
-		fileService.deleteBoardFile(fileId); // 파일삭제
-		return "redirect:/pms/board/update/" + boardId;
-	}
+	@ResponseBody
+	@PostMapping("/deleteCheckedBoardFiles")
+    public String deleteCheckedBoardFiles(@RequestBody List<Map<String, Long>> mapList){
 
+        if(mapList.size()==0){
+            throw new DeleteListEmptyException("삭제할 데이터가 없습니다.");
+        }
+
+        int delCount = fileService.deleteCheckedBoardFiles(mapList);
+
+        return delCount + "개 삭제완료 하였습니다.";
+    }
+	
 }

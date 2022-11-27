@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +24,7 @@ import com.forwiz.pms.domain.board.repository.BoardFileRepository;
 import com.forwiz.pms.domain.file.dto.FileInfoDto;
 import com.forwiz.pms.domain.file.entity.FileInfo;
 import com.forwiz.pms.domain.file.repository.FileRepository;
+import com.forwiz.pms.domain.user.entity.PmsUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -149,6 +153,18 @@ public class FileService {
 		FileInfo fileInfo = fileRepository.findById(fileIdx).get();
 		return new FileInfoDto(fileInfo);
 	}
-    
-    
+
+    @Transactional
+	public int deleteCheckedBoardFiles(List<Map<String, Long>> mapList) {
+        for(Map<String, Long> obj : mapList){
+            Long boardFileId = obj.get("id");
+            BoardFile boardFile = boardFileRepository.findById(boardFileId)
+                    .orElseThrow(()->new EntityNotFoundException("not found Entity"));
+
+            boardFile.delete("Y");
+        }
+
+        return mapList.size();
+	}
+
 }
