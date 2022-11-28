@@ -1,3 +1,4 @@
+//sts4 
 //(1) querydsl
 buildscript {
 	dependencies {
@@ -16,11 +17,19 @@ apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 group = 'com.springcloud'
 version = '0.0.1-SNAPSHOT'
+
+//외부 톰캣 설정
+apply plugin: 'war'
+
 sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
 }
+
+//외부 톰캣 설정
+bootWar.enabled = false
+war.enabled = true
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -40,16 +49,18 @@ dependencies {
     implementation 'org.webjars:sockjs-client:1.5.1'
     implementation 'org.webjars:stomp-websocket:2.3.4'
 
-	//validation @Valid
+	//validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	//FileUtils
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
 
 	//(3)querydsl
 	implementation 'com.querydsl:querydsl-jpa'
 	implementation 'com.querydsl:querydsl-apt'
 
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+   	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
@@ -58,7 +69,7 @@ dependencies {
 
 
 //(4)
-def querydslDir = "$buildDir/generated/querydsl"
+def querydslDir = 'src/main/generated'
 
 //(5)
 querydsl {

@@ -27,7 +27,7 @@ public class InitData {
     @PostConstruct
     @Transactional
     public void init(){
-
+    	if (userRepository.findAll().size()==0) {
         Organization organization = Organization.builder()
                 .organizationName("DEFAULT")
                 .organizationCode("A0001")
@@ -49,5 +49,6 @@ public class InitData {
                 .build()
                 ;
         userRepository.save(pmsUser);
+    	}
     }
 }
