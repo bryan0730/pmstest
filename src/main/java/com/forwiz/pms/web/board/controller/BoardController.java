@@ -30,6 +30,7 @@ import com.forwiz.pms.domain.board.exception.AccessDenied;
 import com.forwiz.pms.domain.board.service.BoardService;
 import com.forwiz.pms.domain.file.service.FileService;
 import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
+import com.forwiz.pms.domain.reply.dto.ReplyResponse;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
 
 import lombok.RequiredArgsConstructor;
@@ -174,10 +175,12 @@ public class BoardController {
 	@GetMapping("/pms/board/detail/{boardId}")
 	public String detail(@PathVariable Long boardId, Model model) {
 		// response
-		boardService.updateViewCount(boardId);
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		List<BoardFileResponseDto> boardFileResponseDto = boardService.getFile(boardId);
+		List<ReplyResponse> replies = boardResponseDto.getReplies();
 
+
+		/* 사용자 관련 체크 */
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		PmsUserDetails user = (PmsUserDetails) auth.getPrincipal();
 		
@@ -185,11 +188,16 @@ public class BoardController {
 				&& !(boardResponseDto.getBoardScope().equals("전체"))) {
 			throw new AccessDenied(boardResponseDto.getBoardScope() + " 소속의 사용자만 열람 하실 수 있습니다.");
 		}
+		/* 조회수 증가 */
+		boardService.updateViewCount(boardId);
 		
 		if ((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))) {
 			model.addAttribute("isWriter", true);
 		}
 		
+		if (replies != null && !replies.isEmpty()) {
+			model.addAttribute("replies", replies);
+		}
 		model.addAttribute("boardFile", boardFileResponseDto);
 		model.addAttribute("boardDto", boardResponseDto);
 

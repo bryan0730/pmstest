@@ -20,6 +20,7 @@ import com.forwiz.pms.domain.board.entity.Board;
 import com.forwiz.pms.domain.message.entity.Message;
 import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.rank.entity.UserRank;
+import com.forwiz.pms.domain.reply.entity.Reply;
 import com.forwiz.pms.domain.user.dto.Role;
 
 import lombok.AccessLevel;
@@ -72,6 +73,9 @@ public class PmsUser {
 
     @OneToMany(mappedBy = "pmsUser", fetch = FetchType.LAZY)
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "replier", fetch = FetchType.LAZY)
+    private List<Reply> replies = new ArrayList<>();
     
     public void updateDelYN(boolean delYN) {
         this.userDeleteYN = delYN;

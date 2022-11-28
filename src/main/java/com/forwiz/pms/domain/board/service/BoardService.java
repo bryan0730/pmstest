@@ -2,6 +2,7 @@ package com.forwiz.pms.domain.board.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,8 @@ import com.forwiz.pms.domain.board.entity.Category;
 import com.forwiz.pms.domain.board.repository.BoardRepository;
 import com.forwiz.pms.domain.board.repository.CustomBoardRepository;
 import com.forwiz.pms.domain.file.service.FileService;
+import com.forwiz.pms.domain.organization.dto.OrganizationListResponse;
+import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 
@@ -69,19 +72,21 @@ public class BoardService {
 	@Transactional
 	public BoardResponseDto getBoard(Long boardId) {
 		Board board =  boardRepository.findById(boardId).get();
-		
 	    //reponse
 		BoardResponseDto boardResponseDto = BoardResponseDto.builder()
-		.id(boardId)
-		.title(board.getTitle())
-		.userName(board.getPmsUser().getUserName())
-		.category(board.getCategory())
-		.content(board.getContent())
-		.regDate(board.getRegDate())
-		.userId(board.getPmsUser().getUserId())
-		.boardScope(board.getBoardScope())
-		.userOrganization(board.getPmsUser().getUserRank().getOrganization().getOrganizationName())
-		.build();
+				.board(board)
+				.build();
+		
+//		.id(boardId)
+//		.title(board.getTitle())
+//		.userName(board.getPmsUser().getUserName())
+//		.category(board.getCategory())
+//		.content(board.getContent())
+//		.regDate(board.getRegDate())
+//		.userId(board.getPmsUser().getUserId())
+//		.boardScope(board.getBoardScope())
+//		.userOrganization(board.getPmsUser().getUserRank().getOrganization().getOrganizationName())
+//		.build();
 		
 		return boardResponseDto;
 	}
