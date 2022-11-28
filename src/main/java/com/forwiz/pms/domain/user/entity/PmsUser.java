@@ -50,10 +50,6 @@ public class PmsUser {
     @Column(length = 50, nullable = false)
     private String userName;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "organization_id", nullable = false)
-//    private Organization organization;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rank_id")
     private UserRank userRank;
@@ -67,9 +63,6 @@ public class PmsUser {
 
     @Column(nullable = false)
     private String userPhoneNumber;
-
-//    @Column(nullable = false)
-//    private String userRank;
 
     @Column(nullable = false)
     private Boolean userDeleteYN;

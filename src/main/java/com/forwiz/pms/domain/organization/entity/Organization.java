@@ -1,7 +1,7 @@
 package com.forwiz.pms.domain.organization.entity;
 
+import com.forwiz.pms.domain.organization.exception.DeleteAdminOrganizationException;
 import com.forwiz.pms.domain.rank.entity.UserRank;
-import com.forwiz.pms.domain.user.entity.PmsUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,13 +33,17 @@ public class Organization {
     @Column(nullable = false)
     private Boolean organizationDelete;
 
-//    @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
-//    private List<PmsUser> pmsUsers = new ArrayList<>();
-
     @OneToMany(mappedBy = "organization")
     private List<UserRank> userRanks = new ArrayList<>();
 
+    private void verifyAdminOrganization(){
+        if (this.organizationName.equals("DEFAULT")){
+            throw new DeleteAdminOrganizationException("관리자 조직은 삭제할 수 없습니다.");
+        }
+    }
+
     public void updateDelYN(boolean delYN){
+        verifyAdminOrganization();
         this.organizationDelete = delYN;
     }
 }

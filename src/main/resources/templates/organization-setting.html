@@ -15,7 +15,7 @@
     <form th:action="@{/admin/organization/save}" method="post">
         <div class="org-write-container">
             <label for="org-name-text" class="col-form-label">조직명:</label>
-            <input type="text" id="org-name-text" name="organizationName">
+            <input type="text" id="org-name-text" name="organizationName" autocomplete="off">
             <button class="btn btn-outline-secondary btn-sm" type="submit" id="org-regist-btn">등록</button>
         </div>
     </form>

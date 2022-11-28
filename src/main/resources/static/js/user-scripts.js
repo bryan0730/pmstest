@@ -38,8 +38,6 @@ $(document).ready(function() {
         let tdArr = [];
         const checkbox = $("input[name=delYN]:checked");
 
-        console.log("체크박스 리스트 유무 : "+checkbox);
-
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
 
@@ -77,7 +75,6 @@ $(document).ready(function() {
     $("#duplicated-btn").click(function (){
 
         let verifyId = $("#id-text").val();
-        console.log(verifyId)
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
         $.ajax({

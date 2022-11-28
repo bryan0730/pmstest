@@ -62,7 +62,7 @@
             <div class="mb-3">
               <label for="id-text" class="col-form-label">아이디:</label>
               <div class="id-div">
-                <input type="text" class="form-control duplicated-text" id="id-text" name="userId">
+                <input type="text" class="form-control duplicated-text" id="id-text" name="userId" autocomplete="off">
                 <button type="button" id="duplicated-btn" class="btn btn-primary">중복</button>
               </div>
               <div class="duplicated-msg false-msg" id="duplicated-msg" th:text="${errmsg}"></div>
@@ -85,18 +85,11 @@
             </div>
             <div class="mb-3">
               <label for="name-text" class="col-form-label">이름:</label>
-              <input type="text" class="form-control" id="name-text" name="userName">
+              <input type="text" class="form-control" id="name-text" name="userName" autocomplete="off">
             </div>
             <div class="mb-3">
               <label for="phone-text" class="col-form-label">휴대폰:</label>
-              <input type="tel" class="form-control" id="phone-text" name="userPhoneNumber" placeholder="000-0000-0000" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}">
-            </div>
-            <div class="mb-3">
-              권한 :
-              <input type="radio" id="auth-admin" name="auth" value="ROLE_ADMIN">
-              <label for="auth-admin" class="col-form-label">ADMIN</label>
-              <input type="radio" id="auth-user" name="auth" value="ROLE_USER" checked="checked">
-              <label for="auth-user" class="col-form-label">USER</label>
+              <input type="tel" class="form-control" id="phone-text" name="userPhoneNumber" placeholder="000-0000-0000" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}" autocomplete="off">
             </div>
         </div>
         <div class="modal-footer">

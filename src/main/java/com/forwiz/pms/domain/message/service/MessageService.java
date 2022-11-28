@@ -30,7 +30,7 @@ public class MessageService {
     private final MessageFileService messageFileService;
 
     @Transactional
-    public void saveMessage(MessageSaveRequest messageSaveRequest) throws IOException {
+    public Long saveMessage(MessageSaveRequest messageSaveRequest) throws IOException {
 
         PmsUser sender = userService.findById(messageSaveRequest.getMessageSender());
         PmsUser receiver = userService.findById(messageSaveRequest.getMessageReceiver());
@@ -47,6 +47,8 @@ public class MessageService {
         if (messageSaveRequest.getMessageFiles()!=null){
             messageFileService.saveMessageFile(savedMessage, messageSaveRequest.getMessageFiles());
         }
+
+        return savedMessage.getMessageId();
     }
 
     @Transactional(readOnly = true)

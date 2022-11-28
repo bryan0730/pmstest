@@ -18,9 +18,9 @@
         <form th:action="@{/admin/rank/save}" method="post">
             <div class="rank-write-container">
                 <label for="rankName" class="col-form-label">직급명:</label>
-                <input type="text" name="rankName" id="rankName">
+                <input type="text" name="rankName" id="rankName" autocomplete="off">
                 <label for="rankWeight" class="col-form-label">직급순위:</label>
-                <input type="number" name="rankWeight" id="rankWeight">
+                <input type="number" name="rankWeight" id="rankWeight" autocomplete="off">
                 <button class="btn btn-outline-secondary btn-sm" type="submit" id="rank-regist-btn">등록</button>
                 <select name="organizationId" class="form-select" id="group-text">
                     <option th:each="org : ${formList.organizationList}" th:selected="${#httpServletRequest.requestURI == '/admin/rank/'+org.organizationId}" th:value="${org.organizationId}" th:utext="${org.organizationName}">
@@ -46,6 +46,8 @@
             </tr>
             </tbody>
         </table>
+        <div class="empty-box" th:if="${#lists.isEmpty(formList.rankList)}" th:text="#{empty.data}">
+        </div>
     </div>
 </div>
 </html>

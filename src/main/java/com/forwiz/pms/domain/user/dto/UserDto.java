@@ -16,6 +16,7 @@ public class UserDto {
 
     @NotBlank
     private String userId;
+
     @NotBlank
     private String userPw;
 
@@ -24,8 +25,6 @@ public class UserDto {
 
     @NotBlank
     private String userName;
-
-    private Role auth;
 
     @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$", message = "핸드폰 번호의 양식과 맞지 않습니다. 01x-xxxx-xxxx")
     private String userPhoneNumber;
@@ -41,7 +40,7 @@ public class UserDto {
 
                 //.userGroup(userGroup)
                 .userName(userName)
-                .auth(auth)
+                .auth(Role.ROLE_USER)
                 .build();
     }
 
@@ -54,7 +53,6 @@ public class UserDto {
         this.userId = pmsUser.getUserId();
         this.userPw = pmsUser.getUserPw();
         this.userName = pmsUser.getUserName();
-        this.auth = pmsUser.getAuth();
         this.userPhoneNumber = pmsUser.getUserPhoneNumber();
     }
 

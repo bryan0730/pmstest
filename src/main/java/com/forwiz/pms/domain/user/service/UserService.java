@@ -56,7 +56,7 @@ public class UserService {
                 .userId(userDto.getUserId())
                 .userPw(passwordEncoder.encode(userDto.getUserPw()))
                 .userName(userDto.getUserName())
-                .auth(userDto.getAuth())
+                .auth(Role.ROLE_USER)
                 .userRank(userRank)
                 .userPhoneNumber(userDto.getUserPhoneNumber())
                 .userOrganizationName(userRank.getOrganization().getOrganizationName())

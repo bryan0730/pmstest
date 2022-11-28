@@ -13,7 +13,7 @@
         <h1>로그인</h1>
         <form th:action="@{/process-login}" method="post">
             <div class="txt_field">
-                <input type="text" name="userid" required>
+                <input type="text" name="userid" autocomplete="off" required>
                 <span></span>
                 <label>아이디</label>
             </div>
@@ -24,7 +24,7 @@
             </div>
             <input type="submit" value="Login">
         </form>
-        <span th:text="${session.errmsg}" style="color: red"></span>
+        <span th:text="${session.errorMsg}" style="color: red"></span>
     </div>
 </div>
 </body>
