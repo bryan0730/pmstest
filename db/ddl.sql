@@ -36,7 +36,7 @@
        board_id number(19,0) not null,
         board_scope varchar2(255 char) not null,
         category varchar2(255 char) not null,
-        content long,
+        content LONG,
         reg_date timestamp not null,
         title varchar2(200 char) not null,
         view_count number(19,0) not null,
@@ -69,7 +69,7 @@
     
     create table message (
        message_id number(19,0) not null,
-        comments varchar2(255 char),
+        comments varchar2(1500 BYTE),
         message_state varchar2(255 char),
         send_date timestamp,
         receiver_id number(19,0),
