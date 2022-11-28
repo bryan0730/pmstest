@@ -3,8 +3,6 @@ let notificationCount = 0;
 let receiver = null;
 
 $(document).ready(function() {
-    console.log("Index page is ready");
-
     if($('#unreadCount').val()!=0){
         $('.circle-wrapper').show();
     }else{
@@ -84,8 +82,8 @@ $(document).ready(function() {
             cache:false,
             enctype:'multipart/form-data',
             success: function(data){
-                sendMessage();
-                alert(data);
+                sendMessage(data);
+                alert("메시지 전송완료");
                 initMsgModal();
             },
             error: function(xhr, status, error){
@@ -136,11 +134,11 @@ function fn_checkByte(obj){
 
 
 function connect() {
-    let socket = new SockJS('http://localhost:7070/our-websocket');
+    let socket = new SockJS('/pms-websocket');
     stompClient = Stomp.over(socket);
+    stompClient.debug = () => {};
     stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-
+        // console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
             if(JSON.parse(message.body).messageSender!=$("#pmsUserId").val()){
                 notificationCount = Number($('.num').text())+notificationCount+1;
@@ -157,7 +155,7 @@ function showNotification(msg){
         "<div>" +
         "<div class='infd-message-cover checked unread'>" +
         "<a href='#' class='infd-message-el'>" +
-        " <span class='title text-truncate' onclick='location.href=/pms/message/"+JSON.parse(msg.body).messageId+"'>" +
+        " <span class='title text-truncate' onclick=location.href='/pms/message/"+JSON.parse(msg.body).messageId+"'>" +
             JSON.parse(msg.body).messageContent +
         "</span> <span class='date'>"+JSON.parse(msg.body).messageSenderName+"</span>" +
         "</a>" +
@@ -166,22 +164,20 @@ function showNotification(msg){
     );
 
     $("#toast-sender").html(JSON.parse(msg.body).messageSenderName);
-    $("#toast-message").html(JSON.parse(msg.body).messageContent)
+    $("#toast-message").html(JSON.parse(msg.body).messageContent);
+    $("#liveToast").attr("onclick", "location.href='/pms/message/"+JSON.parse(msg.body).messageId+"'");
 
     const toastLiveExample = $("#liveToast");
-    const toast = new bootstrap.Toast(toastLiveExample)
-
-    toast.show()
-    console.log(JSON.parse(msg.body));
+    const toast = new bootstrap.Toast(toastLiveExample);
+    toast.show();
 }
 
-function sendMessage(){
+function sendMessage(messageId){
     stompClient.send("/ws/pms/"+receiver, {},
-        JSON.stringify({'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val(), 'senderName':$('#pmsUserInfoName').text()}));
+        JSON.stringify({'messageId' : messageId,'messageContent': $("#message-text").val(), 'sender':$("#pmsUserId").val(), 'senderName':$('#pmsUserInfoName').text()}));
 }
 
 function initMsgModal(){
-    console.log("init Modal");
     $("#message-text").val("");
     $("#msg-file").val("");
 }

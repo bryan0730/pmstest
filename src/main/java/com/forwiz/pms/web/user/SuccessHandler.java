@@ -25,11 +25,6 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         String groupname = principal.getPmsUser().getUserRank().getOrganization().getOrganizationName();
         Role role = principal.getPmsUser().getAuth();
 
-
-        //해당 코드에서 "LazyInitializationException: could not initialize proxy no Session" 발생
-        //LAZY, EAGER, 영속성 컨텍스트에 대한 이해 필요
-        //일단은 MyUser의 organization의 FetchType를 LAZY -> EAGER로 바꾸어서 해결
-
         HttpSession session = request.getSession();
         session.setAttribute("id", principal.getPmsUser().getId());
         session.setAttribute("username", username);

@@ -5,3 +5,8 @@
     margin-bottom: 0;
     margin-top: 0;
 }
+.empty-box {
+    padding: 50px;
+    text-align: center;
+    font-size: 20px;
+}

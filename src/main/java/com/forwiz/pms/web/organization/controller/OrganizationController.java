@@ -51,8 +51,7 @@ public class OrganizationController {
         }
 
         int delCount = organizationService.delOrganization(mapList);
-        String msg = delCount + "개 삭제완료 하였습니다.";
 
-        return msg;
+        return delCount + "개 삭제완료 하였습니다.";
     }
 }

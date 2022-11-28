@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Slf4j
@@ -24,7 +25,6 @@ public class RankController {
                            Model model){
 
         Long organizationId = orgId.isEmpty() ? 1L : orgId.get();
-        log.info("rankForm controller org name: {}", organizationId);
         RankFormResponse formResponse = rankService.makeRankFormData(organizationId);
 
         model.addAttribute("formList",formResponse);
@@ -37,9 +37,8 @@ public class RankController {
     public String rankForm(@ModelAttribute RankFormResponse rankFormResponse){ return "rank-setting"; }
 
     @PostMapping("/save")
-    public String saveRank(SaveRankRequest saveRankRequest){
+    public String saveRank(@Valid SaveRankRequest saveRankRequest){
 
-        log.info("org name? : {}", saveRankRequest.getOrganizationId());
         rankService.saveRank(saveRankRequest);
 
         return "redirect:/admin/rank/"+saveRankRequest.getOrganizationId();

@@ -74,14 +74,14 @@ public class MessageController {
 
     @ResponseBody
     @PostMapping("/send")
-    public String saveMessage(@ModelAttribute @Valid MessageSaveRequest messageSaveRequest, @AuthenticationPrincipal PmsUserDetails userDetails) throws IOException {
+    public Long saveMessage(@ModelAttribute @Valid MessageSaveRequest messageSaveRequest, @AuthenticationPrincipal PmsUserDetails userDetails) throws IOException {
 
         if (!messageSaveRequest.getMessageSender().equals(userDetails.getPmsUser().getId())){
             throw new MessageException("사용자 정보가 다릅니다.");
         }
-        messageService.saveMessage(messageSaveRequest);
+        Long messageId = messageService.saveMessage(messageSaveRequest);
 
-        return "메시지 전송하였습니다.";
+        return messageId;
     }
     @GetMapping("/{messageId}")
     public String messageDetailsForm(@PathVariable Long messageId, Model model){

@@ -2,6 +2,7 @@ package com.forwiz.pms.web.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.forwiz.pms.domain.organization.exception.DeleteAdminOrganizationException;
 import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
 import com.forwiz.pms.domain.rank.exception.NotSaveRankException;
 import com.forwiz.pms.domain.user.exception.IdDuplicatedException;
@@ -21,13 +22,15 @@ import com.forwiz.pms.domain.message.exception.NoSearchMessageException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Objects;
+
 @Slf4j
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
     @ExceptionHandler(NoSearchMessageException.class)
     public String messageSearchExceptionHandler(NoSearchMessageException e){
-        log.info("ExceptionHandler NoSearchMessageException : {}", e.toString());
+        log.error("ExceptionHandler NoSearchMessageException : {}", e.toString());
 
         return "redirect:/pms/message/receive";
     }
@@ -37,7 +40,7 @@ public class GlobalControllerAdvice {
      */
     @ExceptionHandler(NoSearchFileException.class)
     public String fileSearchExceptionHandler(NoSearchFileException e, Model model) {
-        log.info("ExceptionHandler NoSearchFileException : {}", e.toString());
+        log.error("ExceptionHandler NoSearchFileException : {}", e.toString());
 		model.addAttribute("message",e.getMessage());
         return "error/alert_and_back";
     }
@@ -47,7 +50,7 @@ public class GlobalControllerAdvice {
      */
     @ExceptionHandler(AccessDenied.class)
     public String accessDeniedHandler(AccessDenied e, Model model) {
-    	log.info("ExceptionHandler AccessDenied : {}", e.toString());
+    	log.error("ExceptionHandler AccessDenied : {}", e.toString());
     	model.addAttribute("message",e.getMessage());
     	return "error/alert_and_back";
     }
@@ -55,7 +58,16 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(DeleteListEmptyException.class)
     public ResponseEntity<ErrorResponse> deleteListEmptyExceptionHandler(DeleteListEmptyException e){
 
-        log.info("ExceptionHandler AccessDenied : {}", e.toString());
+        log.error("ExceptionHandler AccessDenied : {}", e.toString());
+        final ErrorResponse errorResponse = new ErrorResponse("ERROR-DEL", e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DeleteAdminOrganizationException.class)
+    public ResponseEntity<ErrorResponse> deleteAdminOrganizationExceptionHanlder(DeleteAdminOrganizationException e){
+
+        log.error("ExceptionHandler DeleteAdminOrganizationException : {}", e.getMessage());
         final ErrorResponse errorResponse = new ErrorResponse("ERROR-DEL", e.getMessage());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -64,7 +76,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(NotSaveRankException.class)
     public String noSaveRankExceptionHandler(NotSaveRankException e, RedirectAttributes redirectAttributes){
 
-        log.info("ExceptionHandler NotSaveRankException : {}", e.getMessage());
+        log.error("ExceptionHandler NotSaveRankException : {}", e.getMessage());
         redirectAttributes.addFlashAttribute("errMsg", e.getMessage());
 
         return "redirect:/admin/rank/"+e.getOrgId();
@@ -91,7 +103,7 @@ public class GlobalControllerAdvice {
     public ResponseEntity<ErrorResponse> methodValidException(BindException e, HttpServletRequest request){
         final ErrorResponse errorResponse = bindingErrorResponse(e.getBindingResult());
 
-        log.info("request URI : {}", request.getRequestURI());
+        log.error("request URI : {}", request.getRequestURI());
         request.setAttribute("errorResponse", errorResponse);
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -101,12 +113,12 @@ public class GlobalControllerAdvice {
 
         if (bindingResult.hasErrors()){
 
-            String code = bindingResult.getFieldError().getCode();
+            String code = Objects.requireNonNull(bindingResult.getFieldError()).getCode();
             String message = bindingResult.getFieldError().getDefaultMessage();
 
-            log.info("BindingError Field : {}", bindingResult.getFieldError().getField());
-            log.info("BindingError Code : {}", bindingResult.getFieldError().getCode());
-            log.info("BindingError message : {}", bindingResult.getFieldError().getDefaultMessage());
+            log.error("BindingError Field : {}", bindingResult.getFieldError().getField());
+            log.error("BindingError Code : {}", bindingResult.getFieldError().getCode());
+            log.error("BindingError message : {}", bindingResult.getFieldError().getDefaultMessage());
 
             return new ErrorResponse(code, message);
         }
