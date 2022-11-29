@@ -11,21 +11,20 @@
 						<!-- 제목 -->
 						<!-- 카테고리 -->
 						<div>
-						<th:block th:if="${boardDto.category.toString().equals('NOTICE')}">
-							<a class="text-decoration-none" href="/pms/board/notice">공지 게시판</a>
-						</th:block>
-						<th:block th:if="${boardDto.category.toString().equals('WORK')}">
-							<a class="text-decoration-none" href="/pms/board/work">업무 게시판</a>
-						</th:block>
-						 <span class="badge bg-light text-dark" th:text="${boardDto.boardScope}"></span>
+							<th:block th:if="${boardDto.category.toString().equals('NOTICE')}">
+								<a class="text-decoration-none" href="/pms/board/notice">공지 게시판</a>
+							</th:block>
+							<th:block th:if="${boardDto.category.toString().equals('WORK')}">
+								<a class="text-decoration-none" href="/pms/board/work">업무 게시판</a>
+							</th:block>
+							<span class="badge bg-light text-dark" th:text="${boardDto.boardScope}"></span>
 						</div>
 						<br>
 						<h3 class="p-3 bg-light" th:text="${boardDto.title}"></h3>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-4"></div>
-					<div class="col-md-4"></div>
+					<div class="col-md-8"></div>
 					<div class="col-md-4 float-right">
 						<!-- 작성자 -->
 						<p class="d-inline bg-light">작성자</p>
@@ -48,10 +47,11 @@
 				</div>
 				<hr class="border border-dark">
 				<!-- 내용 -->
-				<pre>
-				<p class="p-3 bg-light" th:text="${boardDto.content}"></p>
-				</pre>
-				
+				<div class="row">
+					<pre>
+					<p style="word-break: break-word; white-space: pre-wrap;" class="p-3 bg-light" th:text="${boardDto.content}"></p>
+					</pre>
+				</div>
 				<div class="row-md">
 					<div class="accordion" id="accordionExample">
 						<div class="accordion-item">
@@ -61,11 +61,12 @@
 							</h2>
 							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
 								data-bs-parent="#accordionExample">
-								<div class="accordion-body">
+								<div class="accordion-body bg-light">
 									<!-- 첨부 파일 -->
-									<div class="col-md-6 bg-light px-3">
+									<div class=" px-3">
 										<p th:each="boardFile, index : ${boardFile}">
-											<a class="text-decoration-none" th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
+											<a class="text-decoration-none" th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}"
+												th:text="${boardFile.originFileName}">파일이름1.png</a>
 										</p>
 									</div>
 								</div>
@@ -81,7 +82,7 @@
 					</div>
 				</div>
 			</div>
+		</div>
 	</div>
-</div>
 </html>
 <script th:src="@{/js/board-scripts.js}"></script>
