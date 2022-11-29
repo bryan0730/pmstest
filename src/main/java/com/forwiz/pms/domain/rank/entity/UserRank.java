@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -43,7 +42,7 @@ public class UserRank {
     }
 
     private void verifyRankOrgName(Organization organization){
-        if (organization.getUserRanks().size()>0){
+        if (organization.getOrganizationName().equals("DEFAULT") && organization.getUserRanks().size()>0){
             throw new NotSaveRankException("DEFAULT 에서 직급은 추가할 수 없습니다.", organization.getOrganizationId());
         }
     }
