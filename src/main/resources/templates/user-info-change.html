@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragment/layout.html}">
+<head>
+  <link th:href="@{/css/user-setting.css}" rel="stylesheet" />
+</head>
+<div layout:fragment="content">
+  <h1 class="mt-4">사용자 정보</h1>
+  <ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item">사용자 정보</li>
+    <li class="breadcrumb-item active">수정</li>
+  </ol>
+
+  <form th:action="@{/pms/user}" method="post">
+    휴대폰 번호 : <input type="tel" id="phone-text" name="userPhoneNumber" placeholder="000-0000-0000" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}" autocomplete="off" th:value="${userInfo.userPhoneNumber}">
+    비밀번호 : <input type="password" id="user-pw" name="userPw" placeholder="변경할 비밀번호를 입력해주세요.">
+    비밀번호 확인 : <input type="password" id="user-pw-check">
+    <div class="false-msg" id="check-msg-div"></div>
+    <button id="info-change-btn" type="submit">변경</button>
+  </form>
+
+</div>
+</html>
+<script th:src="@{/js/info-change-scripts.js}"></script>

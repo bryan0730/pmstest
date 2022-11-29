@@ -14,6 +14,10 @@ import com.forwiz.pms.domain.user.repository.PmsUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -126,5 +131,35 @@ public class UserService {
         }
 
         return new UserDuplicatedResponse(false, "사용 불가능한 ID입니다.");
+    }
+
+    @Transactional
+    public void changeUserInfo(UserInfoChangeForm userInfoChangeForm) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PmsUserDetails userDetails = (PmsUserDetails) authentication.getPrincipal();
+        PmsUser pmsUser = userDetails.getPmsUser();
+
+        pmsUser = userRepository.findById(pmsUser.getId())
+                .orElseThrow(()->new EntityNotFoundException("not found Entity"));
+
+        if (Objects.equals(userInfoChangeForm.getUserPw(), "")){
+            pmsUser.updatePhoneNumber(userInfoChangeForm.getUserPhoneNumber());
+        }else{
+            log.info("phonenumber and pw change? : {}", userInfoChangeForm.getUserPhoneNumber());
+            pmsUser.updatePhoneNumberAndPassword(
+                    userInfoChangeForm.getUserPhoneNumber(), passwordEncoder.encode(userInfoChangeForm.getUserPw())
+            );
+        }
+        SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(authentication, pmsUser.getUserId()));
+    }
+
+    protected Authentication createNewAuthentication(Authentication currentAuth, String userId) {
+        PmsUserDetails userDetails = userRepository.findByUserIdAndUserDeleteYN(userId, false)
+                .map(PmsUserDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException("Not found id"));
+        UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(userDetails, currentAuth.getCredentials(), userDetails.getAuthorities());
+        newAuth.setDetails(currentAuth.getDetails());
+        return newAuth;
     }
 }

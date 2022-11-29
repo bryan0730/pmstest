@@ -18,7 +18,6 @@ import javax.persistence.SequenceGenerator;
 
 import com.forwiz.pms.domain.board.entity.Board;
 import com.forwiz.pms.domain.message.entity.Message;
-import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.rank.entity.UserRank;
 import com.forwiz.pms.domain.reply.entity.Reply;
 import com.forwiz.pms.domain.user.dto.Role;
@@ -81,7 +80,16 @@ public class PmsUser {
         this.userDeleteYN = delYN;
     }
 
+    public void updatePhoneNumber(String userPhoneNumber){ this.userPhoneNumber = userPhoneNumber; }
+
+    public void updatePhoneNumberAndPassword(String userPhoneNumber, String encodePw) {
+        updatePhoneNumber(userPhoneNumber);
+        this.userPw = encodePw;
+    }
+
     public boolean hasSameId(Long id){
         return this.id.equals(id);
     }
+
+
 }

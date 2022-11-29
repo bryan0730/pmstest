@@ -57,7 +57,7 @@
             <div class="name-box">
                 <input type="hidden" id="pmsUserId" th:value="${session.id}">
                 <div>
-                    <span id="pmsUserInfoName" th:text="${session.username}">사용자명</span>
+                    <span id="pmsUserInfoName" th:text="${session.username}" th:onclick="|location.href='@{/pms/user}'|">사용자명</span>
                 </div>
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="btn btn-secondary btn-sm logout-btn">로그아웃</button>

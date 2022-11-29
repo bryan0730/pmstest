@@ -10,6 +10,10 @@ $(document).ready(function() {
             alert("비밀번호는 필수입니다.");
             return false;
         }
+        if ($("#pw-text").val() != $("#pw-text-check").val()){
+            alert("비밀번호를 다시 확인해주세요.");
+            return false;
+        }
         if ($("#rank-text").val()==""){
             alert("직급은 필수입니다.");
             return false;
@@ -25,6 +29,21 @@ $(document).ready(function() {
         if($("#verify-check").val()=="false"){
             alert("ID 중복확인이 필요합니다.");
             return false;
+        }
+    });
+
+    $("#pw-text-check").on("keyup", function (){
+        let pw = $("#pw-text").val();
+        let pwCheck = $("#pw-text-check").val();
+
+        if (pw!="" || pwCheck != ""){
+            if (pw==pwCheck){
+                $("#pw-check-msg").html('비밀번호 일치');
+                $("#pw-check-msg").attr('class', 'true-msg');
+            }else{
+                $("#pw-check-msg").html('비밀번호 불일치');
+                $("#pw-check-msg").attr('class', 'false-msg');
+            }
         }
     });
 
