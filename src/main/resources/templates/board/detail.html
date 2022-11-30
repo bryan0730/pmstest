@@ -1,5 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
 
 <div layout:fragment="content" class="content">
 	<div class="container-fluid">
@@ -22,8 +21,6 @@
 						<br>
 						<h3 class="p-3 bg-light" th:text="${boardDto.title}"></h3>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-md-8"></div>
 					<div class="col-md-4 float-right">
 						<!-- 작성자 -->
@@ -52,34 +49,30 @@
 					<p style="word-break: break-word; white-space: pre-wrap;" class="p-3 bg-light" th:text="${boardDto.content}"></p>
 					</pre>
 				</div>
-				<div class="row-md">
+				<div class="row">
 					<div class="accordion" id="accordionExample">
 						<div class="accordion-item">
 							<h2 class="accordion-header" id="headingOne">
-								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-									aria-expanded="true" aria-controls="collapseOne">첨부파일</button>
+								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">첨부파일</button>
 							</h2>
-							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-								data-bs-parent="#accordionExample">
+							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 								<div class="accordion-body bg-light">
 									<!-- 첨부 파일 -->
 									<div class=" px-3">
 										<p th:each="boardFile, index : ${boardFile}">
-											<a class="text-decoration-none" th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}"
-												th:text="${boardFile.originFileName}">파일이름1.png</a>
+											<a class="text-decoration-none" th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
 										</p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<br>
-					<div class="d-flex button-container">
-						<a th:if="${isWriter}" class="btn btn-sm btn-primary mx-1"
-							th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a> <a th:if="${isWriter}"
-							class="delete btn btn-sm btn-danger mx-1" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
-						<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">목록</a>
-					</div>
+				</div>
+				<br>
+				<div class="d-flex button-container">
+					<a th:if="${isWriter}" class="btn btn-sm btn-primary mx-1" th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a>
+					<a th:if="${isWriter}" class="delete btn btn-sm btn-danger mx-1" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
+					<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">목록</a>
 				</div>
 			</div>
 		</div>
