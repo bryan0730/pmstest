@@ -52,41 +52,55 @@ $(document).ready(function() {
     });
 
     $("#delBtn").click(function () {
-        if (!confirm("삭제하시겠습니까?")) return;
+        swal({
+            title : "사용자",
+            text : "삭제하시겠습니까?",
+            icon: "warning",
+            buttons: [
+                '취소',
+                '확인'
+            ],
+            dangerMode: true,
+        }).then((result) => {
+            if (result){
+                let tdArr = [];
+                const checkbox = $("input[name=delYN]:checked");
 
-        let tdArr = [];
-        const checkbox = $("input[name=delYN]:checked");
+                const token = $("meta[name='_csrf']").attr("content");
+                const header = $("meta[name='_csrf_header']").attr("content");
 
-        const token = $("meta[name='_csrf']").attr("content");
-        const header = $("meta[name='_csrf_header']").attr("content");
+                checkbox.each(function (i) {
+                    let tr = checkbox.parent().parent().eq(i);
+                    let td = tr.children();
 
-        checkbox.each(function (i) {
-            let tr = checkbox.parent().parent().eq(i);
-            let td = tr.children();
+                    let val = td.eq(0).val();
+                    let jsonObject = {"id": val};
 
-            let val = td.eq(0).val();
-            let jsonObject = {"id": val};
+                    tdArr.push(jsonObject);
+                });
+                const jsonString = JSON.stringify(tdArr);
 
-            tdArr.push(jsonObject);
-        });
-        const jsonString = JSON.stringify(tdArr);
-
-        $.ajax({
-            url: "/admin/user/del",
-            type: "POST",
-            data: jsonString,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            dataType: "text",
-            contentType: "application/json",
-            success: function (data) {
-                alert(data);
-                window.location.replace("/admin/user");
-            },
-            error: function (xhr, status, error) {
-                let obj = JSON.parse(xhr.responseText);
-                alert(obj.errorMessage);
+                $.ajax({
+                    url: "/admin/user/del",
+                    type: "POST",
+                    data: jsonString,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    dataType: "text",
+                    contentType: "application/json",
+                    success: function (data) {
+                        swal('사용자', data, 'success').then(() => {
+                            window.location.replace("/admin/user");
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        let obj = JSON.parse(xhr.responseText);
+                        swal('사용자', obj.errorMessage, 'error');
+                    }
+                });
+            }else {
+                return;
             }
         });
     });
