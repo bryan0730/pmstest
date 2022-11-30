@@ -24,6 +24,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.forwiz.pms.domain.board.dto.BoardRequestDto;
 import com.forwiz.pms.domain.message.entity.MessageFile;
 import com.forwiz.pms.domain.reply.entity.Reply;
 import com.forwiz.pms.domain.user.entity.PmsUser;
@@ -73,10 +74,11 @@ public class Board {
 	@OrderBy("reply_id asc")
 	private List<Reply> replies = new ArrayList<>();
 
-	public Board update(String title, Category category, String content) {
-		this.title = title;
-		this.category = category;
-		this.content = content;
+	public Board update(BoardRequestDto boardRequestDto) {
+		this.title = boardRequestDto.getTitle();
+		this.category = boardRequestDto.getCategory();
+		this.content = boardRequestDto.getContent();
+		this.boardScope = boardRequestDto.getBoardScope();
 		return this;
 	}
 

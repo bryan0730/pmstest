@@ -2,7 +2,6 @@ package com.forwiz.pms.domain.board.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +18,6 @@ import com.forwiz.pms.domain.board.entity.Category;
 import com.forwiz.pms.domain.board.repository.BoardRepository;
 import com.forwiz.pms.domain.board.repository.CustomBoardRepository;
 import com.forwiz.pms.domain.file.service.FileService;
-import com.forwiz.pms.domain.organization.dto.OrganizationListResponse;
-import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.user.dto.PmsUserDetails;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 
@@ -55,7 +52,7 @@ public class BoardService {
 		//update
 		else {
             board = boardRepository.findById(boardRequestDto.getId()).get();
-			board.update(boardRequestDto.getTitle(),boardRequestDto.getCategory(), boardRequestDto.getContent());
+			board.update(boardRequestDto);
 		}
 		
 		//파일 저장
