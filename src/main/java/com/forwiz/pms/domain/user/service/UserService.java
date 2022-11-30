@@ -124,6 +124,10 @@ public class UserService {
     }
     @Transactional
     public UserDuplicatedResponse idDuplicatedCheck(String verification) {
+        log.info("verification : {}", verification );
+        if (verification==null){
+            throw new IdDuplicatedException("입력된 ID없음");
+        }
 
         boolean empty = userRepository.findByUserId(verification, false).isEmpty();
         if (empty){
