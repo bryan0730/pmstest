@@ -1,79 +1,85 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="sidebarFragment(data)">
-  <div id="layoutSidenav_nav">
-    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-      <div class="sb-sidenav-menu">
+	<div id="layoutSidenav_nav">
+		<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+			<div class="sb-sidenav-menu">
 
-        <div class="nav" th:each="info : ${data}">
+				<div class="nav" th:each="info : ${data}">
 
-          <div class="sb-sidenav-menu-heading" th:text="${info.organizationName}">Core</div>
+					<div class="sb-sidenav-menu-heading" th:text="${info.organizationName}">Core</div>
 
-          <div name="msg-user-div" class="msg-user-div">
-            <div th:each="rankInfo : ${info.rankList}">
+					<div name="msg-user-div" class="msg-user-div">
+						<div th:each="rankInfo : ${info.rankList}">
+							<div th:each="userInfo : ${rankInfo.userList}">
+								<a class="nav-link modal-user-name" th:if="${userInfo.userDeleteYN==false}" data-bs-toggle="modal"
+									data-bs-target="#msgModal">
+									<div class="sb-nav-link-icon">
+										<img th:src="@{/img/icon_user.png}">
+									</div>
+									<input type="hidden" class="userSeq" th:value="${userInfo.id}">
+									[[|(${userInfo.userRank})${userInfo.userName}|]]
+								</a>
+							</div>
+						</div>
+					</div>
 
-              <a class="nav-link modal-user-name" th:each="userInfo : ${rankInfo.userList}" data-bs-toggle="modal" data-bs-target="#msgModal">
-                <div class="sb-nav-link-icon">
-                  <img th:src="@{/img/icon_user.png}">
-                </div>
-                <input type="hidden" class="userSeq" th:value="${userInfo.id}">
-                [[|(${userInfo.userRank})${userInfo.userName}|]]
-              </a>
-            </div>
-          </div>
+				</div>
 
-        </div>
+			</div>
+		</nav>
+	</div>
 
-      </div>
-    </nav>
-  </div>
+	<!-- Modal -->
+	<div class="modal fade" id="msgModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
-  <!-- Modal -->
-  <div class="modal fade" id="msgModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">메시지 보내기</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
 
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">메시지 보내기</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
+					<div class="mb-3">
+						<label for="recipient-name" class="col-form-label">받는사람:</label>
+						<input type="text" class="form-control" id="recipient-name" name="messageReceiver" readonly>
+					</div>
+					<div class="mb-3">
+						<label for="message-text" class="col-form-label">내용:</label>
+						<sup>
+							(
+							<span id="nowByte">0</span>
+							/1000bytes)
+						</sup>
+						<textarea class="form-control" id="message-text" name="messageContent" onkeyup="fn_checkByte(this)"></textarea>
+					</div>
+					<div class="mb-3">
+						<label for="msg-file" class="col-form-label">첨부파일:</label>
+						<input type="file" multiple="multiple" class="form-control" id="msg-file" name="messageFiles">
+					</div>
 
-              <div class="mb-3">
-                <label for="recipient-name" class="col-form-label">받는사람:</label>
-                <input type="text" class="form-control" id="recipient-name" name="messageReceiver" readonly>
-              </div>
-              <div class="mb-3">
-                <label for="message-text" class="col-form-label">내용:</label><sup>(<span id="nowByte">0</span>/1000bytes)</sup>
-                <textarea class="form-control" id="message-text" name="messageContent" onkeyup="fn_checkByte(this)"></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="msg-file" class="col-form-label">첨부파일:</label>
-                <input type="file" multiple="multiple" class="form-control" id="msg-file" name="messageFiles">
-              </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="close-msg" data-bs-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-primary" id="send-msg" data-bs-dismiss="modal">보내기</button>
+				</div>
+			</div>
+		</div>
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="close-msg" data-bs-dismiss="modal">닫기</button>
-            <button type="button" class="btn btn-primary" id="send-msg" data-bs-dismiss="modal">보내기</button>
-          </div>
-        </div>
-      </div>
+	</div>
 
-  </div>
-
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <strong class="me-auto">PMS-메시지</strong>
-        <small id="toast-sender"></small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body" id="toast-message">
-
-      </div>
-    </div>
-  </div>
+	<div class="toast-container position-fixed bottom-0 end-0 p-3">
+		<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-header">
+				<strong class="me-auto">PMS-메시지</strong>
+				<small id="toast-sender"></small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+			</div>
+			<div class="toast-body" id="toast-message"></div>
+		</div>
+	</div>
 
 </th:block>
 </html>
