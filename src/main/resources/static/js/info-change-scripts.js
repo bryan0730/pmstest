@@ -5,6 +5,12 @@ $(document).ready(function() {
             alert("비밀번호를 다시 확인해주세요.");
             return false;
         }
+
+        if(confirm("변경하시겠습니까?")){
+            return true;
+        }else{
+            return false;
+        }
     });
 
     $("#user-pw-check").on("keyup", function (){

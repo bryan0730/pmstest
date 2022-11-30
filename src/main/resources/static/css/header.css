@@ -47,9 +47,10 @@ ul {
     align-items: center;
 }
 
-.name-box>div>span{
+.name-box>div>a{
     font-size: 0.875em;
     color : #fff;
+    text-decoration: none;
 }
 
 .name-box>div{

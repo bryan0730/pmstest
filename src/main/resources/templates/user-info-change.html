@@ -14,13 +14,34 @@
   </ol>
 
   <form th:action="@{/pms/user}" method="post">
-    휴대폰 번호 : <input type="tel" id="phone-text" name="userPhoneNumber" placeholder="000-0000-0000" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}" autocomplete="off" th:value="${userInfo.userPhoneNumber}">
-    비밀번호 : <input type="password" id="user-pw" name="userPw" placeholder="변경할 비밀번호를 입력해주세요.">
-    비밀번호 확인 : <input type="password" id="user-pw-check">
-    <div class="false-msg" id="check-msg-div"></div>
-    <button id="info-change-btn" type="submit">변경</button>
+    <div class="content">
+      <table class="change-table">
+        <tr>
+          <th class="change-th" scope="row">휴대전화</th>
+          <td class="change-td">
+            <input type="tel" id="phone-text" th:value="${userInfo.userPhoneNumber}" name="userPhoneNumber" placeholder="000-0000-0000" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}" autocomplete="off">
+          </td>
+        </tr>
+        <tr>
+          <th class="change-th" scope="row">비밀번호</th>
+          <td class="change-td">
+            <input id="user-pw" type="password" name="userPw">
+            <p class="grid">- 변경할 비밀번호를 입력하세요.</p>
+          </td>
+        </tr>
+        <tr>
+          <th class="change-th" scope="row">비밀번호 확인</th>
+          <td class="change-td">
+            <input type="password" id="user-pw-check">
+            <p class="false-msg" id="check-msg-div"></p>
+          </td>
+        </tr>
+      </table>
+      <div class="change-btn-div">
+        <button id="info-change-btn" class="btn btn-outline-secondary btn-sm" type="submit">변경</button>
+      </div>
+    </div>
   </form>
-
 </div>
 </html>
 <script th:src="@{/js/info-change-scripts.js}"></script>

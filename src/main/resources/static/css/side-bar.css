@@ -21,6 +21,10 @@
 	height: 35px;
 }
 
+.alram-header{
+    height: 40px !important;
+}
+
 sup{
     float: right;
     top: 24px !important;

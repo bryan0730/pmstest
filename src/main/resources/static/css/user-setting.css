@@ -19,3 +19,33 @@
 .false-msg{
     color: red;
 }
+
+.change-table{
+    border: 1px solid rgba(0,0,0,0.3);
+}
+
+.change-table > th, td{
+    border: 1px solid rgba(0,0,0,0.3);
+}
+
+.change-th{
+    width: 150px;
+    text-align: left;
+    padding-left: 30px;
+    border: 1px solid rgba(0,0,0,0.3);
+}
+
+.change-td{
+    width: 300px;
+    padding: 10px;
+}
+.change-td > p{
+    margin-bottom: 0;
+}
+.change-td > input{
+    border: 1px solid rgba(0,0,0,0.3);
+    width: 100%;
+}
+.change-btn-div{
+    padding-top: 5px;
+}

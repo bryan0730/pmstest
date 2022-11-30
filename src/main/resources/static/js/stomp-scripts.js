@@ -49,7 +49,7 @@ $(document).ready(function() {
             fileArray.splice(4,1);
             fileArray.forEach(file => { dataTransfer.items.add(file)});
             $('#msg-file')[0].files = dataTransfer.files;
-            alert("첨부파일은 최대 5개까지만 등록가능합니다.");
+            swal('메시지', '첨부파일은 최대 5개까지만 등록가능합니다.', 'warning')
             $("#msg-file").val("");
         }
     });
@@ -83,12 +83,12 @@ $(document).ready(function() {
             enctype:'multipart/form-data',
             success: function(data){
                 sendMessage(data);
-                alert("메시지 전송완료");
+                swal('메시지', '메시지 전송완료', 'success');
                 initMsgModal();
             },
             error: function(xhr, status, error){
                 let obj = JSON.parse(xhr.responseText);
-                alert(obj.errorMessage);
+                swal('메시지', obj.errorMessage, 'error');
             }
         });
     });
@@ -120,7 +120,7 @@ function fn_checkByte(obj){
     }
 
     if(totalByte>maxByte){
-        alert('최대 '+maxByte+'Byte까지만 입력가능합니다.');
+        swal('메시지', '최대 '+maxByte+'Byte까지만 입력 가능합니다.', 'warning')
         document.getElementById("nowByte").innerText = totalByte;
         document.getElementById("nowByte").style.color = "red";
         text_val2 = text_val.substring(0, rlen);
@@ -138,7 +138,6 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.debug = () => {};
     stompClient.connect({}, function (frame) {
-        // console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/pms-message/'+$("#pmsUserId").val(), function (message) {
             if(JSON.parse(message.body).messageSender!=$("#pmsUserId").val()){
                 notificationCount = Number($('.num').text())+notificationCount+1;

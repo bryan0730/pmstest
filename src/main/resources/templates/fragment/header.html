@@ -26,7 +26,7 @@
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <div class="alarm-wrap">
-                    <a class="nav-link" role="button" aria-expanded="false" th:href="@{/pms/message/receive}">
+                    <a class="nav-link alram-header" role="button" aria-expanded="false" th:href="@{/pms/message/receive}">
                         <img th:src="@{/img/alarm2.png}">
                         <input type="hidden" id="unreadCount" th:value="${unreadMsgCount}">
                         <div class="circle-wrapper" style="display: none">
@@ -57,7 +57,11 @@
             <div class="name-box">
                 <input type="hidden" id="pmsUserId" th:value="${session.id}">
                 <div>
-                    <span id="pmsUserInfoName" th:text="${session.username}" th:onclick="|location.href='@{/pms/user}'|">사용자명</span>
+                    <a th:text="${session.username}" th:href="@{/pms/user}">
+                    <!--<span id="pmsUserInfoName"   th:onclick="|location.href='@{/pms/user}'|">
+                        사용자명
+                    </span>-->
+                    </a>
                 </div>
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="btn btn-secondary btn-sm logout-btn">로그아웃</button>

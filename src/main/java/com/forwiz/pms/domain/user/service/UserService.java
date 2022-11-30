@@ -146,11 +146,9 @@ public class UserService {
         if (Objects.equals(userInfoChangeForm.getUserPw(), "")){
             pmsUser.updatePhoneNumber(userInfoChangeForm.getUserPhoneNumber());
         }else{
-            log.info("phonenumber and pw change? : {}", userInfoChangeForm.getUserPhoneNumber());
-            pmsUser.updatePhoneNumberAndPassword(
-                    userInfoChangeForm.getUserPhoneNumber(), passwordEncoder.encode(userInfoChangeForm.getUserPw())
-            );
+            pmsUser.updatePhoneNumberAndPassword(userInfoChangeForm.getUserPhoneNumber(), passwordEncoder.encode(userInfoChangeForm.getUserPw()));
         }
+
         SecurityContextHolder.getContext().setAuthentication(createNewAuthentication(authentication, pmsUser.getUserId()));
     }
 

@@ -48,8 +48,10 @@ dependencies {
     implementation 'org.webjars:webjars-locator-core'
     implementation 'org.webjars:sockjs-client:1.5.1'
     implementation 'org.webjars:stomp-websocket:2.3.4'
+    implementation group: 'org.webjars', name: 'sweetalert', version: '2.1.0'
 
-	//validation
+
+    //validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	//FileUtils
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
