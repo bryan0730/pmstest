@@ -5,8 +5,6 @@ import com.forwiz.pms.domain.organization.dto.OrganizationUsersResponse;
 import com.forwiz.pms.domain.organization.dto.SaveOrganizationRequest;
 import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.organization.repository.OrganizationRepository;
-import com.forwiz.pms.domain.organization.DuplicateConfirmation;
-import com.forwiz.pms.domain.organization.OrgCodeCreater;
 import com.forwiz.pms.domain.user.repository.PmsUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

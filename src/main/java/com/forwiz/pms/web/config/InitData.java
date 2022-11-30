@@ -1,4 +1,4 @@
-package com.forwiz.pms.web;
+package com.forwiz.pms.web.config;
 
 import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.organization.service.OrganizationService;

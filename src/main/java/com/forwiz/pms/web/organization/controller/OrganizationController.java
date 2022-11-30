@@ -4,7 +4,7 @@ import com.forwiz.pms.domain.organization.dto.OrganizationListResponse;
 import com.forwiz.pms.domain.organization.dto.SaveOrganizationRequest;
 import com.forwiz.pms.domain.organization.exception.DeleteListEmptyException;
 import com.forwiz.pms.domain.organization.service.OrganizationService;
-import com.forwiz.pms.domain.organization.DuplicateConfirmation;
+import com.forwiz.pms.domain.organization.service.DuplicateConfirmation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

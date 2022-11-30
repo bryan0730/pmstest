@@ -1,4 +1,4 @@
-package com.forwiz.pms.domain.organization;
+package com.forwiz.pms.domain.organization.service;
 
 public class OrgCodeCreater {
 

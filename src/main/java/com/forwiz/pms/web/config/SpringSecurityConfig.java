@@ -1,4 +1,4 @@
-package com.forwiz.pms.web;
+package com.forwiz.pms.web.config;
 
 import com.forwiz.pms.web.user.CustomAccessDeniedHandler;
 import com.forwiz.pms.web.user.FailureHandler;
@@ -42,7 +42,6 @@ public class SpringSecurityConfig {
 
                 .formLogin()
                 .loginPage("/login-page")
-//                .defaultSuccessUrl("/pms") /* 설정할 경우 SuccessHandler가 작동 못함 */
                 .loginProcessingUrl("/process-login")
                 .successHandler(successHandler())
                 .failureHandler(failureHandler())

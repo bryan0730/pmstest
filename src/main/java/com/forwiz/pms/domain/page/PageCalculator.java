@@ -40,11 +40,9 @@ public class PageCalculator {
             );
         }
 
-        if (paging.getTotalPageCount() > paging.getCurrentPageEndNumber()) paging.setHasNextPage(true);
-        else paging.setHasNextPage(false);
+        paging.setHasNextPage(paging.getTotalPageCount() > paging.getCurrentPageEndNumber());
 
-        if (paging.getCurrentPageStartNumber()>1) paging.setHasPreviousPage(true);
-        else paging.setHasPreviousPage(false);
+        paging.setHasPreviousPage(paging.getCurrentPageStartNumber() > 1);
 
         return paging;
     }

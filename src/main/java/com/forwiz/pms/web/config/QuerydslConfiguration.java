@@ -1,4 +1,4 @@
-package com.forwiz.pms.web;
+package com.forwiz.pms.web.config;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

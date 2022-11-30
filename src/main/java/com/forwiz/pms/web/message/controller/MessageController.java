@@ -79,9 +79,8 @@ public class MessageController {
         if (!messageSaveRequest.getMessageSender().equals(userDetails.getPmsUser().getId())){
             throw new MessageException("사용자 정보가 다릅니다.");
         }
-        Long messageId = messageService.saveMessage(messageSaveRequest);
 
-        return messageId;
+        return messageService.saveMessage(messageSaveRequest);
     }
     @GetMapping("/{messageId}")
     public String messageDetailsForm(@PathVariable Long messageId, Model model){
