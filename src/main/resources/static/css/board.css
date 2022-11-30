@@ -1,8 +1,17 @@
 @charset "UTF-8";
 
-.textCount, .textTotal {
-	display: inline
+.textLengthWrap {
+	font-size: small;
 }
-.textLengthWrap{
+
+.textCount, .textTotal {
+	display: inline;
+}
+
+.textCount {
+	color: green;
+}
+
+.textLengthWrap {
 	text-align: right
 }

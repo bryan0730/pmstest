@@ -1,13 +1,11 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragment/layout}">
 
 <head>
 <link th:href="@{/css/board.css}" rel="stylesheet" />
 </head>
 
 <div layout:fragment="content" class="content p-5">
-	<form th:action="@{'/pms/board/update/' + *{id}}" th:object="${boardRequestDto}" method="post"
-		enctype="multipart/form-data">
+	<form th:action="@{'/pms/board/update/' + *{id}}" th:object="${boardRequestDto}" method="post" enctype="multipart/form-data">
 		<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->
 		<input type="hidden" name="_method" value="POST" />
 		<input type="hidden" id="boardId" name="id" th:value="*{id}" />
@@ -39,8 +37,7 @@
 					<label for="boardScope1" class="form-check-label">전체 공개</label>
 				</div>
 				<div class="form-check form-check-inline mb-3">
-					<input type="radio" th:field="*{boardScope}" name="boardScope" th:value="${session.groupname}" id="boardScope2"
-						class="form-check-input">
+					<input type="radio" th:field="*{boardScope}" name="boardScope" th:value="${session.groupname}" id="boardScope2" class="form-check-input">
 					<label for="boardScope2" class="form-check-label">조직 공개</label>
 				</div>
 				<br>
@@ -49,8 +46,7 @@
 						<p class="textCount">0자</p>
 						<p class="textTotal">/5000자</p>
 					</div>
-					<textarea class="form-control" rows="15" id="content" name="content" th:text="*{content}" maxlength="5000"
-						placeholder="내용을 입력하세요"></textarea>
+					<textarea class="form-control" rows="15" id="content" name="content" th:text="*{content}" maxlength="5000" placeholder="내용을 입력하세요"></textarea>
 				</div>
 				<br>
 				<div class="mb-3">
@@ -81,14 +77,14 @@
 				<div class="mb-3">
 					<label for="formFileMultiple" class="form-label">파일업로드</label>
 					<input class="form-control" type="file" id="formFileMultiple" name="multipartFile" multiple>
-			
-			
+
+
 				</div>
 				<br>
 				<div class="d-flex justify-content-end">
 					<button type="submit" class="btn btn-sm btn-primary mx-1" id="btnSave">수정</button>
-					<a href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}" class="delete btn btn-sm btn btn-danger mx-1"
-						th:text="삭제"></a> <a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">취소</a>
+					<a href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}" class="delete btn btn-sm btn btn-danger mx-1" th:text="삭제"></a>
+					<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">취소</a>
 				</div>
 			</div>
 		</article>
