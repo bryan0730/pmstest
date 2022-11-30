@@ -19,13 +19,16 @@ public class ReplyRequest {
 	private String content;
 	private PmsUser replier;
 	private Board board;
+	private boolean delYN;
 	
 	public Reply toEntity() {
-		return Reply.builder()
+		 Reply reply = Reply.builder()
 				.id(id)
 				.content(content)
 				.replier(replier)
 				.board(board)
+				.delYN(false)
 				.build();
+		 return reply;
 	}
 }

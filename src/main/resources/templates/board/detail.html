@@ -69,10 +69,45 @@
 					</div>
 				</div>
 				<br>
-				<div class="d-flex button-container">
+				<div class="d-flex d-flex justify-content-end">
 					<a th:if="${isWriter}" class="btn btn-sm btn-primary mx-1" th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a>
 					<a th:if="${isWriter}" class="delete btn btn-sm btn-danger mx-1" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
 					<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">목록</a>
+				</div>
+				<br>
+				<div>
+					<div class="card">
+						<div class="card-header">댓글</div>
+						<ul class="list-group-flush">
+							<div th:each="replies : ${replies}">
+								<li class="list-group-item">
+									<span>
+										<span style="font-size: small" th:text="${replies.replierName}">writer</span>
+										<span style="font-size: xx-small" th:text="${replies.regDate}">createdDate</span>
+										&nbsp;
+										<button class="badge bg-light text-dark">수정</button>
+										<button class="badge bg-danger text-white" >삭제</button>
+									</span>
+									<div th:text="${replies.content}"></div>
+								</li>
+							</div>
+						</ul>
+					</div>
+
+					<br />
+					<div class="card">
+						<div class="card-header">댓글작성</div>
+						<form>
+							<input type="hidden" id="boardId" th:value="${boardDto.id}">
+							<span th:text="${session.username}"></span>
+							<div class="card-body">
+								<textarea id="content" class="form-control" rows="4" placeholder="댓글을 입력하세요"></textarea>
+							</div>
+							<div class="card-footer">
+								<button type="button" id="btn-reply-save" class="btn btn-outline-primary">등록</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

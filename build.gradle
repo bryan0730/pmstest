@@ -71,8 +71,11 @@ dependencies {
 
 
 //(4)
-def querydslDir = "$buildDir/generated/querydsl"
+// 인텔리제이
+//def querydslDir = "$buildDir/generated/querydsl"
 
+// 이클립스
+def querydslDir = 'src/main/generated'
 //(5)
 querydsl {
 	library = "com.querydsl:querydsl-apt"

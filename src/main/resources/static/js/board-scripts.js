@@ -68,3 +68,33 @@ $("#delBtn").click(function() {
 		}
 	});
 });
+
+
+$("#btn-reply-save").click(function() {
+	const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
+	const data = {
+		boardId: $('#boardId').val(),
+		content: $('#content').val()
+	}
+	console.log(data);
+	if (!data.content || data.content.trim() === "") {
+		alert("공백 또는 입력하지 않은 부분이 있습니다.");
+		return false;
+	} else {
+		$.ajax({
+			url: '/api/board/' + data.boardId + '/reply',
+			type: 'POST',
+			data: JSON.stringify(data),
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			contentType: 'application/json; charset=utf-8'
+		}).done(function() {
+			alert('댓글이 등록되었습니다.');
+			window.location.reload();
+		}).fail(function(error) {
+			alert(JSON.stringify(error));
+		});
+	}
+});

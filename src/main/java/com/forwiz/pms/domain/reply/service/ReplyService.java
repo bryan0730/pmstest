@@ -1,6 +1,7 @@
 package com.forwiz.pms.domain.reply.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.forwiz.pms.domain.board.entity.Board;
 import com.forwiz.pms.domain.board.repository.BoardRepository;
@@ -32,5 +33,23 @@ public class ReplyService {
 		replyrepository.save(reply);
 
 		return replyRequest.getId();
+	}
+
+	/* UPDATE */
+	@Transactional
+	public void update(Long id, ReplyRequest dto) {
+		Reply reply = replyrepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다. " + id));
+
+		reply.update(dto.getContent());
+	}
+
+	/* DELETE */
+	@Transactional
+	public void delete(Long id) {
+		Reply reply = replyrepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + id));
+
+		replyrepository.delete(reply);
 	}
 }

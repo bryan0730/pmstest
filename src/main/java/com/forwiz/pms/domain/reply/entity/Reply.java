@@ -39,7 +39,7 @@ public class Reply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPLY_SEQ_GENERATOR")
 	@Column(name = "reply_id")
-	private long id;
+	private Long id;
 
 	@Column(nullable = false)
 	private String content;
@@ -60,4 +60,8 @@ public class Reply {
 	public void updateDelYN(boolean delYN) {
 		this.delYN = delYN;
 	}
+    /* 댓글 수정을 위한 setter */
+    public void update(String content) {
+        this.content = content;
+    }
 }
