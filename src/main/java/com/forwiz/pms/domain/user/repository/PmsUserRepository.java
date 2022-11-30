@@ -1,5 +1,6 @@
 package com.forwiz.pms.domain.user.repository;
 
+import com.forwiz.pms.domain.rank.entity.UserRank;
 import com.forwiz.pms.domain.user.entity.PmsUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,8 +17,9 @@ public interface PmsUserRepository extends JpaRepository<PmsUser, Long> {
     Optional<PmsUser> findById(Long id);
 
     @Query("select p from PmsUser p join fetch p.userRank r " +
-            "join fetch r.organization " +
-            "where p.userDeleteYN = ?1")
+            "join fetch r.organization o " +
+            "where p.userDeleteYN = ?1 " +
+            "order by o.organizationName, r.rankWeight")
     List<PmsUser> findByUserDeleteYN(boolean delYN);
 
     @Query("select p from PmsUser p where p.userId= ?1 and p.userDeleteYN = ?2")
@@ -25,4 +27,5 @@ public interface PmsUserRepository extends JpaRepository<PmsUser, Long> {
     @Query("select distinct p.userRank.rankId from PmsUser p where p.userDeleteYN=?1")
     List<Long> findUserRankIdByDelYn(Boolean delYn);
 
+    Optional<PmsUser> findByUserRank(UserRank userRank);
 }

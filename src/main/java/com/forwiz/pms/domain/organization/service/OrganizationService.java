@@ -5,6 +5,8 @@ import com.forwiz.pms.domain.organization.dto.OrganizationUsersResponse;
 import com.forwiz.pms.domain.organization.dto.SaveOrganizationRequest;
 import com.forwiz.pms.domain.organization.entity.Organization;
 import com.forwiz.pms.domain.organization.repository.OrganizationRepository;
+import com.forwiz.pms.domain.rank.entity.UserRank;
+import com.forwiz.pms.domain.user.entity.PmsUser;
 import com.forwiz.pms.domain.user.repository.PmsUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,6 +84,12 @@ public class OrganizationService {
                     .orElseThrow(()->new EntityNotFoundException("not found entity"));
 
             organization.updateDelYN(true);
+
+            for (UserRank userRank : organization.getUserRanks()) {
+                PmsUser noneOrgUser = userRepository.findByUserRank(userRank)
+                        .orElseThrow(()-> new EntityNotFoundException("not found entity"));
+                noneOrgUser.updateDelYN(true);
+            }
         }
 
         return mapList.size();
