@@ -13,7 +13,7 @@
 					<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
 				</div>
 				<label for="board-title">제목</label>
-				<input type="text" id="board-title" th:field="*{title}" rows="10" class="form-control" placeholder="제목을 입력해 주세요">
+				<input type="text" id="board-title" th:field="*{title}" rows="10" class="form-control" maxlength="200" placeholder="제목을 입력해 주세요">
 				<br>
 				게시판
 				<!-- 게시판 선택 라디오 -->
