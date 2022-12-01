@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="fragment/layout">
-<div layout:fragment="content" class="content">
+<head>
+<link th:href="@{/css/board.css}" rel="stylesheet" />
+</head>
+<div layout:fragment="content">
 	<h1 class="mt-4">게시판</h1>
 	<ol class="breadcrumb mb-4">
 		<li class="breadcrumb-item">게시판</li>
@@ -22,49 +25,51 @@
 				<p class="d-inline">업무 게시판</p>
 			</th:block>
 		</div>
-		<table class="table table-hover">
-			<colgroup>
-				<col width="5%" />
-				<col width="20%" />
-				<col width="12%" />
-				<col width="8%" />
-				<col width="5%" />
-			</colgroup>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>날짜</th>
-					<th>조회수</th>
-				</tr>
-			</thead>
+		<div>
+			<table class="table table-hover">
+				<colgroup>
+					<col width="8%" />
+					<col width="44%" />
+					<col width="22%" />
+					<col width="8%" />
+					<col width="8%" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th class="num">번호</th>
+						<th>제목</th>
+						<th class="writer">작성자</th>
+						<th class="regdate">작성일</th>
+						<th class="count">조회수</th>
+					</tr>
+				</thead>
 
-			<tbody>
-				<tr th:if="${totalCount == 0}">
-					<td colspan="6" style="text-align: center">조회된 리스트가 없습니다.</td>
-				</tr>
+				<tbody>
+					<tr th:if="${totalCount == 0}">
+						<td colspan="6" style="text-align: center">조회된 리스트가 없습니다.</td>
+					</tr>
 
-				<tr th:each="list, index : ${list}">
-					<td class="text-center" th:text="${totalCount - (size * number) - index.index}"></td>
-					<!-- <td th:text="${index.count}"></td> -->
-					<td>
-						<a class="text-left text-decoration-none text-dark" th:text="${list.title}" th:href="@{/pms/board/detail/{boardId}(boardId=${list.id})}"></a>
-					</td>
-					<td class="text-center">
-						<th:block th:if="${list.userOrganization.equals('DEFAULT')}">
-							<img th:src="@{/img/admin.png}">
-						</th:block>
-						<p class="d-inline" th:text="${list.userName}" />
-						<th:block th:unless="${list.userOrganization.equals('DEFAULT')}">
-							<span class="badge bg-light text-dark" th:text="${list.userOrganization}"></span>
-						</th:block>
-					</td>
-					<td class="text-center" th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
-					<td class="text-center" th:text="${list.viewCount}"></td>
-				</tr>
-			</tbody>
-		</table>
+					<tr th:each="list, index : ${list}">
+						<td class="text-center" th:text="${totalCount - (size * number) - index.index}"></td>
+						<!-- <td th:text="${index.count}"></td> -->
+						<td class="text-truncate truncate">
+							<a class="text-left text-decoration-none text-dark" th:text="${list.title}" th:href="@{/pms/board/detail/{boardId}(boardId=${list.id})}"></a>
+						</td>
+						<td class="text-cente text-truncate truncate">
+							<th:block th:if="${list.userOrganization.equals('DEFAULT')}">
+								<img th:src="@{/img/admin.png}">
+							</th:block>
+							<p class="d-inline" th:text="${list.userName}" />
+							<th:block th:unless="${list.userOrganization.equals('DEFAULT')}">
+								<span class="badge bg-light text-dark" th:text="${list.userOrganization}"></span>
+							</th:block>
+						</td>
+						<td class="text-center" th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
+						<td class="text-center" th:text="${list.viewCount}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<br>
 
 		<div class="d-flex button-container">
@@ -78,14 +83,12 @@
 			<ul class="pagination pagination-sm">
 				<!-- '<' '<<' -->
 				<li th:if="${start > 1}" class="page-item">
-					<a th:href="@{/pms/board/notice/?(page=0, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous">
-						<span aria-hidden="true">&laquo;&laquo;</span>
+					<a th:href="@{/pms/board/notice/?(page=0, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;&laquo;</span>
 					</a>
 				</li>
 
 				<li th:if="${start > 1}" class="page-item">
-					<a th:href="@{/pms/board/notice/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous">
-						<span aria-hidden="true">&laquo;</span>
+					<a th:href="@{/pms/board/notice/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 					</a>
 				</li>
 				<!--페이지 네비게이션 바 숫자들을 넣는 로직이다. #number.sequence를 이용하면 start 부터 end 까지 숫자를 하나씩 올려가며 넣을 수 있다.   -->
@@ -95,14 +98,12 @@
 
 				<!-- '>' '>>' -->
 				<li th:if="${end < list.totalPages}" class="page-item">
-					<a th:href="@{/pms/board/notice/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Next">
-						<span aria-hidden="true">&raquo;</span>
+					<a th:href="@{/pms/board/notice/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 					</a>
 				</li>
 
 				<li th:if="${end < list.totalPages}" class="page-item">
-					<a th:href="@{/pms/board/notice/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Next">
-						<span aria-hidden="true">&raquo;&raquo;</span>
+					<a th:href="@{/pms/board/notice/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Next"> <span aria-hidden="true">&raquo;&raquo;</span>
 					</a>
 				</li>
 			</ul>
