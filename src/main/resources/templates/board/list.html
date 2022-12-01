@@ -55,7 +55,7 @@
 						<td class="text-truncate truncate">
 							<a class="text-left text-decoration-none text-dark" th:text="${list.title}" th:href="@{/pms/board/detail/{boardId}(boardId=${list.id})}"></a>
 						</td>
-						<td class="text-cente text-truncate truncate">
+						<td class="text-cente text-truncate truncate text-center">
 							<th:block th:if="${list.userOrganization.equals('DEFAULT')}">
 								<img th:src="@{/img/admin.png}">
 							</th:block>
