@@ -60,7 +60,7 @@ public class Reply {
 	public void updateDelYN(boolean delYN) {
 		this.delYN = delYN;
 	}
-    /* 댓글 수정을 위한 setter */
+    /* 수정 */
     public void update(String content) {
         this.content = content;
     }

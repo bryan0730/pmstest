@@ -35,16 +35,15 @@ public class ReplyApiController {
 	}
 
 	/* UPDATE */
-	@PutMapping({ "/board/{boardid}/reply/{replyid}" })
+	@PutMapping("/board/{boardid}/reply/{replyid}")
 	public ResponseEntity update(@PathVariable Long id, @RequestBody ReplyRequest dto) {
 		replyService.update(id, dto);
 		return ResponseEntity.ok(id);
 	}
 
 	/* DELETE */
-	@DeleteMapping( "/board/{boardid}/reply/{replyid}" )
-	public ResponseEntity delete(@PathVariable Long id) {
-		replyService.delete(id);
-		return ResponseEntity.ok(id);
+	@DeleteMapping("/board/{boardid}/reply/{replyid}")
+	public void delete(@PathVariable Long boardid, @PathVariable Long replyid) {
+		replyService.delete(replyid);
 	}
 }

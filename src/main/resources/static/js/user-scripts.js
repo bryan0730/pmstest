@@ -14,7 +14,7 @@ $(document).ready(function() {
             alert("비밀번호를 다시 확인해주세요.");
             return false;
         }
-        if ($("#rank-text").val()==""){
+        if ($("#group-rank").val()==""){
             alert("직급은 필수입니다.");
             return false;
         }
@@ -107,6 +107,11 @@ $(document).ready(function() {
 
     $("#duplicated-btn").click(function (){
 
+        if ($("#id-text").val()==""){
+            swal('사용자', 'ID를 입력하세요.', 'warning');
+            return;
+        }
+
         let verifyId = $("#id-text").val();
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
@@ -117,7 +122,6 @@ $(document).ready(function() {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
-            // dataType: "json",
             contentType: "application/json",
             success: function (data) {
                 $("#verify-check").val(data.isDuplicated);

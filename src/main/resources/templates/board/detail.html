@@ -45,9 +45,7 @@
 				<hr class="border border-dark">
 				<!-- 내용 -->
 				<div class="row">
-					<pre>
 					<p style="word-break: break-word; white-space: pre-wrap;" class="p-3 bg-light" th:text="${boardDto.content}"></p>
-					</pre>
 				</div>
 				<div class="row">
 					<div class="accordion" id="accordionExample">
@@ -80,15 +78,31 @@
 						<div class="card-header">댓글</div>
 						<ul class="list-group-flush">
 							<div th:each="replies : ${replies}">
-								<li class="list-group-item">
+								<li th:id="'replies-' + ${replies.id}" class="list-group-item">
 									<span>
-										<span style="font-size: small" th:text="${replies.replierName}">writer</span>
+										<strong>
+											<span style="font-size: small" th:text="${replies.replierName}">writer</span>
+										</strong>
+										<span class="badge bg-light text-dark" th:text="${boardDto.userOrganization}" />
 										<span style="font-size: xx-small" th:text="${replies.regDate}">createdDate</span>
 										&nbsp;
-										<button class="badge bg-light text-dark">수정</button>
-										<button class="badge bg-danger text-white" >삭제</button>
+										<!-- <a class="badge bg-light text-black text-decoration-none border" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${replies.id}" role="button" aria-expanded="false"
+											id="showUpdateForm" th:aria-controls="'multi-collapse-' + ${replies.id}">수정</a> -->
+										<button th:onclick="|replyIndex.replyDelete('${boardDto.id}', '${replies.id}')|" class="badge btn-danger" style="margin-left: 10px;">삭제</button>
 									</span>
-									<div th:text="${replies.content}"></div>
+									<div id="contentP" th:text="${replies.content}" style="word-break: break-word; white-space: pre-wrap;"></div>
+									<div class="collapse multi-collapse" th:id="'multi-collapse-' + ${replies.id}">
+										<!-- 										<form>
+											<input type="hidden" id="id" th:value="${replies.id}">
+											<input type="hidden" id="boardId" th:value="${boardDto.id}">
+											<div class="form-group">
+												<textarea class="form-control" id="reply-content" rows="3" th:text="*{replies.content}"></textarea>
+											</div>
+											<button type="button" id="btn-reply-update" class="btn btn-outline-primary">수정</button>
+											<button type="button" id="updateCancle" class="btn btn-outline-primary" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${replies.id}" role="button" aria-expanded="false"
+												th:aria-controls="'multi-collapse-' + ${replies.id}">취소</button>
+										</form> -->
+									</div>
 								</li>
 							</div>
 						</ul>

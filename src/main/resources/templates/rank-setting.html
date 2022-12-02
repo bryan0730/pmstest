@@ -13,7 +13,7 @@
         <li class="breadcrumb-item active">직급</li>
     </ol>
 
-    <th:block th:replace="fragment/setting-menu-button :: settingMenuBtnFragment"></th:block>
+    <th:block th:replace="fragment/setting-menu-button :: settingMenuBtnFragment(${#httpServletRequest.requestURI})"></th:block>
     <div id="rank-view-form">
         <form th:action="@{/admin/rank/save}" method="post">
             <div class="rank-write-container">

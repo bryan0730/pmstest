@@ -15,3 +15,21 @@
 .textLengthWrap {
 	text-align: right
 }
+
+.truncate {
+	max-width: 0px;
+}
+
+.count {
+	min-width: 70px;
+}
+.regdate {
+	min-width: 100px;
+}
+
+.num{
+	min-width: 50px;
+}
+.writer{
+	min-width: 100px;
+}
