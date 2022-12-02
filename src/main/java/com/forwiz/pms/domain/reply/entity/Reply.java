@@ -39,7 +39,7 @@ public class Reply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPLY_SEQ_GENERATOR")
 	@Column(name = "reply_id")
-	private long id;
+	private Long id;
 
 	@Column(nullable = false)
 	private String content;

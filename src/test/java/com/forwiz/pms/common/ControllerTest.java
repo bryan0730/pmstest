@@ -12,7 +12,7 @@ import com.forwiz.pms.web.message.controller.MessageController;
 import com.forwiz.pms.web.organization.controller.OrganizationController;
 import com.forwiz.pms.web.rank.RankController;
 import com.forwiz.pms.web.user.controller.UserInfoChangeController;
-import com.forwiz.pms.web.user.controller.UserSettingController;;
+import com.forwiz.pms.web.user.controller.UserSettingController;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;

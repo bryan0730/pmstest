@@ -85,7 +85,7 @@ $("#delBtn").click(function() {
 						icon: 'success',
 						button: '확인'
 					}).then(() => {
-						window.location.reload();
+						$('#fileTable').load(location.href + ' #fileTable');
 					});
 
 				},
