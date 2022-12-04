@@ -36,9 +36,9 @@ public class ReplyApiController {
 
 	/* UPDATE */
 	@PutMapping("/board/{boardid}/reply/{replyid}")
-	public ResponseEntity update(@PathVariable Long id, @RequestBody ReplyRequest dto) {
-		replyService.update(id, dto);
-		return ResponseEntity.ok(id);
+	public ResponseEntity update(@PathVariable Long boardid, @PathVariable Long replyid, @RequestBody ReplyRequest dto) {
+		replyService.update(replyid, dto);
+		return ResponseEntity.ok(replyid);
 	}
 
 	/* DELETE */

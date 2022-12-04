@@ -13,6 +13,7 @@ public class ReplyResponse {
 	private String replierName;
 	private Long boardId;
 	private LocalDateTime regDate;
+	private boolean delYN;
 	
 	/* Entity To Dto */
 	public ReplyResponse(Reply reply) {
@@ -21,5 +22,6 @@ public class ReplyResponse {
 		this.replierName = reply.getReplier().getUserName();
 		this.boardId = reply.getBoard().getId();
 		this.regDate = reply.getRegDate();
+		this.delYN = reply.getDelYN();
 	}
 }

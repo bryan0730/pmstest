@@ -84,7 +84,7 @@ $("#delBtn").click(function() {
 						icon: 'success',
 						button: '확인'
 					}).then(() => {
-						 $('#fileTable').load(location.href+' #fileTable');
+						$('#fileTable').load(location.href + ' #fileTable');
 					});
 
 				},
@@ -121,8 +121,15 @@ $("#btn-reply-save").click(function() {
 			},
 			contentType: 'application/json; charset=utf-8'
 		}).done(function() {
-			alert('댓글이 등록되었습니다.');
-			window.location.reload();
+			swal({
+				title: '댓글',
+				text: '등록되었습니다.',
+				icon: 'success',
+				button: '확인'
+			}).then(() => {
+				window.location.reload();
+				//$('#replyarea').load(location.href + ' #replyarea');
+			});
 		}).fail(function(error) {
 			alert(JSON.stringify(error));
 		});
@@ -130,30 +137,105 @@ $("#btn-reply-save").click(function() {
 });
 
 
-
 'use strict';
 
-let replyIndex = {
+const replyIndex = {
+	init: function() {
+		const _this = this;
 
-	replyDelete: function(boardId, replyId) {
-		const token = $("meta[name='_csrf']").attr("content");
-		const header = $("meta[name='_csrf_header']").attr("content");
-		console.log(boardId);
-		console.log(replyId);
-		$.ajax({
-			type: "DELETE",
-			url: `/api/board/${boardId}/reply/${replyId}`,
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader(header, token);
-			},
-			dataType: "text"
-		}).done(function(res) {
-			alert("댓글삭제가 완료되었습니다.");
-			location.href = `/pms/board/detail/${boardId}`;
-		}).fail(function(err) {
-			alert(JSON.stringify(err));
+		// 댓글 수정
+		document.querySelectorAll('#btn-reply-update').forEach(function(item) {
+			item.addEventListener('click', function() { // 버튼 클릭 이벤트 발생시
+				const form = this.closest('form'); // btn의 가장 가까운 조상의 Element(form)를 반환 (closest)
+				_this.replyUpdate(form); // 해당 form으로 업데이트 수행
+			});
 		});
 	},
+
+
+	replyUpdate: function(form) {
+		const token = $("meta[name='_csrf']").attr("content");
+		const header = $("meta[name='_csrf_header']").attr("content");
+		const data = {
+			boardId: form.querySelector('#boardId').value,
+			replyId: form.querySelector('#id').value,
+			content: form.querySelector('#reply-content').value
+		}
+
+		console.log(data);
+
+		if (!data.content || data.content.trim() === "") {
+			alert("공백 또는 입력하지 않은 부분이 있습니다.");
+			return false;
+		} else {
+			$.ajax({
+				url: '/api/board/' + data.boardId + '/reply/' + data.replyId,
+				type: 'PUT',
+				data: JSON.stringify(data),
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				contentType: 'application/json; charset=utf-8'
+			}).done(function() {
+				swal({
+					title: '댓글',
+					text: '수정되었습니다.',
+					icon: 'success',
+					button: '확인'
+				}).then(() => {
+					window.location.reload();
+					//$('#replyarea').load(location.href + ' #replyarea');
+				});
+			}).fail(function(error) {
+				alert(JSON.stringify(error));
+			});
+		}
+	},
+
+	replyDelete: function(boardId, replyId) {
+		swal({
+			title: "댓글",
+			text: "삭제하시겠습니까?",
+			icon: "warning",
+			buttons: [
+				'취소',
+				'확인'
+			],
+			dangerMode: true,
+		}).then((result) => {
+			if (result) {
+				console.log("ok");
+				const token = $("meta[name='_csrf']").attr("content");
+				const header = $("meta[name='_csrf_header']").attr("content");
+				console.log(boardId);
+				console.log(replyId);
+				$.ajax({
+					type: "DELETE",
+					url: `/api/board/${boardId}/reply/${replyId}`,
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					dataType: "text"
+				}).done(function(res) {
+					swal({
+						title: '댓글',
+						text: '삭제되었습니다.',
+						icon: 'success',
+						button: '확인'
+					}).then(() => {
+						location.href = `/pms/board/detail/${boardId}`;
+						//$('#replyarea').load(location.href + ' #replyarea');
+					});
+				}).fail(function(err) {
+					(JSON.stringify(err));
+				});
+			} else {
+				return;
+			};
+		})
+
+	},
+
 }
 replyIndex.init();
 

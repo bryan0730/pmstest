@@ -28,7 +28,8 @@ public class ReplyService {
 
 		replyRequest.setReplier(user);
 		replyRequest.setBoard(board);
-
+		
+		
 		Reply reply = replyRequest.toEntity();
 		replyrepository.save(reply);
 
@@ -49,7 +50,7 @@ public class ReplyService {
 	public void delete(Long id) {
 		Reply reply = replyrepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + id));
-
-		replyrepository.delete(reply);
+		
+		reply.updateDelYN(true);
 	}
 }
