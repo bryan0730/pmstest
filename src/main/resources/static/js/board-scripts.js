@@ -156,10 +156,11 @@ const replyIndex = {
 	replyUpdate: function(form) {
 		const token = $("meta[name='_csrf']").attr("content");
 		const header = $("meta[name='_csrf_header']").attr("content");
+		let content_id = '#reply-content' + form.querySelector('#id').value;
 		const data = {
 			boardId: form.querySelector('#boardId').value,
 			replyId: form.querySelector('#id').value,
-			content: form.querySelector('#reply-content').value
+			content: form.querySelector(content_id).value
 		}
 
 		console.log(data);

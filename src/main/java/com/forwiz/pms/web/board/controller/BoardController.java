@@ -3,6 +3,9 @@ package com.forwiz.pms.web.board.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -173,12 +176,11 @@ public class BoardController {
 	 * @Method : detail
 	 */
 	@GetMapping("/pms/board/detail/{boardId}")
-	public String detail(@PathVariable Long boardId, Model model) {
+	public String detail(@PathVariable Long boardId, Model model, HttpServletRequest request, HttpServletResponse response) {
 		// response
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		List<BoardFileResponseDto> boardFileResponseDto = boardService.getFile(boardId);
 		List<ReplyResponse> replies = boardResponseDto.getReplies();
-
 
 		/* 사용자 관련 체크 */
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -189,6 +191,33 @@ public class BoardController {
 			throw new AccessDenied(boardResponseDto.getBoardScope() + " 소속의 사용자만 열람 하실 수 있습니다.");
 		}
 		/* 조회수 증가 */
+	    // 조회 수 중복 방지
+//	    Cookie oldCookie = null;
+//	    Cookie[] cookies = request.getCookies();
+//	    if (cookies != null) {
+//	        for (Cookie cookie : cookies) {
+//	           if (cookie.getName().equals("postView")) {
+//	                oldCookie = cookie;
+//	           }
+//	        }
+//	    }
+//	    if (oldCookie != null) {
+//	        if (!oldCookie.getValue().contains("["+ boardId.toString() +"]")) {
+//	        	boardService.updateViewCount(boardId);
+//	            oldCookie.setValue(oldCookie.getValue() + "_[" + boardId + "]");
+//	            oldCookie.setPath("/");
+//	            oldCookie.setMaxAge(60 * 5);
+//	            response.addCookie(oldCookie);
+//	        }
+//	    } else {
+//	    	boardService.updateViewCount(boardId);
+//	        Cookie newCookie = new Cookie("postView", "[" + boardId + "]");
+//	        newCookie.setPath("/");
+//	        newCookie.setMaxAge(60 * 5);
+//	        response.addCookie(newCookie);
+//	        System.out.println(newCookie);
+//	    }
+		
 		boardService.updateViewCount(boardId);
 		
 		if ((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))) {

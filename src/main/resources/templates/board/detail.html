@@ -68,9 +68,8 @@
 				</div>
 				<br>
 				<div class="d-flex d-flex justify-content-end">
-					<a th:if="${isWriter}" class="btn btn-sm btn-primary mx-1" th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a>
-					<a th:if="${isWriter}" class="delete btn btn-sm btn-danger mx-1" href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a>
-					<a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">목록</a>
+					<a th:if="${isWriter}" class="btn btn-sm btn-primary mx-1" th:href="@{/pms/board/update/{boardId}(boardId=${boardDto.id})}">수정</a> <a th:if="${isWriter}" class="delete btn btn-sm btn-danger mx-1"
+						href="javascript:void(0);" th:data-uri="@{|/delete/${boardId}|}">삭제</a> <a class="btn btn-sm btn-secondary mx-1" href="javascript:history.back();">목록</a>
 				</div>
 				<br>
 				<div>
@@ -93,17 +92,17 @@
 												<button th:onclick="|replyIndex.replyDelete('${boardDto.id}', '${replies.id}')|" class="badge btn-danger" style="margin-left: 10px;">삭제</button>
 											</span>
 										</span>
-										<div id="contentP" th:text="${replies.content}" style="word-break: break-word; white-space: pre-wrap;"></div>
+										<div th:text="${replies.content}" style="word-break: break-word; white-space: pre-wrap;"></div>
 									</div>
 									<div id="contentP" th:unless="!${replies.delYN}">
-											<p class="text-secondary">작성자가 삭제한 댓글입니다</p>
-										</div>
+										<p class="text-secondary">작성자가 삭제한 댓글입니다</p>
+									</div>
 									<div class="collapse multi-collapse" th:id="'multi-collapse-' + ${replies.id}">
 										<form>
 											<input type="hidden" id="id" th:value="${replies.id}">
 											<input type="hidden" id="boardId" th:value="${boardDto.id}">
 											<div class="form-group">
-												<textarea class="form-control" id="reply-content" rows="4" th:text="*{replies.content}"></textarea>
+												<textarea th:class="form-control" th:id="'reply-content' + ${replies.id}" rows="4" th:text="*{replies.content}"></textarea>
 											</div>
 											<br>
 											<button type="button" id="btn-reply-update" class="btn btn-sm btn-primary">수정</button>
