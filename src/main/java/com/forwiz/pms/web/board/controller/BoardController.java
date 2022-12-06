@@ -176,7 +176,8 @@ public class BoardController {
 	 * @Method : detail
 	 */
 	@GetMapping("/pms/board/detail/{boardId}")
-	public String detail(@PathVariable Long boardId, Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String detail(@PathVariable Long boardId, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
 		// response
 		BoardResponseDto boardResponseDto = boardService.getBoard(boardId);
 		List<BoardFileResponseDto> boardFileResponseDto = boardService.getFile(boardId);
@@ -185,45 +186,45 @@ public class BoardController {
 		/* 사용자 관련 체크 */
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		PmsUserDetails user = (PmsUserDetails) auth.getPrincipal();
-		
-		if (!(user.getPmsUser().getUserRank().getOrganization().getOrganizationName().equals(boardResponseDto.getBoardScope()))
-				&& !(boardResponseDto.getBoardScope().equals("전체"))) {
+
+		if (!(user.getPmsUser().getUserRank().getOrganization().getOrganizationName()
+				.equals(boardResponseDto.getBoardScope())) && !(boardResponseDto.getBoardScope().equals("전체"))) {
 			throw new AccessDenied(boardResponseDto.getBoardScope() + " 소속의 사용자만 열람 하실 수 있습니다.");
 		}
 		/* 조회수 증가 */
-	    // 조회 수 중복 방지
-//	    Cookie oldCookie = null;
-//	    Cookie[] cookies = request.getCookies();
-//	    if (cookies != null) {
-//	        for (Cookie cookie : cookies) {
-//	           if (cookie.getName().equals("postView")) {
-//	                oldCookie = cookie;
-//	           }
-//	        }
-//	    }
-//	    if (oldCookie != null) {
-//	        if (!oldCookie.getValue().contains("["+ boardId.toString() +"]")) {
-//	        	boardService.updateViewCount(boardId);
-//	            oldCookie.setValue(oldCookie.getValue() + "_[" + boardId + "]");
-//	            oldCookie.setPath("/");
-//	            oldCookie.setMaxAge(60 * 5);
-//	            response.addCookie(oldCookie);
-//	        }
-//	    } else {
-//	    	boardService.updateViewCount(boardId);
-//	        Cookie newCookie = new Cookie("postView", "[" + boardId + "]");
-//	        newCookie.setPath("/");
-//	        newCookie.setMaxAge(60 * 5);
-//	        response.addCookie(newCookie);
-//	        System.out.println(newCookie);
-//	    }
-		
-		boardService.updateViewCount(boardId);
-		
+		// 조회 수 중복 방지
+		Cookie oldCookie = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("postView")) {
+					oldCookie = cookie;
+				}
+			}
+		}
+		if (oldCookie != null) {
+			if (!oldCookie.getValue().contains("[" + boardId.toString() + "]")) {
+				boardService.updateViewCount(boardId);
+				oldCookie.setValue(oldCookie.getValue() + "_[" + boardId + "]");
+				oldCookie.setPath("/");
+				oldCookie.setMaxAge(60 * 60 * 24);
+				response.addCookie(oldCookie);
+			}
+		} else {
+			boardService.updateViewCount(boardId);
+			Cookie newCookie = new Cookie("postView", "[" + boardId + "]");
+			newCookie.setPath("/");
+			newCookie.setMaxAge(60 * 60 * 24);
+			response.addCookie(newCookie);
+			System.out.println(newCookie);
+		}
+
+		//boardService.updateViewCount(boardId);
+
 		if ((user.getPmsUser().getUserId()).equals((boardResponseDto.getUserId()))) {
 			model.addAttribute("isWriter", true);
 		}
-		
+
 		if (replies != null && !replies.isEmpty()) {
 			model.addAttribute("replies", replies);
 		}
@@ -253,15 +254,15 @@ public class BoardController {
 
 	@ResponseBody
 	@PostMapping("/deleteCheckedBoardFiles")
-    public String deleteCheckedBoardFiles(@RequestBody List<Map<String, Long>> mapList){
+	public String deleteCheckedBoardFiles(@RequestBody List<Map<String, Long>> mapList) {
 
-        if(mapList.size()==0){
-            throw new DeleteListEmptyException("삭제할 데이터가 없습니다.");
-        }
+		if (mapList.size() == 0) {
+			throw new DeleteListEmptyException("삭제할 데이터가 없습니다.");
+		}
 
-        int delCount = fileService.deleteCheckedBoardFiles(mapList);
+		int delCount = fileService.deleteCheckedBoardFiles(mapList);
 
-        return delCount + "개 삭제완료 하였습니다.";
-    }
-	
+		return delCount + "개 삭제완료 하였습니다.";
+	}
+
 }
